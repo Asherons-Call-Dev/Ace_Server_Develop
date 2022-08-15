@@ -72,6 +72,11 @@
                     "weenieId": "20646",
                     "name": "Ust",
                     "stacksize": "1"
+                },
+                {
+                    "weenieId": "24207",
+                    "name": "Weeping Wand",
+                    "stacksize": "1"
                 }
             ],
             "heritage": [
