@@ -260,6 +260,7 @@ namespace ACE.Server.Managers
                 player.AddSkillCredits(46);
                 player.AvailableSkillCredits = 46;
                 player.TotalSkillCredits = 46;
+                Utils.PlayerUtils.BuffPlayerLevelSeven(player);
 
                 if (player.IsOlthoiPlayer)
                     session.Network.EnqueueSend(new GameEventPopupString(session, AppendLines(popup_welcome, popup_motd)));

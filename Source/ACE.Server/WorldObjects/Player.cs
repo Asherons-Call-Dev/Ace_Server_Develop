@@ -103,6 +103,7 @@ namespace ACE.Server.WorldObjects
             //this.DeepSave
             this.Level = 275;
             AddAllSpellsOneThroughSeven(this);
+            this.SpendAllXp(false);
 
             Attackable = true;
 
