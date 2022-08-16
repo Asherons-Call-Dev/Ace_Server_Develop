@@ -254,6 +254,13 @@ namespace ACE.Server.Managers
 
             if (character.TotalLogins <= 1)
             {
+                // Fancy fireworks on login
+                // Note: May need to move this code so that it doesn't apply to olthoi
+                player.GrantXP(191226310247, XpType.Kill);
+                player.AddSkillCredits(46);
+                player.AvailableSkillCredits = 46;
+                player.TotalSkillCredits = 46;
+
                 if (player.IsOlthoiPlayer)
                     session.Network.EnqueueSend(new GameEventPopupString(session, AppendLines(popup_welcome, popup_motd)));
                 else
