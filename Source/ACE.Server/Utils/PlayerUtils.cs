@@ -104,7 +104,7 @@ namespace ACE.Server.Utils
             }
         }
 
-        private void CreateEnchantmentSilent(Spell spell, WorldObject target, Player player)
+        private static void CreateEnchantmentSilent(Spell spell, WorldObject target, Player player)
         {
             var addResult = target.EnchantmentManager.Add(spell, player, null);
 
