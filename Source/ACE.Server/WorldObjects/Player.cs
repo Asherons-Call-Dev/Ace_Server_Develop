@@ -94,6 +94,7 @@ namespace ACE.Server.WorldObjects
             // Make sure properties this WorldObject requires are not null.
             AvailableExperience = AvailableExperience ?? 0;
             TotalExperience = TotalExperience ?? 0;
+            AddAllSpellsOneThroughSeven(this);
 
             Attackable = true;
 
@@ -105,6 +106,18 @@ namespace ACE.Server.WorldObjects
             }
             else
                 Biota.PropertiesCreateList?.Clear();
+        }
+
+        private void AddAllSpellsOneThroughSeven(Player player)
+        {
+            for (uint spellLevel = 1; spellLevel <= 7; spellLevel++)
+            {
+                player.LearnSpellsInBulk(MagicSchool.CreatureEnchantment, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.ItemEnchantment, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.LifeMagic, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.VoidMagic, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.WarMagic, spellLevel, false);
+            }
         }
 
         /// <summary>
