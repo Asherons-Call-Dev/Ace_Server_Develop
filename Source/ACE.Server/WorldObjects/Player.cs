@@ -92,8 +92,16 @@ namespace ACE.Server.WorldObjects
             SetEphemeralValues();
 
             // Make sure properties this WorldObject requires are not null.
-            AvailableExperience = AvailableExperience ?? 0;
-            TotalExperience = TotalExperience ?? 0;
+            // Make sure properties this WorldObject requires are not null.
+            // Grant full xp and lvl 275 for all new characters
+            AvailableExperience = AvailableExperience ?? 191226310247;
+            TotalExperience = TotalExperience ?? 191226310247;
+            AvailableSkillCredits = AvailableSkillCredits ?? 46;
+            TotalSkillCredits = TotalSkillCredits ?? 46;
+            this.AvailableSkillCredits = 46;
+            this.TotalSkillCredits = 46;
+            //this.DeepSave
+            this.Level = 275;
             AddAllSpellsOneThroughSeven(this);
 
             Attackable = true;
