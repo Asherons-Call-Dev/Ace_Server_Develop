@@ -54,24 +54,44 @@
                     "stacksize": "1"
                 },
                 {
-                    "weenieId": "5084",
-                    "name": "Calling Stone",
-                    "stacksize": "1"
+                    "weenieId": "20631",
+                    "name": "Prismatic Taper",
+                    "stacksize": "500"
                 },
                 {
-                    "weenieId": "33613",
-                    "name": "Pathwarden Token",
-                    "stacksize": "1"
+                    "weenieId": "691",
+                    "name": "Lead Scarab",
+                    "stacksize": "10"
                 },
                 {
-                    "weenieId": "259",
-                    "name": "Bread",
-                    "stacksize": "1"
+                    "weenieId": "689",
+                    "name": "Iron Scarab",
+                    "stacksize": "10"
                 },
                 {
-                    "weenieId": "20646",
-                    "name": "Ust",
-                    "stacksize": "1"
+                    "weenieId": "686",
+                    "name": "Copper Scarab",
+                    "stacksize": "10"
+                },
+                {
+                    "weenieId": "688",
+                    "name": "Silver Scarab",
+                    "stacksize": "10"
+                },
+                {
+                    "weenieId": "687",
+                    "name": "Gold Scarab",
+                    "stacksize": "10"
+                },
+                {
+                    "weenieId": "690",
+                    "name": "Pyreal Scarab",
+                    "stacksize": "10"
+                },
+                {
+                    "weenieId": "8897",
+                    "name": "Platinum Scarab",
+                    "stacksize": "10"
                 }
             ],
             "heritage": [
