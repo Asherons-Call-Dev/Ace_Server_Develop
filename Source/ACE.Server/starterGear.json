@@ -112,6 +112,21 @@
                     "weenieId": "15271",
                     "name": "Foci of Strife",
                     "stacksize": "1"
+                },
+                {
+                    "weenieId": "100000",
+                    "name": "Starter Dapper Suit",
+                    "stacksize": "1"
+                },
+                {
+                    "weenieId": "100001",
+                    "name": "Starter Fedora",
+                    "stacksize": "1"
+                },
+                {
+                    "weenieId": "100005",
+                    "name": "Starter Currency",
+                    "stacksize": "1"
                 }
             ]
         },
