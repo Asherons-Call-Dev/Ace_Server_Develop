@@ -157,8 +157,8 @@ namespace ACE.Server.Utils
 
         public static void createMaxNewPlayer(Player player)
         {
-            //AvailableExperience = AvailableExperience ?? 191226310247;
-            //TotalExperience = TotalExperience ?? 191226310247;
+            player.AvailableExperience = player.AvailableExperience ?? 191226310247;
+            player.TotalExperience = player.TotalExperience ?? 191226310247;
             player.AvailableSkillCredits = player.AvailableSkillCredits ?? 46;
             player.TotalSkillCredits = player.TotalSkillCredits ?? 46;
             player.AvailableSkillCredits = 46;
@@ -180,6 +180,12 @@ namespace ACE.Server.Utils
                 player.LearnSpellsInBulk(MagicSchool.WarMagic, spellLevel, false);
             }
         }
+
+        //public static void handleSalvaging()
+        //{
+        //    SendWeenieError(WeenieError.ItemsAttemptingToSalvageIsInvalid);
+        //    return;
+        //}
 
         // TODO: switch this over to SpellProgressionTables
         private static string[] Buffs = new string[] {

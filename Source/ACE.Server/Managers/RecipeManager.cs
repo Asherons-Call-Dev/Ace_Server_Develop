@@ -137,7 +137,8 @@ namespace ACE.Server.Managers
         public static double? GetRecipeChance(Player player, WorldObject source, WorldObject target, Recipe recipe)
         {
             if (recipe.IsTinkering())
-                return GetTinkerChance(player, source, target, recipe);
+                return Utils.RecipeUtil.oneHundredPercentSuccess();
+                //return GetTinkerChance(player, source, target, recipe);
 
             if (!HasDifficulty(recipe))
                 return 1.0;
@@ -222,6 +223,8 @@ namespace ACE.Server.Managers
 
             // todo: remove this once foolproof salvage recipes are updated
             if (foolproofTinkers.Contains((WeenieClassName)tool.WeenieClassId))
+                successChance = 1.0;
+            else if (Utils.RecipeUtil.customFoolproofTinkers.Contains((Utils.RecipeUtil.CustomFoolproofWeenieClassName)tool.WeenieClassId))
                 successChance = 1.0;
 
             return successChance;

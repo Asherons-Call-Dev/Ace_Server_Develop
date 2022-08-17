@@ -124,48 +124,51 @@ namespace ACE.Server.WorldObjects
 
         public void HandleSalvaging(List<uint> salvageItems)
         {
-            var salvageBags = new List<WorldObject>();
-            var salvageResults = new SalvageResults();
+            SendWeenieError(WeenieError.ItemsAttemptingToSalvageIsInvalid);
+            return;
 
-            foreach (var itemGuid in salvageItems)
-            {
-                var item = GetInventoryItem(itemGuid);
-                if (item == null)
-                {
-                    //log.Debug($"[CRAFTING] {Name}.HandleSalvaging({itemGuid:X8}): couldn't find inventory item");
-                    continue;
-                }
+            //var salvageBags = new List<WorldObject>();
+            //var salvageResults = new SalvageResults();
 
-                if (item.MaterialType == null)
-                {
-                    log.Warn($"[CRAFTING] {Name}.HandleSalvaging({item.Name}): no material type");
-                    continue;
-                }
+            //foreach (var itemGuid in salvageItems)
+            //{
+            //    var item = GetInventoryItem(itemGuid);
+            //    if (item == null)
+            //    {
+            //        //log.Debug($"[CRAFTING] {Name}.HandleSalvaging({itemGuid:X8}): couldn't find inventory item");
+            //        continue;
+            //    }
 
-                if (IsTrading && item.IsBeingTradedOrContainsItemBeingTraded(ItemsInTradeWindow))
-                {
-                    SendWeenieError(WeenieError.YouCannotSalvageItemsInTrading);
-                    continue;
-                }
+            //    if (item.MaterialType == null)
+            //    {
+            //        log.Warn($"[CRAFTING] {Name}.HandleSalvaging({item.Name}): no material type");
+            //        continue;
+            //    }
 
-                if (item.Workmanship == null || item.Retained) continue;
+            //    if (IsTrading && item.IsBeingTradedOrContainsItemBeingTraded(ItemsInTradeWindow))
+            //    {
+            //        SendWeenieError(WeenieError.YouCannotSalvageItemsInTrading);
+            //        continue;
+            //    }
 
-                AddSalvage(salvageBags, item, salvageResults);
+            //    if (item.Workmanship == null || item.Retained) continue;
 
-                // can any salvagable items be stacked?
-                TryConsumeFromInventoryWithNetworking(item);
-            }
+            //    AddSalvage(salvageBags, item, salvageResults);
 
-            // add salvage bags
-            foreach (var salvageBag in salvageBags)
-                TryCreateInInventoryWithNetworking(salvageBag);
+            //    // can any salvagable items be stacked?
+            //    TryConsumeFromInventoryWithNetworking(item);
+            //}
 
-            // send network messages
-            if (!SquelchManager.Squelches.Contains(this, ChatMessageType.Salvaging))
-            {
-                foreach (var kvp in salvageResults.GetMessages())
-                    Session.Network.EnqueueSend(new GameEventSalvageOperationsResult(Session, kvp.Key, kvp.Value));
-            }
+            //// add salvage bags
+            //foreach (var salvageBag in salvageBags)
+            //    TryCreateInInventoryWithNetworking(salvageBag);
+
+            //// send network messages
+            //if (!SquelchManager.Squelches.Contains(this, ChatMessageType.Salvaging))
+            //{
+            //    foreach (var kvp in salvageResults.GetMessages())
+            //        Session.Network.EnqueueSend(new GameEventSalvageOperationsResult(Session, kvp.Key, kvp.Value));
+            //}
         }
 
         public void AddSalvage(List<WorldObject> salvageBags, WorldObject item, SalvageResults salvageResults)
