@@ -144,6 +144,43 @@ namespace ACE.Server.Utils
             return buff;
         }
 
+        public static void makeNewPlayerAwesome(Player player)
+        {
+            // Fancy fireworks on login
+            // Note: May need to move this code so that it doesn't apply to olthoi
+            player.GrantXP(191226310247, XpType.Kill);
+            player.AddSkillCredits(46);
+            player.AvailableSkillCredits = 46;
+            player.TotalSkillCredits = 46;
+            BuffPlayerLevelSeven(player);
+        }
+
+        public static void createMaxNewPlayer(Player player)
+        {
+            //AvailableExperience = AvailableExperience ?? 191226310247;
+            //TotalExperience = TotalExperience ?? 191226310247;
+            player.AvailableSkillCredits = player.AvailableSkillCredits ?? 46;
+            player.TotalSkillCredits = player.TotalSkillCredits ?? 46;
+            player.AvailableSkillCredits = 46;
+            player.TotalSkillCredits = 46;
+            //this.DeepSave
+            player.Level = 275;
+            AddAllSpellsOneThroughSeven(player);
+            player.SpendAllXp(false);
+        }
+
+        private static void AddAllSpellsOneThroughSeven(Player player)
+        {
+            for (uint spellLevel = 1; spellLevel <= 7; spellLevel++)
+            {
+                player.LearnSpellsInBulk(MagicSchool.CreatureEnchantment, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.ItemEnchantment, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.LifeMagic, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.VoidMagic, spellLevel, false);
+                player.LearnSpellsInBulk(MagicSchool.WarMagic, spellLevel, false);
+            }
+        }
+
         // TODO: switch this over to SpellProgressionTables
         private static string[] Buffs = new string[] {
 #region spells
