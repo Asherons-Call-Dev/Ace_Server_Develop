@@ -124,7 +124,7 @@ namespace ACE.Server.WorldObjects
 
         public void HandleSalvaging(List<uint> salvageItems)
         {
-            SendWeenieError(WeenieError.ItemsAttemptingToSalvageIsInvalid);
+            Utils.PlayerUtils.handleSalvaging(this.Session);
             return;
 
             //var salvageBags = new List<WorldObject>();

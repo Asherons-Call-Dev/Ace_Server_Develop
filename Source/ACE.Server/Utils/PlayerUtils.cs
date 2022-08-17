@@ -2,6 +2,7 @@ using ACE.Database;
 using ACE.Entity;
 using ACE.Entity.Enum;
 using ACE.Server.Entity;
+using ACE.Server.Network;
 using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.GameMessages.Messages;
 using ACE.Server.Network.Structure;
@@ -181,11 +182,10 @@ namespace ACE.Server.Utils
             }
         }
 
-        //public static void handleSalvaging()
-        //{
-        //    SendWeenieError(WeenieError.ItemsAttemptingToSalvageIsInvalid);
-        //    return;
-        //}
+        public static void handleSalvaging(Session session)
+        {
+            session.Player.SendWeenieError(WeenieError.ItemsAttemptingToSalvageIsInvalid);
+        }
 
         // TODO: switch this over to SpellProgressionTables
         private static string[] Buffs = new string[] {
