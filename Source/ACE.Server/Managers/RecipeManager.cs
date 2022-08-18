@@ -64,12 +64,13 @@ namespace ACE.Server.Managers
                 return;
             }
 
+            // NO REQUIREMENTS NEEDED
             // verify requirements
-            if (!VerifyRequirements(recipe, player, source, target))
-            {
-                player.SendUseDoneEvent(WeenieError.YouDoNotPassCraftingRequirements);
-                return;
-            }
+            //if (!VerifyRequirements(recipe, player, source, target))
+            //{
+            //    player.SendUseDoneEvent(WeenieError.YouDoNotPassCraftingRequirements);
+            //    return;
+            //}
 
             if (recipe.IsTinkering())
                 log.Debug($"[TINKERING] {player.Name}.HandleTinkering({source.NameWithMaterial}, {target.NameWithMaterial}) | Status: {(confirmed ? "" : "un")}confirmed");
@@ -137,8 +138,18 @@ namespace ACE.Server.Managers
         public static double? GetRecipeChance(Player player, WorldObject source, WorldObject target, Recipe recipe)
         {
             if (recipe.IsTinkering())
-                return Utils.RecipeUtil.oneHundredPercentSuccess();
+            {
+                if (source.WeenieClassId == 21053)
+                {
+                    return Utils.RecipeUtil.thirtyThreePercentSuccess();
+                }
+                else
+                {
+                    return Utils.RecipeUtil.oneHundredPercentSuccess();
+                }
+
                 //return GetTinkerChance(player, source, target, recipe);
+            }
 
             if (!HasDifficulty(recipe))
                 return 1.0;

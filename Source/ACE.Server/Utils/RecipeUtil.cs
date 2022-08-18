@@ -27,5 +27,10 @@ namespace ACE.Server.Utils
             return 1;
         }
 
+        public static double? thirtyThreePercentSuccess()
+        {
+            return .33;
+        }
+
     }
 }
