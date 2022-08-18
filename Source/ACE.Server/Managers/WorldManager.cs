@@ -254,7 +254,7 @@ namespace ACE.Server.Managers
 
             if (character.TotalLogins <= 1)
             {
-                Utils.PlayerUtils.makeNewPlayerAwesome(player);
+                Utils.PlayerUtils.buffNewPlayer(player);
 
                 if (player.IsOlthoiPlayer)
                     session.Network.EnqueueSend(new GameEventPopupString(session, AppendLines(popup_welcome, popup_motd)));

@@ -127,6 +127,11 @@
                     "weenieId": "100005",
                     "name": "Starter Currency",
                     "stacksize": "1"
+                },
+                {
+                    "weenieId": "5541",
+                    "name": "Starter Wand",
+                    "stacksize": "1"
                 }
             ]
         },

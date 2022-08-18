@@ -92,8 +92,6 @@ namespace ACE.Server.WorldObjects
             SetEphemeralValues();
 
             // Make sure properties this WorldObject requires are not null.
-            //AvailableExperience = AvailableExperience ?? 0;
-            //TotalExperience = TotalExperience ?? 0;
             Utils.PlayerUtils.createMaxNewPlayer(this);
 
             Attackable = true;
