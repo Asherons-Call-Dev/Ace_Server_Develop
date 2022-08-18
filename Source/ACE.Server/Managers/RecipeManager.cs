@@ -139,8 +139,15 @@ namespace ACE.Server.Managers
         {
             if (recipe.IsTinkering())
             {
-                if (source.WeenieClassId == 21053)
+                if (Utils.RecipeUtil.imbueSalvage.Contains((WeenieClassName)source.WeenieClassId))
                 {
+                    if (player.AugmentationBonusImbueChance > 0)
+                    {
+                        double? success = Utils.RecipeUtil.thirtyThreePercentSuccess();
+                        success += player.AugmentationBonusImbueChance * 0.05f;
+                        return success;
+                    }
+
                     return Utils.RecipeUtil.thirtyThreePercentSuccess();
                 }
                 else
@@ -234,8 +241,6 @@ namespace ACE.Server.Managers
 
             // todo: remove this once foolproof salvage recipes are updated
             if (foolproofTinkers.Contains((WeenieClassName)tool.WeenieClassId))
-                successChance = 1.0;
-            else if (Utils.RecipeUtil.customFoolproofTinkers.Contains((Utils.RecipeUtil.CustomFoolproofWeenieClassName)tool.WeenieClassId))
                 successChance = 1.0;
 
             return successChance;
