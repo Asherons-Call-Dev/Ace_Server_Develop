@@ -9,6 +9,7 @@ using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.GameMessages.Messages;
 using ACE.Server.Network.Structure;
 using ACE.Server.WorldObjects;
+using ACE.Server.WorldObjects.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,13 +165,45 @@ namespace ACE.Server.Utils
             //this.DeepSave
             AddAllSpellsOneThroughSeven(player);
             LoadDefaultSpellBars(player);
-            player.SpendAllXp(false);
+            //SpendAllSkillXp(player);
+            SpendAllAttributeAndVitalXp(player, false);
         }
 
         public static void addMaxPlayerSkillCredits(Player player)
         {
             player.SetProperty(PropertyInt.AvailableSkillCredits, 46);
             player.SetProperty(PropertyInt.TotalSkillCredits, 46);
+        }
+
+        //public static void spendAllAvailableXp(Player player)
+        //{
+        //    player.SpendAllXp(false);
+        //}
+
+        /// <summary>
+        /// Tries to spend all of the players Xp into Attributes, Vitals and Skills
+        /// </summary>
+        public static void SpendAllAttributeAndVitalXp(Player player, bool sendNetworkUpdate = true)
+        {
+            player.SpendAllAvailableAttributeXp(player.Strength, sendNetworkUpdate);
+            player.SpendAllAvailableAttributeXp(player.Endurance, sendNetworkUpdate);
+            player.SpendAllAvailableAttributeXp(player.Coordination, sendNetworkUpdate);
+            player.SpendAllAvailableAttributeXp(player.Quickness, sendNetworkUpdate);
+            player.SpendAllAvailableAttributeXp(player.Focus, sendNetworkUpdate);
+            player.SpendAllAvailableAttributeXp(player.Self, sendNetworkUpdate);
+
+            player.SpendAllAvailableVitalXp(player.Health, sendNetworkUpdate);
+            player.SpendAllAvailableVitalXp(player.Stamina, sendNetworkUpdate);
+            player.SpendAllAvailableVitalXp(player.Mana, sendNetworkUpdate);
+        }
+
+        public static void SpendAllSkillXp(Player player, bool sendNetworkUpdate = true)
+        {
+            foreach (var skill in player.Skills)
+            {
+                if (skill.Value.AdvancementClass >= SkillAdvancementClass.Trained)
+                    player.SpendAllAvailableSkillXp(skill.Value, sendNetworkUpdate);
+            }
         }
 
         private static void AddAllSpellsOneThroughSeven(Player player)

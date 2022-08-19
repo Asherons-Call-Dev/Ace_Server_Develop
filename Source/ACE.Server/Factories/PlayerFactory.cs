@@ -412,6 +412,7 @@ namespace ACE.Server.Factories
             CharacterCreateSetDefaultCharacterOptions(player);
 
             Utils.PlayerUtils.addMaxPlayerSkillCredits(player);
+            Utils.PlayerUtils.SpendAllSkillXp(player, false);
 
             return CreateResult.Success;
         }
