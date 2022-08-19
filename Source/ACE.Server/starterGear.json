@@ -293,6 +293,77 @@
                     "stacksize": "1"
                 }
             ]
+        },
+        {
+            "id": "34",
+            "name": "War Magic",
+            "gear": [
+                {
+                    "weenieId": "100016",
+                    "name": "Chimeric Eye of the Quiddity Summoning Gem",
+                    "stacksize": "1"
+                }
+            ]
+        },
+        {
+            "id": "44",
+            "name": "Heavy Weapons",
+            "gear": [
+                {
+                    "weenieId": "100014",
+                    "name": "Chimeric Dagger of the Quiddity Summoning Gem",
+                    "stacksize": "1"
+                }
+            ]
+        },
+        {
+            "id": "45",
+            "name": "Light Weapons",
+            "gear": [
+                {
+                    "weenieId": "100010",
+                    "name": "Chimeric Axe of the Quiddity Summoning Gem",
+                    "stacksize": "1"
+                }
+            ]
+        },
+        {
+            "id": "46",
+            "name": "Finesse Weapons",
+            "gear": [
+                {
+                    "weenieId": "100018",
+                    "name": "Chimeric Lance of the Quiddity Summoning Gem",
+                    "stacksize": "1"
+                }
+            ]
+        },
+        {
+            "id": "47",
+            "name": "Missile Weapons",
+            "gear": [
+                {
+                    "weenieId": "100012",
+                    "name": "Chimeric Bow of the Quiddity Summoning Gem",
+                    "stacksize": "1"
+                },
+                {
+                    "weenieId": "15429",
+                    "name": "Deadly Arrow",
+                    "stacksize": "250"
+                }
+            ]
+        },
+        {
+            "id": "41",
+            "name": "Two Handed Combat",
+            "gear": [
+                {
+                    "weenieId": "100020",
+                    "name": "Chimeric Two Handed Blade of the Quiddity Summoning Gem",
+                    "stacksize": "1"
+                }
+            ]
         }
     ]
 }
