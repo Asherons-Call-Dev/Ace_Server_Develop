@@ -236,7 +236,15 @@ namespace ACE.Server.Utils
                 var spell = new Spell(spellID, false);
                 if (spell.School == school && spell.Formula.Level == spellLevel)
                 {
-                    player.AddKnownSpell(spell.Id);
+                    if (spell.Name.Contains("Legendary") || spell.Name.Contains("Epic") ||
+                            spell.Name.Contains("Major") || spell.Name.Contains("Minor"))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        player.AddKnownSpell(spell.Id);
+                    }
                 }
             }
         }
