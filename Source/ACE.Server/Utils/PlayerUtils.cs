@@ -484,6 +484,26 @@ namespace ACE.Server.Utils
             session.Player.SendWeenieError(WeenieError.ItemsAttemptingToSalvageIsInvalid);
         }
 
+        public static bool disableVoidAgainstPlayers(Spell spell, Player targetPlayer)
+        {
+            if (spell.School == MagicSchool.VoidMagic && targetPlayer != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool disablePurchaseCottageOrVilla(SlumLord slumlord)
+        {
+            if (slumlord.House.HouseType == HouseType.Cottage || slumlord.House.HouseType == HouseType.Villa)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static uint[] PlayerSpellTable = {
             1,2,3,5,6,7,9,15,16,17,18,19,20,21,22,23,24,25,26,27,28,35,36,37,38,47,48,49,
             50,51,53,54,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,99,

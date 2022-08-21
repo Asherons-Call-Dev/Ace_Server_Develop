@@ -50,6 +50,16 @@ namespace ACE.Server.WorldObjects
                 return;
             }
 
+            bool isCottageOrVilla = Utils.PlayerUtils.disablePurchaseCottageOrVilla(slumlord);
+
+            if (isCottageOrVilla)
+            {
+                log.Error($"[HOUSE] {Name}.HandleActionBuyHouse: Players cannot purchase Villas or Cottages");
+                var msg = "Players cannot purchase Villas or Cottages.";
+                Session.Network.EnqueueSend(new GameEventCommunicationTransientString(Session, msg), new GameMessageSystemChat(msg, ChatMessageType.Broadcast));
+                return;
+            }
+
             if (slumlord.MinLevel != null)
             {
                 var playerLevel = Level ?? 1;

@@ -465,6 +465,13 @@ namespace ACE.Server.WorldObjects
                     return true;
             }
 
+            bool isVoidAgainstPlayer = Utils.PlayerUtils.disableVoidAgainstPlayers(spell, targetPlayer);
+
+            if (isVoidAgainstPlayer)
+            {
+                return true;
+            }
+
             // brittlemail / lure / other negative item spells cannot be cast with player as target
 
             // TODO: by end of retail, players couldn't cast any negative spells on themselves
