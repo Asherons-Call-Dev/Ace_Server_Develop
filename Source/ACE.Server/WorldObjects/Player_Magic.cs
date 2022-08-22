@@ -939,7 +939,7 @@ namespace ACE.Server.WorldObjects
 
             MagicState.OnCastDone();
 
-            IsBusy = true;
+            //IsBusy = true;
 
             var queue = PropertyManager.GetBool("spellcast_recoil_queue").Item;
 
