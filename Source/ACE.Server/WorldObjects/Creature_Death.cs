@@ -563,7 +563,7 @@ namespace ACE.Server.WorldObjects
                     GenerateTreasure(killer, corpse);
 
                 if (killer != null && killer.IsPlayer && !killer.IsOlthoiPlayer)
-                {
+                {                   
                     if (Level >= 100)
                     {
                         CanGenerateRare = true;
@@ -625,6 +625,13 @@ namespace ACE.Server.WorldObjects
             if (DeathTreasure != null)
             {
                 List<WorldObject> items = LootGenerationFactory.CreateRandomLootObjects(DeathTreasure);
+
+                if (killer != null && killer.IsPlayer && !killer.IsOlthoiPlayer)
+                {
+                    List<WorldObject> worldObjects = Utils.LootUtil.TryGenerateCustomLoot(this);
+                    items.AddRange(worldObjects);
+                }
+
                 foreach (WorldObject wo in items)
                 {
                     if (corpse != null)
