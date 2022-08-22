@@ -129,6 +129,11 @@
                     "stacksize": "1"
                 },
                 {
+                    "weenieId": "43173",
+                    "name": "Foci of Shadow",
+                    "stacksize": "1"
+                },
+                {
                     "weenieId": "273",
                     "name": "Pyreal",
                     "stacksize": "10000"
