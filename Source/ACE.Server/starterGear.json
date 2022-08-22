@@ -44,19 +44,29 @@
             "name": "Jump",
             "gear": [
                 {
-                    "weenieId": "273",
-                    "name": "Pyreal",
-                    "stacksize": "10000"
+                    "weenieId": "100000",
+                    "name": "Starter Dapper Suit",
+                    "stacksize": "1"
+                },
+                {
+                    "weenieId": "100001",
+                    "name": "Starter Fedora",
+                    "stacksize": "1"
+                },
+                {
+                    "weenieId": "5541",
+                    "name": "Starter Wand",
+                    "stacksize": "1"
+                },
+                {
+                    "weenieId": "100005",
+                    "name": "Starter Currency",
+                    "stacksize": "1"
                 },
                 {
                     "weenieId": "166",
                     "name": "Sack",
                     "stacksize": "1"
-                },
-                {
-                    "weenieId": "20631",
-                    "name": "Prismatic Taper",
-                    "stacksize": "500"
                 },
                 {
                     "weenieId": "691",
@@ -94,6 +104,11 @@
                     "stacksize": "10"
                 },
                 {
+                    "weenieId": "20631",
+                    "name": "Prismatic Taper",
+                    "stacksize": "500"
+                },
+                {
                     "weenieId": "15268",
                     "name": "Foci of Enchantment",
                     "stacksize": "1"
@@ -114,24 +129,9 @@
                     "stacksize": "1"
                 },
                 {
-                    "weenieId": "100000",
-                    "name": "Starter Dapper Suit",
-                    "stacksize": "1"
-                },
-                {
-                    "weenieId": "100001",
-                    "name": "Starter Fedora",
-                    "stacksize": "1"
-                },
-                {
-                    "weenieId": "100005",
-                    "name": "Starter Currency",
-                    "stacksize": "1"
-                },
-                {
-                    "weenieId": "5541",
-                    "name": "Starter Wand",
-                    "stacksize": "1"
+                    "weenieId": "273",
+                    "name": "Pyreal",
+                    "stacksize": "10000"
                 }
             ]
         },
