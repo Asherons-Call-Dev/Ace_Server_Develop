@@ -9,9 +9,9 @@ namespace ACE.Server.Utils
     public class LootItem
     {
         public int weenieId;
-        public int dropChance;
+        public double dropChance;
 
-        public LootItem(int weenieId, int dropchance)
+        public LootItem(int weenieId, double dropchance)
         {
             this.weenieId = weenieId;
             this.dropChance = dropchance;

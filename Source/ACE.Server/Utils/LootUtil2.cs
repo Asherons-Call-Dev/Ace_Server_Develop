@@ -19,11 +19,11 @@ namespace ACE.Server.Utils
 
         public static void CreateCustomLootItems()
         {
-            loot.Add(new LootItem(100055, 50)); // Salvage vendor currency
-            loot.Add(new LootItem(100054, 20)); // Imbue vendor currency
+            loot.Add(new LootItem(100055, 1000)); // Salvage vendor currency, 1% drop rate
+            loot.Add(new LootItem(100054, 200)); // Imbue vendor currency, 0.2% drop rate
         }
 
-        public static List<WorldObject> TryGenerateCustomLootItems(DamageHistoryInfo killer)
+        public static List<WorldObject> TryGenerateCustomLootItems(DamageHistoryInfo killer, Creature creature)
         {
             if (!loot.Any())
             {
@@ -32,25 +32,26 @@ namespace ACE.Server.Utils
 
             List<WorldObject> droppedItems = new List<WorldObject>();
             var rand = new Random();
-            Player player = null;
+            double augBonus = 0.0;
 
-            if (killer.GetType() == typeof(Player))
+            if (killer.IsPlayer)
             {
-                player = (Player)killer.TryGetAttacker();
-            }
-
-            foreach (LootItem item in loot)
-            {
-                int randomNumber = rand.Next(1, 1001);
-                int dropChance = item.dropChance;
+                Player player = (Player)killer.TryGetAttacker();
 
                 if (player != null)
                 {
                     if (player.AugmentationBonusSalvage > 0)
                     {
-                        dropChance = item.dropChance * player.AugmentationBonusSalvage;
+                        augBonus = player.AugmentationBonusSalvage / 4;
                     }
                 }
+            }
+
+            foreach (LootItem item in loot)
+            {
+                double randomNumber = rand.Next(1, 100001);
+
+                double dropChance = GetItemDropChance(augBonus, item.dropChance, creature);
 
                 if (randomNumber <= dropChance)
                 {
@@ -68,6 +69,34 @@ namespace ACE.Server.Utils
             }
 
             return droppedItems;
+        }
+
+        public static double GetItemDropChance(double augBonus, double dropChance, Creature creature)
+        {
+            dropChance = dropChance + augBonus;
+
+            if (creature != null)
+            {
+                switch (creature.Level)
+                {
+                    case < 20:
+                        dropChance = (dropChance / 6);
+                        break;
+                    case < 50:
+                        dropChance = (dropChance / 4);
+                        break;
+                    case < 100:
+                        dropChance = (dropChance / 2);
+                        break;
+                    case < 180:
+                        dropChance = (dropChance / 1.5);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return dropChance;
         }
     }
 }
