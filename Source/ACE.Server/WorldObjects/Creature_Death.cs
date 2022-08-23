@@ -628,7 +628,7 @@ namespace ACE.Server.WorldObjects
 
                 if (killer != null && killer.IsPlayer && !killer.IsOlthoiPlayer)
                 {
-                    List<WorldObject> worldObjects = Utils.LootUtil.TryGenerateCustomLoot(this);
+                    List<WorldObject> worldObjects = Utils.LootUtil2.TryGenerateCustomLootItems(killer);
                     items.AddRange(worldObjects);
                 }
 

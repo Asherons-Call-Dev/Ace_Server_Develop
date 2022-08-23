@@ -15,14 +15,30 @@ namespace ACE.Server.Utils
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static List<WorldObject> TryGenerateCustomLoot(Creature creature)
+        public static List<WorldObject> TryGenerateCustomLoot(Creature creature, DamageHistoryInfo killer)
         {
+            Player player = (Player)killer.TryGetAttacker();
             int tier = 0;
             int t1_chance = 100;
             int imbueCurrency = 100054;
             int salvageCurrency = 100055;
             WorldObject wo = null;
             List<WorldObject> worldObjectList = new List<WorldObject>();
+
+            if (player.AugmentationBonusSalvage > 0)
+            {
+                t1_chance = t1_chance * player.AugmentationBonusSalvage;
+            }
+
+            float aetheria_drop_rate = 1.0f;
+
+            var dropRateMod = 1.0f / aetheria_drop_rate;
+            var rng = ThreadSafeRandom.Next(0.0f, 1.0f * dropRateMod);
+
+            if (rng < 0.02f)
+            {
+
+            }
 
             if (ThreadSafeRandom.Next(1, t1_chance) == 1)   // 1 in 100 chance
             {
