@@ -52,7 +52,7 @@ namespace ACE.Server.Utils
                     }
                 }
 
-                if (randomNumber <= item.dropChance)
+                if (randomNumber <= dropChance)
                 {
                     WorldObject wo = WorldObjectFactory.CreateNewWorldObject((uint)item.weenieId);
 
