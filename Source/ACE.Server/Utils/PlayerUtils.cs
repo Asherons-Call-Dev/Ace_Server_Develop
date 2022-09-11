@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ACE.Server.Utils
@@ -503,6 +504,84 @@ namespace ACE.Server.Utils
 
             return false;
         }
+
+        public static void AssignPlayerRandomizedName(Player player)
+        {
+            //Guid g = System.Guid.NewGuid();
+            //String randomName = System.Guid.NewGuid().ToString().Substring(0, 9);
+            //randomName = Regex.Replace(randomName, "[^a-zA-Z]+", "");
+            //player.Name = randomName;
+
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            player.Name = new string(Enumerable.Repeat(chars, 10)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+        }
+
+        public static string GetRandomizedPlayerName()
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, 10)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        //public static void SetRandomizedPlayerName(Player player)
+        //{           
+        //    Random random = new Random();
+        //    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        //    player.modifiedName = new string(Enumerable.Repeat(chars, 10)
+        //        .Select(s => s[random.Next(s.Length)]).ToArray());
+        //}
+
+        public static void SetIsDatabaseEvent(bool isDatabaseEvent)
+        {
+           
+        }
+
+        public static void ResetPlayerName(Player player)
+        {
+            player.Name = player.Character.Name;
+        }
+
+        //public CharacterName GetCharacterName(uint characterId)
+        //{
+        //    return GetCharacterNameList(0, true, characterId).FirstOrDefault();
+        //}
+
+        //private static List<CharacterName> GetCharacterNameList(uint accountID, bool includeDeleted, uint characterID = 0)
+        //{
+        //    var context = new ShardDbContext();
+
+        //    IQueryable<CharacterName> query;
+
+        //    if (accountID > 0)
+        //        query = context.CharacterName.Where(r => r.AccountId == accountID && (includeDeleted || !r.IsDeleted));
+        //    else
+        //        query = context.Character.Where(r => r.Id == characterID && (includeDeleted || !r.IsDeleted));
+
+        //    var results = query.ToList();
+
+        //    query.Include(r => r.CharacterPropertiesContractRegistry).Load();
+        //    query.Include(r => r.CharacterPropertiesFillCompBook).Load();
+        //    query.Include(r => r.CharacterPropertiesFriendList).Load();
+        //    query.Include(r => r.CharacterPropertiesQuestRegistry).Load();
+        //    query.Include(r => r.CharacterPropertiesShortcutBar).Load();
+        //    query.Include(r => r.CharacterPropertiesSpellBar).Load();
+        //    query.Include(r => r.CharacterPropertiesSquelch).Load();
+        //    query.Include(r => r.CharacterPropertiesTitleBook).Load();
+
+        //    foreach (var result in results)
+        //        CharacterContexts.Add(result, context);
+
+        //    return results;
+        //}
+
+        //public static void AssignPlayerRandomizedName(Character character)
+        //{
+        //    //CharacterName characterName = GetCh
+        //}
 
         public static uint[] PlayerSpellTable = {
             1,2,3,5,6,7,9,15,16,17,18,19,20,21,22,23,24,25,26,27,28,35,36,37,38,47,48,49,

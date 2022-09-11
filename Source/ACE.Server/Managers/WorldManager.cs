@@ -217,7 +217,12 @@ namespace ACE.Server.Managers
             if (olthoiPlayerReturnedToLifestone)
                 session.Player.Location = new Position(session.Player.Sanctuary);
 
+            //Utils.PlayerUtils.AssignPlayerRandomizedName(player);
+            //Utils.PlayerUtils.SetRandomizedPlayerName(player);
+
             session.Player.PlayerEnterWorld();
+
+            //Utils.PlayerUtils.ResetPlayerName(player);
 
             var success = LandblockManager.AddObject(session.Player, true);
             if (!success)
@@ -255,6 +260,7 @@ namespace ACE.Server.Managers
             if (character.TotalLogins <= 1)
             {
                 Utils.PlayerUtils.buffNewPlayer(player);
+                //Utils.CharacterName characterName = new Utils.CharacterName(character);
 
                 if (player.IsOlthoiPlayer)
                     session.Network.EnqueueSend(new GameEventPopupString(session, AppendLines(popup_welcome, popup_motd)));
