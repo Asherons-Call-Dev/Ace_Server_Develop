@@ -499,6 +499,11 @@ namespace ACE.Server.Managers
                     break;
             }
 
+            if (recipe == null)
+            {
+                recipe = Utils.RecipeUtil.CheckCustomSalvageWeenies(recipe, player, source, target);
+            }  
+
             return recipe;
         }
 

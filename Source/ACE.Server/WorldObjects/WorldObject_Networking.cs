@@ -725,7 +725,7 @@ namespace ACE.Server.WorldObjects
 
             if (Structure != null)
                 weenieHeaderFlag |= WeenieHeaderFlag.Structure;
-
+            
             if (MaxStructure != null)
                 weenieHeaderFlag |= WeenieHeaderFlag.MaxStructure;
 
