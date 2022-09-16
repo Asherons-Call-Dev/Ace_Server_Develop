@@ -18,10 +18,10 @@ namespace ACE.Server.Utils
             // imbue salvages (not rend salvage)
             CustomSalvageWeenies.custommaterialagate,
             CustomSalvageWeenies.custommaterialamber,
-            CustomSalvageWeenies.custommaterialaquamarine,
+            //CustomSalvageWeenies.custommaterialaquamarine,
             CustomSalvageWeenies.custommaterialazurite,
-            CustomSalvageWeenies.custommaterialblackgarnet,
-            CustomSalvageWeenies.custommaterialblackopal,
+            //CustomSalvageWeenies.custommaterialblackgarnet,
+            //CustomSalvageWeenies.custommaterialblackopal,
             CustomSalvageWeenies.custommaterialbloodstone,
             CustomSalvageWeenies.custommaterialcarnelian,
             CustomSalvageWeenies.custommaterialcitrine,
@@ -30,15 +30,15 @@ namespace ACE.Server.Utils
             CustomSalvageWeenies.custommaterialebony,
             CustomSalvageWeenies.custommaterialgromniehide,
             CustomSalvageWeenies.custommaterialhematite,
-            CustomSalvageWeenies.custommaterialimperialtopaz,
-            CustomSalvageWeenies.custommaterialjet,
+            //CustomSalvageWeenies.custommaterialimperialtopaz,
+            //CustomSalvageWeenies.custommaterialjet,
             CustomSalvageWeenies.custommateriallapislazuli,
             CustomSalvageWeenies.custommateriallavenderjade,
             CustomSalvageWeenies.custommaterialmalachite,
             CustomSalvageWeenies.custommaterialperidot,
             CustomSalvageWeenies.custommaterialporcelain,
             CustomSalvageWeenies.custommaterialpyreal,
-            CustomSalvageWeenies.custommaterialredgarnet,
+            //CustomSalvageWeenies.custommaterialredgarnet,
             CustomSalvageWeenies.custommaterialredjade,
             CustomSalvageWeenies.custommaterialrosequartz,
             CustomSalvageWeenies.custommaterialruby,
@@ -46,13 +46,13 @@ namespace ACE.Server.Utils
             CustomSalvageWeenies.custommaterialsilk,
             CustomSalvageWeenies.custommaterialsilver,
             CustomSalvageWeenies.custommaterialsmokeyquartz,
-            CustomSalvageWeenies.custommaterialsunstone,
+            //CustomSalvageWeenies.custommaterialsunstone,
             CustomSalvageWeenies.custommaterialteak,
-            CustomSalvageWeenies.custommaterialwhitesapphire,
+            //CustomSalvageWeenies.custommaterialwhitesapphire,
             CustomSalvageWeenies.custommaterialyellowtopaz,
-            CustomSalvageWeenies.custommaterialzircon,
-            CustomSalvageWeenies.custommaterialemerald,
-            CustomSalvageWeenies.custommaterialfireopal
+            CustomSalvageWeenies.custommaterialzircon
+            //CustomSalvageWeenies.custommaterialemerald,
+           // CustomSalvageWeenies.custommaterialfireopal
         };
 
         public static double? oneHundredPercentSuccess()
