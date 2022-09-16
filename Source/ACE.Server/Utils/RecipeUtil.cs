@@ -13,30 +13,46 @@ namespace ACE.Server.Utils
 {
     internal class RecipeUtil
     {
-        public static readonly HashSet<WeenieClassName> imbueSalvage = new HashSet<WeenieClassName>()
+        public static readonly HashSet<CustomSalvageWeenies> imbueSalvage = new HashSet<CustomSalvageWeenies>()
         {
             // imbue salvages (not rend salvage)
-            WeenieClassName.W_MATERIALDIAMOND_CLASS,
-            WeenieClassName.W_MATERIALRUBY_CLASS,
-            WeenieClassName.W_MATERIALGROMNIEHIDE_CLASS,
-            WeenieClassName.W_MATERIALHEMATITE_CLASS,
-            WeenieClassName.W_MATERIALAMBER_CLASS,
-            WeenieClassName.W_MATERIALAGATE_CLASS,
-            WeenieClassName.W_MATERIALAZURITE_CLASS,
-            WeenieClassName.W_MATERIALBLOODSTONE_CLASS,
-            WeenieClassName.W_MATERIALCARNELIAN_CLASS,
-            WeenieClassName.W_MATERIALCITRINE_CLASS,
-            WeenieClassName.W_MATERIALLAPISLAZULI_CLASS,
-            WeenieClassName.W_MATERIALLAVENDERJADE_CLASS,
-            WeenieClassName.W_MATERIALMALACHITE_CLASS,
-            WeenieClassName.W_MATERIALPERIDOT_CLASS,
-            WeenieClassName.W_MATERIALPYREAL_CLASS,
-            WeenieClassName.W_MATERIALREDJADE_CLASS,
-            WeenieClassName.W_MATERIALROSEQUARTZ_CLASS,
-            WeenieClassName.W_MATERIALSAPPHIRE_CLASS,
-            WeenieClassName.W_MATERIALSMOKYQUARTZ_CLASS,
-            WeenieClassName.W_MATERIALYELLOWTOPAZ_CLASS,
-            WeenieClassName.W_MATERIALZIRCON_CLASS
+            CustomSalvageWeenies.custommaterialagate,
+            CustomSalvageWeenies.custommaterialamber,
+            CustomSalvageWeenies.custommaterialaquamarine,
+            CustomSalvageWeenies.custommaterialazurite,
+            CustomSalvageWeenies.custommaterialblackgarnet,
+            CustomSalvageWeenies.custommaterialblackopal,
+            CustomSalvageWeenies.custommaterialbloodstone,
+            CustomSalvageWeenies.custommaterialcarnelian,
+            CustomSalvageWeenies.custommaterialcitrine,
+            CustomSalvageWeenies.custommaterialcopper,
+            CustomSalvageWeenies.custommaterialdiamond,
+            CustomSalvageWeenies.custommaterialebony,
+            CustomSalvageWeenies.custommaterialgromniehide,
+            CustomSalvageWeenies.custommaterialhematite,
+            CustomSalvageWeenies.custommaterialimperialtopaz,
+            CustomSalvageWeenies.custommaterialjet,
+            CustomSalvageWeenies.custommateriallapislazuli,
+            CustomSalvageWeenies.custommateriallavenderjade,
+            CustomSalvageWeenies.custommaterialmalachite,
+            CustomSalvageWeenies.custommaterialperidot,
+            CustomSalvageWeenies.custommaterialporcelain,
+            CustomSalvageWeenies.custommaterialpyreal,
+            CustomSalvageWeenies.custommaterialredgarnet,
+            CustomSalvageWeenies.custommaterialredjade,
+            CustomSalvageWeenies.custommaterialrosequartz,
+            CustomSalvageWeenies.custommaterialruby,
+            CustomSalvageWeenies.custommaterialsapphire,
+            CustomSalvageWeenies.custommaterialsilk,
+            CustomSalvageWeenies.custommaterialsilver,
+            CustomSalvageWeenies.custommaterialsmokeyquartz,
+            CustomSalvageWeenies.custommaterialsunstone,
+            CustomSalvageWeenies.custommaterialteak,
+            CustomSalvageWeenies.custommaterialwhitesapphire,
+            CustomSalvageWeenies.custommaterialyellowtopaz,
+            CustomSalvageWeenies.custommaterialzircon,
+            CustomSalvageWeenies.custommaterialemerald,
+            CustomSalvageWeenies.custommaterialfireopal
         };
 
         public static double? oneHundredPercentSuccess()
@@ -210,6 +226,7 @@ namespace ACE.Server.Utils
                 case CustomSalvageWeenies.custommaterialsmokeyquartz:
                 case CustomSalvageWeenies.custommaterialcitrine:
                 case CustomSalvageWeenies.custommaterialcarnelian:
+                case CustomSalvageWeenies.custommateriallapislazuli:
 
                     // ensure item is generic (jewelry), and has workmanship
                     if (target.WeenieType != WeenieType.Generic || target.Workmanship == null || target.ValidLocations == EquipMask.TrinketOne)
@@ -297,6 +314,7 @@ namespace ACE.Server.Utils
             { CustomSalvageWeenies.custommaterialsmokeyquartz,    4447 },
             { CustomSalvageWeenies.custommaterialcitrine,         4439 },
             { CustomSalvageWeenies.custommaterialcarnelian,       4443 },
+            { CustomSalvageWeenies.custommateriallapislazuli,     4444 },
 
             { CustomSalvageWeenies.custommaterialsteel,           3860 },
 
