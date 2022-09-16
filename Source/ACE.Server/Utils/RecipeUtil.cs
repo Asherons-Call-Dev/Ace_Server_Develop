@@ -199,17 +199,17 @@ namespace ACE.Server.Utils
                     recipe = DatabaseManager.World.GetCachedRecipe(3848);
                     break;
 
-                //case CustomSalvageWeenies.W_MATERIALROSEQUARTZ_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALREDJADE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALMALACHITE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALLAVENDERJADE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALHEMATITE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALBLOODSTONE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALAZURITE_CLASS:
+                case CustomSalvageWeenies.custommaterialrosequartz:
+                case CustomSalvageWeenies.custommaterialredjade:
+                case CustomSalvageWeenies.custommaterialmalachite:
+                case CustomSalvageWeenies.custommateriallavenderjade:
+                case CustomSalvageWeenies.custommaterialhematite:
+                case CustomSalvageWeenies.custommaterialbloodstone:
+                case CustomSalvageWeenies.custommaterialazurite:
                 case CustomSalvageWeenies.custommaterialagate:
-                //case CustomSalvageWeenies.W_MATERIALSMOKYQUARTZ_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALCITRINE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALCARNELIAN_CLASS:
+                case CustomSalvageWeenies.custommaterialsmokeyquartz:
+                case CustomSalvageWeenies.custommaterialcitrine:
+                case CustomSalvageWeenies.custommaterialcarnelian:
 
                     // ensure item is generic (jewelry), and has workmanship
                     if (target.WeenieType != WeenieType.Generic || target.Workmanship == null || target.ValidLocations == EquipMask.TrinketOne)
@@ -226,8 +226,8 @@ namespace ACE.Server.Utils
                 case CustomSalvageWeenies.custommaterialreedsharkhide:
                 case CustomSalvageWeenies.custommaterialwool:
                 case CustomSalvageWeenies.custommaterialmarble:
-                //case CustomSalvageWeenies.W_MATERIALSILVER_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALCOPPER_CLASS:
+                case CustomSalvageWeenies.custommaterialsilver:
+                case CustomSalvageWeenies.custommaterialcopper:
 
                     // ensure loot-generated item w/ armor level
                     if (target.Workmanship == null || !target.HasArmorLevel())
@@ -249,70 +249,31 @@ namespace ACE.Server.Utils
                     recipe = DatabaseManager.World.GetCachedRecipe(SourceToRecipe[(CustomSalvageWeenies)source.WeenieClassId]);
                     break;
 
-                //case CustomSalvageWeenies.W_MATERIALPERIDOT_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALYELLOWTOPAZ_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALZIRCON_CLASS:
+                case CustomSalvageWeenies.custommaterialperidot:
+                case CustomSalvageWeenies.custommaterialyellowtopaz:
+                case CustomSalvageWeenies.custommaterialzircon:
 
-                //case CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFPERIDOT_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFYELLOWTOPAZ_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFZIRCON_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALACE36634FOOLPROOFPERIDOT:
-                //case CustomSalvageWeenies.W_MATERIALACE36635FOOLPROOFYELLOWTOPAZ:
-                //case CustomSalvageWeenies.W_MATERIALACE36636FOOLPROOFZIRCON:
+                    // can be applied to anything with AL, including shields (according to base recipe)
+                    if (!target.HasArmorLevel() || target.Workmanship == null)
+                        return null;
 
-                //    // can be applied to anything with AL, including shields (according to base recipe)
-                //    if (!target.HasArmorLevel() || target.Workmanship == null)
-                //        return null;
+                    recipe = DatabaseManager.World.GetCachedRecipe(SourceToRecipe[(CustomSalvageWeenies)source.WeenieClassId]);
+                    break;
 
-                //    recipe = DatabaseManager.World.GetCachedRecipe(SourceToRecipe[(CustomSalvageWeenies)source.WeenieClassId]);
-                //    break;
+                    //// imbues - foolproof handled in regular imbue code
+                    case CustomSalvageWeenies.custommaterialaquamarine:
+                    case CustomSalvageWeenies.custommaterialblackgarnet:
+                    case CustomSalvageWeenies.custommaterialblackopal:
+                    case CustomSalvageWeenies.custommaterialemerald:
+                    case CustomSalvageWeenies.custommaterialfireopal:
+                    case CustomSalvageWeenies.custommaterialimperialtopaz:
+                    case CustomSalvageWeenies.custommaterialjet:
+                    case CustomSalvageWeenies.custommaterialredgarnet:
+                    case CustomSalvageWeenies.custommaterialsunstone:
+                    case CustomSalvageWeenies.custommaterialwhitesapphire:
 
-                //// imbues - foolproof handled in regular imbue code
-                //case CustomSalvageWeenies.W_MATERIALAQUAMARINE100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALAQUAMARINE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALBLACKGARNET100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALBLACKGARNET_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALBLACKOPAL100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALBLACKOPAL_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALEMERALD100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALEMERALD_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALFIREOPAL100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALFIREOPAL_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALIMPERIALTOPAZ100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALIMPERIALTOPAZ_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALJET100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALJET_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALREDGARNET100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALREDGARNET_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALSUNSTONE100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALSUNSTONE_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALWHITESAPPHIRE100_CLASS:
-                //case CustomSalvageWeenies.W_MATERIALWHITESAPPHIRE_CLASS:
-
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFAQUAMARINE_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFBLACKGARNET_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFBLACKOPAL_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFEMERALD_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFFIREOPAL_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFIMPERIALTOPAZ_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFJET_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFREDGARNET_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFSUNSTONE_CLASS:
-                //case WeenieClassName.W_MATERIALRAREFOOLPROOFWHITESAPPHIRE_CLASS:
-
-                //case WeenieClassName.W_MATERIALACE36619FOOLPROOFAQUAMARINE:
-                //case WeenieClassName.W_MATERIALACE36620FOOLPROOFBLACKGARNET:
-                //case WeenieClassName.W_MATERIALACE36621FOOLPROOFBLACKOPAL:
-                //case WeenieClassName.W_MATERIALACE36622FOOLPROOFEMERALD:
-                //case WeenieClassName.W_MATERIALACE36623FOOLPROOFFIREOPAL:
-                //case WeenieClassName.W_MATERIALACE36624FOOLPROOFIMPERIALTOPAZ:
-                //case WeenieClassName.W_MATERIALACE36625FOOLPROOFJET:
-                //case WeenieClassName.W_MATERIALACE36626FOOLPROOFREDGARNET:
-                //case WeenieClassName.W_MATERIALACE36627FOOLPROOFSUNSTONE:
-                //case WeenieClassName.W_MATERIALACE36628FOOLPROOFWHITESAPPHIRE:
-
-                //    recipe = DatabaseManager.World.GetCachedRecipe(SourceToRecipe[(WeenieClassName)source.WeenieClassId]);
-                //    break;
+                    recipe = DatabaseManager.World.GetCachedRecipe(SourceToRecipe[(CustomSalvageWeenies)source.WeenieClassId]);
+                    break;
             }
 
             return recipe;
@@ -320,24 +281,23 @@ namespace ACE.Server.Utils
 
         public static Dictionary<CustomSalvageWeenies, uint> SourceToRecipe = new Dictionary<CustomSalvageWeenies, uint>()
         {
-            { CustomSalvageWeenies.custommaterialiron,         3853 },
-            { CustomSalvageWeenies.custommaterialgranite,      3852 },
+            { CustomSalvageWeenies.custommaterialiron,            3853 },
+            { CustomSalvageWeenies.custommaterialgranite,         3852 },
 
-            { CustomSalvageWeenies.custommaterialvelvet,       3861 },
+            { CustomSalvageWeenies.custommaterialvelvet,          3861 },
 
-            //{ CustomSalvageWeenies.W_MATERIALROSEQUARTZ_CLASS,      4446 },
-            //{ CustomSalvageWeenies.W_MATERIALREDJADE_CLASS,         4442 },
-            //{ CustomSalvageWeenies.W_MATERIALMALACHITE_CLASS,       4438 },
-            //{ CustomSalvageWeenies.W_MATERIALLAVENDERJADE_CLASS,    4441 },
-            //{ CustomSalvageWeenies.W_MATERIALHEMATITE_CLASS,        4440 },
-            //{ CustomSalvageWeenies.W_MATERIALBLOODSTONE_CLASS,      4448 },
-            //{ CustomSalvageWeenies.W_MATERIALAZURITE_CLASS,         4437 },
-            { CustomSalvageWeenies.custommaterialagate,        4445 },
-            //{ CustomSalvageWeenies.W_MATERIALSMOKYQUARTZ_CLASS,     4447 },
-            //{ CustomSalvageWeenies.W_MATERIALCITRINE_CLASS,         4439 },
-            //{ CustomSalvageWeenies.W_MATERIALCARNELIAN_CLASS,       4443 },
+            { CustomSalvageWeenies.custommaterialrosequartz,      4446 },
+            { CustomSalvageWeenies.custommaterialredjade,         4442 },
+            { CustomSalvageWeenies.custommaterialmalachite,       4438 },
+            { CustomSalvageWeenies.custommateriallavenderjade,    4441 },
+            { CustomSalvageWeenies.custommaterialhematite,        4440 },
+            { CustomSalvageWeenies.custommaterialbloodstone,      4448 },
+            { CustomSalvageWeenies.custommaterialazurite,         4437 },
+            { CustomSalvageWeenies.custommaterialagate,           4445 },
+            { CustomSalvageWeenies.custommaterialsmokeyquartz,    4447 },
+            { CustomSalvageWeenies.custommaterialcitrine,         4439 },
+            { CustomSalvageWeenies.custommaterialcarnelian,       4443 },
 
-            //{ WeenieClassName.W_MATERIALSTEEL50_CLASS,         3860 },
             { CustomSalvageWeenies.custommaterialsteel,           3860 },
 
             { CustomSalvageWeenies.custommaterialalabaster,       3846 },
@@ -347,62 +307,23 @@ namespace ACE.Server.Utils
             { CustomSalvageWeenies.custommaterialceramic,         3850 },
             { CustomSalvageWeenies.custommaterialwool,            3862 },
             { CustomSalvageWeenies.custommaterialreedsharkhide,   3859 },
-            //{ CustomSalvageWeenies.W_MATERIALSILVER_CLASS,          4427 },
-            //{ CustomSalvageWeenies.W_MATERIALCOPPER_CLASS,          4428 },
+            { CustomSalvageWeenies.custommaterialsilver,          4427 },
+            { CustomSalvageWeenies.custommaterialcopper,          4428 },
 
-            //{ CustomSalvageWeenies.W_MATERIALPERIDOT_CLASS,         4435 },
-            //{ CustomSalvageWeenies.W_MATERIALYELLOWTOPAZ_CLASS,     4434 },
-            //{ CustomSalvageWeenies.W_MATERIALZIRCON_CLASS,          4433 },
+            { CustomSalvageWeenies.custommaterialperidot,         4435 },
+            { CustomSalvageWeenies.custommaterialyellowtopaz,     4434 },
+            { CustomSalvageWeenies.custommaterialzircon,          4433 },
 
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFPERIDOT_CLASS,     8016 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36634FOOLPROOFPERIDOT,       8016 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFYELLOWTOPAZ_CLASS, 8015 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36635FOOLPROOFYELLOWTOPAZ,   8015 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFZIRCON_CLASS,      8014 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36636FOOLPROOFZIRCON,        8014 },
-
-            //{ CustomSalvageWeenies.W_MATERIALAQUAMARINE100_CLASS,              4436 },
-            //{ CustomSalvageWeenies.W_MATERIALAQUAMARINE_CLASS,                 4436 },
-            //{ CustomSalvageWeenies.W_MATERIALBLACKGARNET100_CLASS,             4449 },
-            //{ CustomSalvageWeenies.W_MATERIALBLACKGARNET_CLASS,                4449 },
-            //{ CustomSalvageWeenies.W_MATERIALBLACKOPAL100_CLASS,               3863 },
-            //{ CustomSalvageWeenies.W_MATERIALBLACKOPAL_CLASS,                  3863 },
-            //{ CustomSalvageWeenies.W_MATERIALEMERALD100_CLASS,                 4450 },
-            //{ CustomSalvageWeenies.W_MATERIALEMERALD_CLASS,                    4450 },
-            //{ CustomSalvageWeenies.W_MATERIALFIREOPAL100_CLASS,                3864 },
-            //{ CustomSalvageWeenies.W_MATERIALFIREOPAL_CLASS,                   3864 },
-            //{ CustomSalvageWeenies.W_MATERIALIMPERIALTOPAZ100_CLASS,           4454 },
-            //{ CustomSalvageWeenies.W_MATERIALIMPERIALTOPAZ_CLASS,              4454 },
-            //{ CustomSalvageWeenies.W_MATERIALJET100_CLASS,                     4451 },
-            //{ CustomSalvageWeenies.W_MATERIALJET_CLASS,                        4451 },
-            //{ CustomSalvageWeenies.W_MATERIALREDGARNET100_CLASS,               4452 },
-            //{ CustomSalvageWeenies.W_MATERIALREDGARNET_CLASS,                  4452 },
-            //{ CustomSalvageWeenies.W_MATERIALSUNSTONE100_CLASS,                3865 },
-            //{ CustomSalvageWeenies.W_MATERIALSUNSTONE_CLASS,                   3865 },
-            //{ CustomSalvageWeenies.W_MATERIALWHITESAPPHIRE100_CLASS,           4453 },
-            //{ CustomSalvageWeenies.W_MATERIALWHITESAPPHIRE_CLASS,              4453 },
-
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFAQUAMARINE_CLASS,    8004 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFBLACKGARNET_CLASS,   8005 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFBLACKOPAL_CLASS,     8011 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFEMERALD_CLASS,       8006 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFFIREOPAL_CLASS,      8012 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFIMPERIALTOPAZ_CLASS, 8010 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFJET_CLASS,           8007 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFREDGARNET_CLASS,     8008 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFSUNSTONE_CLASS,      8013 },
-            //{ CustomSalvageWeenies.W_MATERIALRAREFOOLPROOFWHITESAPPHIRE_CLASS, 8009 },
-
-            //{ CustomSalvageWeenies.W_MATERIALACE36619FOOLPROOFAQUAMARINE,      8004 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36620FOOLPROOFBLACKGARNET,     8005 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36621FOOLPROOFBLACKOPAL,       8011 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36622FOOLPROOFEMERALD,         8006 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36623FOOLPROOFFIREOPAL,        8012 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36624FOOLPROOFIMPERIALTOPAZ,   8010 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36625FOOLPROOFJET,             8007 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36626FOOLPROOFREDGARNET,       8008 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36627FOOLPROOFSUNSTONE,        8013 },
-            //{ CustomSalvageWeenies.W_MATERIALACE36628FOOLPROOFWHITESAPPHIRE,   8009 },
+            { CustomSalvageWeenies.custommaterialaquamarine,                 4436 },
+            { CustomSalvageWeenies.custommaterialblackgarnet,                4449 },
+            { CustomSalvageWeenies.custommaterialblackopal,                  3863 },
+            { CustomSalvageWeenies.custommaterialemerald,                    4450 },
+            { CustomSalvageWeenies.custommaterialfireopal,                   3864 },
+            { CustomSalvageWeenies.custommaterialimperialtopaz,              4454 },
+            { CustomSalvageWeenies.custommaterialjet,                        4451 },
+            { CustomSalvageWeenies.custommaterialredgarnet,                  4452 },
+            { CustomSalvageWeenies.custommaterialsunstone,                   3865 },
+            { CustomSalvageWeenies.custommaterialwhitesapphire,              4453 },
         };
 
     }
