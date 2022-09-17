@@ -67,6 +67,7 @@ namespace ACE.Server.Utils
         custommaterialyellowtopaz = 100114,
         custommaterialzircon = 100115,
         custommaterialemerald = 100150,
-        custommaterialfireopal = 100151
+        custommaterialfireopal = 100151,
+        custommaterialgold = 100152
     }
 }
