@@ -139,7 +139,7 @@ namespace ACE.Server.Managers
         {
             if (recipe.IsTinkering())
             {
-                if (Utils.RecipeUtil.imbueSalvage.Contains((WeenieClassName)source.WeenieClassId))
+                if (Utils.RecipeUtil.imbueSalvage.Contains((Utils.CustomSalvageWeenies)source.WeenieClassId))
                 {
                     if (player.AugmentationBonusImbueChance > 0)
                     {
