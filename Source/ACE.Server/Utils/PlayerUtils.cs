@@ -22,6 +22,21 @@ namespace ACE.Server.Utils
 {
     internal class PlayerUtils
     {
+        public static bool isAddRemoveSquelch = false;
+        public static bool isAddRemoveFriend = false;
+        public static bool isAddRemoveHouseGuest = false;
+        public static bool isAddRemoveHouseStorage = false;
+        public static bool isGameActionTell = false;
+        public static bool isGameMessageTurbineChat = false;
+        public static bool isGameActionTalkDirect = false;
+        public static bool isGameAction = false;
+        public static bool isGameActionBuyHouse = false;
+        public static bool isGameEventMessage = false;
+        public static bool isWorldObjectCreation = false;
+
+        public static Dictionary<String, String> playerNameMap = new Dictionary<String, String>();
+
+
         public static void BuffPlayerLevelSeven(Player player, bool self = true, ulong maxLevel = 7)
         {
             var SelfOrOther = self ? "Self" : "Other";
@@ -505,44 +520,137 @@ namespace ACE.Server.Utils
             return false;
         }
 
-        public static void AssignPlayerRandomizedName(Player player)
-        {
-            //Guid g = System.Guid.NewGuid();
-            //String randomName = System.Guid.NewGuid().ToString().Substring(0, 9);
-            //randomName = Regex.Replace(randomName, "[^a-zA-Z]+", "");
-            //player.Name = randomName;
-
-            Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            player.Name = new string(Enumerable.Repeat(chars, 10)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-
-        }
-
-        public static string GetRandomizedPlayerName()
+        public static void SetRandomizedPlayerName(Player player)
         {
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, 10)
+            string randomizedName = new string(Enumerable.Repeat(chars, 10)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+            player.modifiedName = randomizedName;
+            AddPlayerNameToMap(player.Name, player.modifiedName);
         }
 
-        //public static void SetRandomizedPlayerName(Player player)
-        //{           
-        //    Random random = new Random();
-        //    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        //    player.modifiedName = new string(Enumerable.Repeat(chars, 10)
-        //        .Select(s => s[random.Next(s.Length)]).ToArray());
-        //}
-
-        public static void SetIsDatabaseEvent(bool isDatabaseEvent)
+        public static void AddPlayerNameToMap(String playerName, String modifiedName)
         {
-           
+            if (!playerNameMap.ContainsKey(playerName))
+            {
+                playerNameMap.Add(playerName, modifiedName);
+            }
+            else
+            {
+                playerNameMap[playerName] = modifiedName;
+            }
+        }
+
+        public static void RemovePlayerNameFromMap(String playerName)
+        {
+            if (playerNameMap.ContainsKey(playerName))
+            {
+                playerNameMap.Remove(playerName);
+            }
+            else if (playerNameMap.ContainsValue(playerName))
+            {
+                var kvp = playerNameMap.First(kvp => kvp.Value == playerName);
+                playerNameMap.Remove(kvp.Key);
+            }
         }
 
         public static void ResetPlayerName(Player player)
         {
             player.Name = player.Character.Name;
+        }
+
+        public static String GetPlayerName(String playerName)
+        {
+            if (isWorldObjectCreation)
+            {
+                return playerName;
+            }
+            else if (isGameActionBuyHouse)
+            {
+                return GetAnonymousName();
+            }
+            else
+            {
+                if (playerNameMap.ContainsKey(playerName))
+                {
+                    if (playerNameMap.TryGetValue(playerName, out var value))
+                    {
+                        return value;
+                    }
+
+                    return playerName;
+                }
+                else
+                {
+                    return playerName;
+                }              
+            }
+        }
+
+        public static String GetAnonymousName()
+        {
+            return "Anonymous";
+        }
+
+        public static String GetFriendName(IPlayer player)
+        {
+            if (player != null)
+            {
+                if (player.GetType() == typeof(OfflinePlayer))
+                {
+                    return GetAnonymousName();
+                }
+                else if (player.GetType() == typeof(Player))
+                {
+                    Player friend = (Player)player;
+
+                    if (friend.modifiedName != null)
+                    {
+                        return friend.modifiedName;
+                    }
+                    else
+                    {
+                        return GetAnonymousName();
+                    }
+                }
+            }
+
+            return "";
+        }
+
+        public static bool IsReturnModifiedName()
+        {
+            if (isGameAction)
+            {
+                return true;
+            }
+            else if (isGameMessageTurbineChat)
+            {
+                return true;
+            }
+            //if (isAddRemoveSquelch)
+            //{
+            //    return true;
+            //}
+            //else if (isAddRemoveFriend)
+            //{
+            //    return true;
+            //}
+            //else if (isGameActionTell)
+            //{
+            //    return true;
+            //}
+            //else if (isGameMessageTurbineChat)
+            //{
+            //    return true;
+            //}
+            //else if (isGameActionTalkDirect)
+            //{
+            //    return true;
+            //}
+
+            return false;
         }
 
         //public CharacterName GetCharacterName(uint characterId)

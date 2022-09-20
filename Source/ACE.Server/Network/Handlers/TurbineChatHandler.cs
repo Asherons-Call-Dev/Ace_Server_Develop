@@ -109,7 +109,9 @@ namespace ACE.Server.Network.Handlers
                 if (chatType != adjustedchatType)
                     log.Debug($"[CHAT] ChatType ({chatType}) was adjusted to {adjustedchatType} | ChatNetworkBlobDispatchType: {chatBlobDispatchType}");
 
+                Utils.PlayerUtils.isGameMessageTurbineChat = true;
                 var gameMessageTurbineChat = new GameMessageTurbineChat(ChatNetworkBlobType.NETBLOB_EVENT_BINARY, ChatNetworkBlobDispatchType.ASYNCMETHOD_SENDTOROOMBYNAME, adjustedChannelID, session.Player.Name, message, senderID, adjustedchatType);
+                Utils.PlayerUtils.isGameMessageTurbineChat = false;
 
                 if (adjustedChannelID > TurbineChatChannel.Olthoi || adjustedChannelID == TurbineChatChannel.Allegiance) // Channel must be an allegiance channel
                 {

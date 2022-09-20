@@ -8,7 +8,9 @@ namespace ACE.Server.Network.GameAction.Actions
         {
             uint friendGuid = message.Payload.ReadUInt32();
 
+            Utils.PlayerUtils.isAddRemoveFriend = true;
             session.Player.HandleActionRemoveFriend(friendGuid);
+            Utils.PlayerUtils.isAddRemoveFriend = false;
         }
     }
 }

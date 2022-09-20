@@ -218,7 +218,7 @@ namespace ACE.Server.Managers
                 session.Player.Location = new Position(session.Player.Sanctuary);
 
             //Utils.PlayerUtils.AssignPlayerRandomizedName(player);
-            //Utils.PlayerUtils.SetRandomizedPlayerName(player);
+            Utils.PlayerUtils.SetRandomizedPlayerName(player);
 
             session.Player.PlayerEnterWorld();
 

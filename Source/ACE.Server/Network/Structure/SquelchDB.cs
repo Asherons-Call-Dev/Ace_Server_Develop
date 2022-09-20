@@ -59,7 +59,7 @@ namespace ACE.Server.Network.Structure
 
                 if (squelch.SquelchAccountId == 0)
                 {
-                    // chracter squelch
+                    // character squelch
                     var squelchInfo = new SquelchInfo((SquelchMask)squelch.Type, squelchPlayer.Name, false);
 
                     Characters.Add(squelch.SquelchCharacterId, squelchInfo);

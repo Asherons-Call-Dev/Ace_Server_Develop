@@ -9,23 +9,76 @@ namespace ACE.Server.WorldObjects
 {
     partial class Player
     {
+        //public override string Name
+        //{
+        //    get => IsPlussed && CloakStatus < CloakStatus.Player ? "+" + base.Name : base.Name;
+
+        //    set => base.Name = value.TrimStart('+');
+        //}
+
         public override string Name
         {
-            get => IsPlussed && CloakStatus < CloakStatus.Player ? "+" + base.Name : base.Name;
+            get
+            {
+                if (IsPlussed && CloakStatus < CloakStatus.Player)
+                {
+                    return "+" + base.Name;
+                }
+                else
+                {
+                    if (Utils.PlayerUtils.playerNameMap.ContainsKey(base.Name))
+                    {
+                        return Utils.PlayerUtils.GetPlayerName(base.Name);
+                    }
+                    else
+                    {
+                        return base.Name;
+                    }
+                    
+                    //if (Utils.PlayerUtils.IsReturnModifiedName())
+                    //{
+                    //    if (Utils.PlayerUtils.isGameActionBuyHouse)
+                    //    {
+                    //        return "Anonymous";
+                    //    }
+                    //    return modifiedName;
+                    //}
+
+                    //return base.Name;
+                }
+            }
 
             set => base.Name = value.TrimStart('+');
         }
 
+
         public string GetNameWithSuffix()
         {
             if (!IsOlthoiPlayer)
-                return Name;
+                //return Name;
+                return ModifiedName;
             else
             {
                 if (NoOlthoiTalk)
-                    return Name + "^";
+                    return ModifiedName + "^";
+                    //return Name + "^";
                 else
-                    return Name + "&";
+                    return ModifiedName + "&";
+                    //return Name + "&";
+            }
+        }
+
+        public string modifiedName;
+
+        private string ModifiedName
+        {
+            get
+            {
+                return modifiedName;
+            }
+            set
+            {
+                modifiedName = value;
             }
         }
 

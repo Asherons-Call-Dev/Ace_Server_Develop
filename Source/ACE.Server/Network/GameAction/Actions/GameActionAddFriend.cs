@@ -9,7 +9,9 @@ namespace ACE.Server.Network.GameAction.Actions
         {
             var friendName = message.Payload.ReadString16L().Trim();
 
+            Utils.PlayerUtils.isAddRemoveFriend = true;
             session.Player.HandleActionAddFriend(friendName);
+            Utils.PlayerUtils.isAddRemoveFriend = false;
         }
     }
 }

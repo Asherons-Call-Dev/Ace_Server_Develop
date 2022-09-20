@@ -103,6 +103,7 @@ namespace ACE.Server.WorldObjects
         /// </summary>
         protected WorldObject(Weenie weenie, ObjectGuid guid)
         {
+            Utils.PlayerUtils.isWorldObjectCreation = true;
             Weenie = weenie;
             Biota = ACE.Entity.Adapter.WeenieConverter.ConvertToBiota(weenie, guid.Full, false, true);
             Guid = guid;
@@ -113,6 +114,7 @@ namespace ACE.Server.WorldObjects
             InitializeHeartbeats();
 
             CreationTimestamp = (int)Time.GetUnixTime();
+            Utils.PlayerUtils.isWorldObjectCreation = false;
         }
 
         /// <summary>

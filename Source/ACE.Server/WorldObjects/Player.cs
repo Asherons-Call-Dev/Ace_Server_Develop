@@ -642,6 +642,7 @@ namespace ACE.Server.WorldObjects
             SetPropertiesAtLogOut();
             SavePlayerToDatabase();
             PlayerManager.SwitchPlayerFromOnlineToOffline(this);
+            Utils.PlayerUtils.RemovePlayerNameFromMap(Name);
 
             log.Debug($"[LOGOUT] Account {Account.AccountName} exited the world with character {Name} (0x{Guid}) at {DateTime.Now}.");
         }
@@ -1154,7 +1155,8 @@ namespace ACE.Server.WorldObjects
             {
                 IsBusy = true;
 
-                EnqueueBroadcast(new GameMessageSystemChat($"{Name} is looking for a fight!", ChatMessageType.Broadcast), LocalBroadcastRange);
+                //EnqueueBroadcast(new GameMessageSystemChat($"{Name} is looking for a fight!", ChatMessageType.Broadcast), LocalBroadcastRange);
+                EnqueueBroadcast(new GameMessageSystemChat($"{modifiedName} is looking for a fight!", ChatMessageType.Broadcast), LocalBroadcastRange);
 
                 // perform pk lite entry motion / effect
                 SendMotionAsCommands(MotionCommand.EnterPKLite, MotionStance.NonCombat);

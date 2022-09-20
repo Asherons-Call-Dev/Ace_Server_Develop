@@ -67,7 +67,8 @@ namespace ACE.Server.Network.GameEvent.Events
             foreach (var f in friendList)
             {
                 var player = PlayerManager.FindByGuid(f.FriendId, out var isOnline);
-                var friendName = (player != null) ? player.Name : "";
+                //var friendName = (player != null) ? player.Name : "";
+                var friendName = Utils.PlayerUtils.GetFriendName(player);
 
                 if (overrideOnlineStatus)
                     isOnline = onlineStatusVal;

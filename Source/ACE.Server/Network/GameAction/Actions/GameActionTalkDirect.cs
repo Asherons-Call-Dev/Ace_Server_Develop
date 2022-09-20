@@ -26,6 +26,7 @@ namespace ACE.Server.Network.GameAction.Actions
                 return;
             }
 
+            Utils.PlayerUtils.isGameActionTalkDirect = true;
             session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {creature.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
 
             if (creature is Player targetPlayer)
@@ -48,6 +49,8 @@ namespace ACE.Server.Network.GameAction.Actions
             }
             else
                 creature.EmoteManager.OnTalkDirect(session.Player, message);
+
+            Utils.PlayerUtils.isGameActionTalkDirect = false;
         }
     }
 }

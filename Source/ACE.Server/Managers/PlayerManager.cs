@@ -426,6 +426,12 @@ namespace ACE.Server.Managers
             {
                 var onlinePlayer = onlinePlayers.Values.FirstOrDefault(p => p.Name.TrimStart('+').Equals(name.TrimStart('+'), StringComparison.OrdinalIgnoreCase));
 
+                if (onlinePlayer == null)
+                {
+                    List<String> list = onlinePlayers.Values.Select(p => p.modifiedName).ToList();
+                    onlinePlayer = onlinePlayers.Values.FirstOrDefault(p => p.modifiedName.TrimStart('+').Equals(name.TrimStart('+'), StringComparison.OrdinalIgnoreCase));
+                }
+
                 if (onlinePlayer != null)
                 {
                     isOnline = true;
@@ -435,6 +441,11 @@ namespace ACE.Server.Managers
                 isOnline = false;
 
                 var offlinePlayer = offlinePlayers.Values.FirstOrDefault(p => p.Name.TrimStart('+').Equals(name.TrimStart('+'), StringComparison.OrdinalIgnoreCase) && !p.IsPendingDeletion);
+
+                //if (offlinePlayer == null)
+                //{
+                //    offlinePlayer = offlinePlayers.Values.FirstOrDefault(p => p.modifiedName.TrimStart('+').Equals(name.TrimStart('+'), StringComparison.OrdinalIgnoreCase));
+                //}
 
                 if (offlinePlayer != null)
                     return offlinePlayer;

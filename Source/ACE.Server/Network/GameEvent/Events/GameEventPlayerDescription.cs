@@ -150,7 +150,19 @@ namespace ACE.Server.Network.GameEvent.Events
                         if (Session.Player.IsPlussed && Session.Player.CloakStatus < CloakStatus.Player)
                             Writer.WriteString16L("+" + property.Value);
                         else
+                        {
                             Writer.WriteString16L(property.Value);
+                            //if (Session.Player.modifiedName != null)
+                            //{
+                            //    Writer.WriteString16L(Session.Player.modifiedName);
+                            //}
+                            //else
+                            //{
+                            //    Writer.WriteString16L(property.Value);
+                            //}
+                        }
+                            
+                            
                     }
                     else
                         Writer.WriteString16L(property.Value);

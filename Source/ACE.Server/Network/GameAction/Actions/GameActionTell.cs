@@ -33,13 +33,15 @@ namespace ACE.Server.Network.GameAction.Actions
                 return;
             }
 
+            Utils.PlayerUtils.isGameActionTell = true;
+
             if (session.Player != targetPlayer)
                 session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {targetPlayer.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
 
             if (targetPlayer.SquelchManager.Squelches.Contains(session.Player, ChatMessageType.Tell))
             {
                 session.Network.EnqueueSend(new GameEventWeenieErrorWithString(session, WeenieErrorWithString.MessageBlocked_,$"{target} has you squelched."));
-                //log.Warn($"Tell from {session.Player.Name} (0x{session.Player.Guid.ToString()}) to {targetPlayer.Name} (0x{targetPlayer.Guid.ToString()}) blocked due to squelch");
+                Utils.PlayerUtils.isGameActionTell = false;
                 return;
             }
 
@@ -51,6 +53,7 @@ namespace ACE.Server.Network.GameAction.Actions
 
             var tell = new GameEventTell(targetPlayer.Session, message, session.Player.GetNameWithSuffix(), session.Player.Guid.Full, targetPlayer.Guid.Full, ChatMessageType.Tell);
             targetPlayer.Session.Network.EnqueueSend(tell);
+            Utils.PlayerUtils.isGameActionTell = false;
         }
     }
 }
