@@ -33,6 +33,7 @@ namespace ACE.Server.Utils
         public static bool isGameActionBuyHouse = false;
         public static bool isGameEventMessage = false;
         public static bool isWorldObjectCreation = false;
+        public static bool isAddFriendByActualName = false;
 
         public static Dictionary<String, String> playerNameMap = new Dictionary<String, String>();
 
@@ -570,6 +571,10 @@ namespace ACE.Server.Utils
             {
                 return GetAnonymousName();
             }
+            else if (isAddFriendByActualName)
+            {
+                return playerName;
+            }
             else
             {
                 if (playerNameMap.ContainsKey(playerName))
@@ -599,11 +604,21 @@ namespace ACE.Server.Utils
             {
                 if (player.GetType() == typeof(OfflinePlayer))
                 {
+                    if (isAddFriendByActualName)
+                    {
+                        return player.Name;
+                    }
+
                     return GetAnonymousName();
                 }
                 else if (player.GetType() == typeof(Player))
                 {
                     Player friend = (Player)player;
+
+                    if (isAddFriendByActualName)
+                    {
+                        return friend.Name;
+                    }
 
                     if (friend.modifiedName != null)
                     {

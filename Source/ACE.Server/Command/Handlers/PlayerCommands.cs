@@ -14,7 +14,7 @@ using ACE.Server.Network;
 using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.GameMessages.Messages;
 using ACE.Server.WorldObjects;
-
+using ACE.Database.Models.Shard;
 
 namespace ACE.Server.Command.Handlers
 {
@@ -522,6 +522,16 @@ namespace ACE.Server.Command.Handlers
             msg += "\n\n\n\n";
 
             session.Network.EnqueueSend(new GameMessageSystemChat(msg, ChatMessageType.AdminTell));
+        }
+
+        [CommandHandler("addfriendactual", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Adds friend by actual name")]
+        public static void HandleAddFriendByActualName(Session session, params string[] parameters)
+        {
+            var friendName = string.Join(" ", parameters);
+
+            Utils.PlayerUtils.isAddFriendByActualName = true;
+            session.Player.HandleActionAddFriend(friendName);
+            Utils.PlayerUtils.isAddFriendByActualName = false;
         }
     }
 }

@@ -63,7 +63,7 @@ namespace ACE.Server.Network.GameEvent.Events
                 friendList = new List<CharacterPropertiesFriendList>() { friend };
 
             Writer.Write((uint)friendList.Count);
-
+            
             foreach (var f in friendList)
             {
                 var player = PlayerManager.FindByGuid(f.FriendId, out var isOnline);
