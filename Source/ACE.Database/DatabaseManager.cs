@@ -12,6 +12,8 @@ namespace ACE.Database
 
         public static WorldDatabaseWithEntityCache World { get; } = new WorldDatabaseWithEntityCache();
 
+        public static CustomDatabase Custom { get; } = new CustomDatabase();
+
         private static SerializedShardDatabase serializedShardDb;
 
         public static SerializedShardDatabase Shard { get; private set; }
@@ -55,6 +57,7 @@ namespace ACE.Database
             Shard = serializedShardDb;
 
             shardDb.Exists(true);
+            Custom.Exists(true);
         }
 
         public static bool AutoPromoteNextAccountToAdmin { get; set; }

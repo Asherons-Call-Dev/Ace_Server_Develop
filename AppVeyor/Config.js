@@ -169,6 +169,13 @@
                     "Database": "ace_world",
                         "Username": "AceDev",
                             "Password": "Ginobili#1290"
+        },
+        "Custom": {
+            "Host": "127.0.0.1",
+                "Port": 3306,
+                    "Database": "ace_custom",
+                        "Username": "AceDev",
+                            "Password": "Ginobili#1290"
         }
     },
     // This section can trigger events that may happen before the world starts up, or after it shuts down

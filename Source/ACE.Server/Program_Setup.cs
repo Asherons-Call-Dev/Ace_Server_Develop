@@ -121,6 +121,13 @@ namespace ACE.Server
                 config.MySql.World.Database = variable.Trim();
             Console.WriteLine();
 
+            Console.Write($"Enter the database name for your custom database (default: \"{config.MySql.Custom.Database}\"): ");
+            variable = Console.ReadLine();
+            if (IsRunningInContainer) variable = Environment.GetEnvironmentVariable("ACE_SQL_CUSTOM_DATABASE_NAME");
+            if (!string.IsNullOrWhiteSpace(variable))
+                config.MySql.Custom.Database = variable.Trim();
+            Console.WriteLine();
+
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("Typically, all three databases will be on the same SQL server, is this how you want to proceed? (Y/n) ");
@@ -135,6 +142,7 @@ namespace ACE.Server
                     config.MySql.Authentication.Host = variable.Trim();
                     config.MySql.Shard.Host = variable.Trim();
                     config.MySql.World.Host = variable.Trim();
+                    config.MySql.Custom.Host = variable.Trim();
                 }
                 Console.WriteLine();
 
@@ -145,6 +153,7 @@ namespace ACE.Server
                     config.MySql.Authentication.Port = Convert.ToUInt32(variable.Trim());
                     config.MySql.Shard.Port = Convert.ToUInt32(variable.Trim());
                     config.MySql.World.Port = Convert.ToUInt32(variable.Trim());
+                    config.MySql.Custom.Port = Convert.ToUInt32(variable.Trim());
                 }
                 Console.WriteLine();
             }
@@ -191,6 +200,20 @@ namespace ACE.Server
                 if (!string.IsNullOrWhiteSpace(variable))
                     config.MySql.World.Port = Convert.ToUInt32(variable.Trim());
                 Console.WriteLine();
+
+                Console.Write($"Enter the Host address for your custom database (default: \"{config.MySql.Custom.Host}\"): ");
+                variable = Console.ReadLine();
+                if (IsRunningInContainer) variable = Environment.GetEnvironmentVariable("ACE_SQL_CUSTOM_DATABASE_HOST");
+                if (!string.IsNullOrWhiteSpace(variable))
+                    config.MySql.Custom.Host = variable.Trim();
+                Console.WriteLine();
+
+                Console.Write($"Enter the Port for your custom database (default: \"{config.MySql.Custom.Port}\"): ");
+                variable = Console.ReadLine();
+                if (IsRunningInContainer) variable = Environment.GetEnvironmentVariable("ACE_SQL_CUSTOM_DATABASE_PORT");
+                if (!string.IsNullOrWhiteSpace(variable))
+                    config.MySql.Custom.Port = Convert.ToUInt32(variable.Trim());
+                Console.WriteLine();
             }
 
             Console.WriteLine();
@@ -208,6 +231,7 @@ namespace ACE.Server
                     config.MySql.Authentication.Username = variable.Trim();
                     config.MySql.Shard.Username = variable.Trim();
                     config.MySql.World.Username = variable.Trim();
+                    config.MySql.Custom.Username = variable.Trim();
                 }
                 Console.WriteLine();
 
@@ -219,6 +243,7 @@ namespace ACE.Server
                     config.MySql.Authentication.Password = variable.Trim();
                     config.MySql.Shard.Password = variable.Trim();
                     config.MySql.World.Password = variable.Trim();
+                    config.MySql.Custom.Password = variable.Trim();
                 }
             }
             else
@@ -257,6 +282,17 @@ namespace ACE.Server
                 variable = Console.ReadLine();
                 if (!string.IsNullOrWhiteSpace(variable))
                     config.MySql.World.Password = variable.Trim();
+
+                Console.Write($"Enter the username for your custom database (default: \"{config.MySql.Custom.Username}\"): ");
+                variable = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(variable))
+                    config.MySql.Custom.Username = variable.Trim();
+                Console.WriteLine();
+
+                Console.Write($"Enter the password for your custom database (default: \"{config.MySql.Custom.Password}\"): ");
+                variable = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(variable))
+                    config.MySql.Custom.Password = variable.Trim();
             }
 
             Console.WriteLine("commiting configuration to memory...");
@@ -344,6 +380,9 @@ namespace ACE.Server
                             //sqlConnectInfo = $"server={config.MySql.World.Host};port={config.MySql.World.Port};user={config.MySql.World.Username};password={config.MySql.World.Password};DefaultCommandTimeout=120";
                             sqlDBFile = sqlDBFile.Replace("ace_world", config.MySql.World.Database);
                             break;
+                        case "CustomBase.sql":
+                            sqlConnectInfo = $"server={config.MySql.Custom.Host};port={config.MySql.Custom.Port};user={config.MySql.Custom.Username};password={config.MySql.Custom.Password};DefaultCommandTimeout=120";
+                            break;
                     }
                     var sqlConnect = new MySql.Data.MySqlClient.MySqlConnection(sqlConnectInfo);
                     var script = new MySql.Data.MySqlClient.MySqlScript(sqlConnect, sqlDBFile);
@@ -369,6 +408,8 @@ namespace ACE.Server
                 PatchDatabase("Shard", config.MySql.Shard.Host, config.MySql.Shard.Port, config.MySql.Shard.Username, config.MySql.Shard.Password, config.MySql.Authentication.Database, config.MySql.Shard.Database, config.MySql.World.Database);
 
                 PatchDatabase("World", config.MySql.World.Host, config.MySql.World.Port, config.MySql.World.Username, config.MySql.World.Password, config.MySql.Authentication.Database, config.MySql.Shard.Database, config.MySql.World.Database);
+
+                PatchDatabase("Custom", config.MySql.Custom.Host, config.MySql.Custom.Port, config.MySql.Custom.Username, config.MySql.Custom.Password, config.MySql.Custom.Database, config.MySql.Shard.Database, config.MySql.World.Database);
             }
 
             Console.WriteLine();

@@ -528,6 +528,7 @@ namespace ACE.Server.Utils
             string randomizedName = new string(Enumerable.Repeat(chars, 10)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
             player.modifiedName = randomizedName;
+            DatabaseManager.Custom.CreateNameMap(player.Character.Id, player.Name, player.modifiedName, player.LoginTimestamp);
             AddPlayerNameToMap(player.Name, player.modifiedName);
         }
 
