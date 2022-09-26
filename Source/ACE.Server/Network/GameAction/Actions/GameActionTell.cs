@@ -34,9 +34,14 @@ namespace ACE.Server.Network.GameAction.Actions
             }
 
             Utils.PlayerUtils.isGameActionTell = true;
-
+            Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(targetPlayer.BaseName, session.Player);
             if (session.Player != targetPlayer)
+            {
+                //Utils.PlayerUtils.targetPlayer = targetPlayer;
+                Utils.PlayerUtils.targetPlayerName = targetPlayer.Name;
+                Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(targetPlayer.BaseName, session.Player);
                 session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {targetPlayer.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
+            }
 
             if (targetPlayer.SquelchManager.Squelches.Contains(session.Player, ChatMessageType.Tell))
             {

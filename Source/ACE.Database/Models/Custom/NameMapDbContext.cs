@@ -1,26 +1,24 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ACE.Database.Models.Custom
 {
-    public partial class NameMapDbContext : DbContext
+    public partial class CustomDbContext : DbContext
     {
-        public NameMapDbContext()
+        public CustomDbContext()
         {
 
         }
 
-        public NameMapDbContext(DbContextOptions<NameMapDbContext> options)
+        public CustomDbContext(DbContextOptions<CustomDbContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<CustomNameMap> NameMaps { get; set; }
+
+        public virtual DbSet<CustomFriendList> Friends { get; set; }
+
+        public virtual DbSet<CustomSquelch> Squelches { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,7 +34,7 @@ namespace ACE.Database.Models.Custom
                 });
             }
 
-#if EFPKKILLSDEBUG
+#if EFPKNAMEMAPDEBUG
             optionsBuilder.EnableSensitiveDataLogging(true);
 #endif
 
@@ -64,7 +62,57 @@ namespace ACE.Database.Models.Custom
 
                 entity.Property(e => e.LoginCount)
                     .HasColumnName("login_count");
+            });
 
+            modelBuilder.Entity<CustomFriendList>(entity =>
+            {
+                entity.HasKey(e => e.CharacterId)
+                    .HasName("PRIMARY");
+
+                entity.Property(e => e.CharacterId).HasColumnName("character_id");
+
+                entity.HasKey(e => e.FriendId)
+                    .HasName("PRIMARY");
+
+                entity.Property(e => e.FriendId).HasColumnName("friend_id");
+
+                entity.ToTable("custom_friend_list");
+
+                entity.Property(e => e.FriendRealName)
+                    .HasColumnName("friend_real_name");
+
+                entity.Property(e => e.FriendModifiedName)
+                    .HasColumnName("friend_modified_name");
+
+                entity.Property(e => e.IsRealName)
+                    .HasColumnName("is_real_name");
+            });
+
+            modelBuilder.Entity<CustomSquelch>(entity =>
+            {
+                entity.HasKey(e => e.CharacterId)
+                    .HasName("PRIMARY");
+
+                entity.Property(e => e.CharacterId).HasColumnName("character_id");
+
+                entity.HasKey(e => e.SquelchCharacterId)
+                    .HasName("PRIMARY");
+
+                entity.Property(e => e.SquelchCharacterId).HasColumnName("squelch_character_id");
+
+                entity.ToTable("custom_squelch");
+
+                entity.Property(e => e.SquelchAccountId)
+                    .HasColumnName("squelch_account_id");
+
+                entity.Property(e => e.SquelchRealName)
+                    .HasColumnName("squelch_real_name");
+
+                entity.Property(e => e.SquelchModifiedName)
+                    .HasColumnName("squelch_modified_name");
+
+                entity.Property(e => e.SquelchType)
+                    .HasColumnName("type");
             });
 
             OnModelCreatingPartial(modelBuilder);

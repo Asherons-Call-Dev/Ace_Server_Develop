@@ -11,6 +11,7 @@ using ACE.Server.Managers;
 using ACE.Server.Network;
 using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.Structure;
+using ACE.Database;
 
 namespace ACE.Server.WorldObjects
 {
@@ -151,6 +152,8 @@ namespace ACE.Server.WorldObjects
                 ChatPacket.SendServerMessage(Session, "That character does not exist", ChatMessageType.Broadcast);
                 return;
             }
+
+            Utils.PlayerUtils.addFriend(friend, this);
 
             var newFriend = Character.AddFriend(friend.Guid.Full, CharacterDatabaseLock, out var friendAlreadyExists);
 

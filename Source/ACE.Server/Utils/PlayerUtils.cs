@@ -34,8 +34,11 @@ namespace ACE.Server.Utils
         public static bool isGameEventMessage = false;
         public static bool isWorldObjectCreation = false;
         public static bool isAddFriendByActualName = false;
+        public static bool isFriendByRealName = false;
+        public static Player targetPlayer = null;
+        public static String targetPlayerName = null;
 
-        public static Dictionary<String, String> playerNameMap = new Dictionary<String, String>();
+        //public static Dictionary<String, String> playerNameMap = new Dictionary<String, String>();
 
 
         public static void BuffPlayerLevelSeven(Player player, bool self = true, ulong maxLevel = 7)
@@ -521,75 +524,91 @@ namespace ACE.Server.Utils
             return false;
         }
 
-        public static void SetRandomizedPlayerName(Player player)
+        public static void SetRandomizedPlayerName(Player player, String playerName)
         {
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             string randomizedName = new string(Enumerable.Repeat(chars, 10)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+
             player.modifiedName = randomizedName;
-            DatabaseManager.Custom.CreateNameMap(player.Character.Id, player.Name, player.modifiedName, player.LoginTimestamp);
-            AddPlayerNameToMap(player.Name, player.modifiedName);
+            DatabaseManager.Custom.CreateNameMap(player.Character.Id, playerName, player.modifiedName, player.LoginTimestamp, Utils.CustomData.nameMap);
+            //AddPlayerNameToMap(playerName, player.modifiedName);
         }
 
-        public static void AddPlayerNameToMap(String playerName, String modifiedName)
-        {
-            if (!playerNameMap.ContainsKey(playerName))
-            {
-                playerNameMap.Add(playerName, modifiedName);
-            }
-            else
-            {
-                playerNameMap[playerName] = modifiedName;
-            }
-        }
+        //public static void AddPlayerNameToMap(String playerName, String modifiedName)
+        //{
+        //    if (!playerNameMap.ContainsKey(playerName))
+        //    {
+        //        playerNameMap.Add(playerName, modifiedName);
+        //    }
+        //    else
+        //    {
+        //        playerNameMap[playerName] = modifiedName;
+        //    }
+        //}
 
-        public static void RemovePlayerNameFromMap(String playerName)
-        {
-            if (playerNameMap.ContainsKey(playerName))
-            {
-                playerNameMap.Remove(playerName);
-            }
-            else if (playerNameMap.ContainsValue(playerName))
-            {
-                var kvp = playerNameMap.First(kvp => kvp.Value == playerName);
-                playerNameMap.Remove(kvp.Key);
-            }
-        }
+        //public static void RemovePlayerNameFromMap(String playerName)
+        //{
+        //    if (playerNameMap.ContainsKey(playerName))
+        //    {
+        //        playerNameMap.Remove(playerName);
+        //    }
+        //    else if (playerNameMap.ContainsValue(playerName))
+        //    {
+        //        var kvp = playerNameMap.First(kvp => kvp.Value == playerName);
+        //        playerNameMap.Remove(kvp.Key);
+        //    }
+        //}
 
         public static void ResetPlayerName(Player player)
         {
             player.Name = player.Character.Name;
         }
 
-        public static String GetPlayerName(String playerName)
+        public static String GetPlayerName(String basePlayerName, Player player)
         {
             if (isWorldObjectCreation)
             {
-                return playerName;
+                return basePlayerName;
             }
             else if (isGameActionBuyHouse)
             {
                 return GetAnonymousName();
             }
-            else if (isAddFriendByActualName)
+            else if (IsFriendByRealName(basePlayerName, player))
             {
-                return playerName;
+                return basePlayerName;
+            }
+            else if (isFriendByRealName)
+            {
+                targetPlayer = null;
+                isFriendByRealName = false;
+                return basePlayerName;
             }
             else
             {
-                if (playerNameMap.ContainsKey(playerName))
+                if (CustomData.nameMap.Any(x => x.PlayerRealName == basePlayerName))
                 {
-                    if (playerNameMap.TryGetValue(playerName, out var value))
+                    //if (Utils.CustomData.nameMap.FirstOrDefault(x => x.PlayerRealName == playerName).)
+                    //if (playerNameMap.TryGetValue(playerName, out var value))
+                    //{
+                    //    return value;
+                    //}
+
+                    String modName = CustomData.nameMap.Where(x => x.PlayerRealName == basePlayerName && x.PlayerModifiedName != null)
+                        .Select(y => y.PlayerModifiedName).FirstOrDefault();
+
+                    if (modName != null)
                     {
-                        return value;
+                        return modName;
                     }
 
-                    return playerName;
+                    return basePlayerName;
                 }
                 else
                 {
-                    return playerName;
+                    return basePlayerName;
                 }              
             }
         }
@@ -599,31 +618,31 @@ namespace ACE.Server.Utils
             return "Anonymous";
         }
 
-        public static String GetFriendName(IPlayer player)
+        public static String GetFriendName(IPlayer friend, Player player)
         {
-            if (player != null)
+            if (friend != null)
             {
-                if (player.GetType() == typeof(OfflinePlayer))
+                if (friend.GetType() == typeof(OfflinePlayer))
                 {
-                    if (isAddFriendByActualName)
-                    {
-                        return player.Name;
-                    }
-
-                    return GetAnonymousName();
-                }
-                else if (player.GetType() == typeof(Player))
-                {
-                    Player friend = (Player)player;
-
-                    if (isAddFriendByActualName)
+                    if (isAddFriendByActualName || IsFriendByRealName(friend.Name, player))
                     {
                         return friend.Name;
                     }
 
-                    if (friend.modifiedName != null)
+                    return GetAnonymousName();
+                }
+                else if (friend.GetType() == typeof(Player))
+                {
+                    Player onlineFriend = (Player)friend;
+
+                    if (isAddFriendByActualName || IsFriendByRealName(onlineFriend.BaseName, player))
                     {
-                        return friend.modifiedName;
+                        return onlineFriend.BaseName;
+                    }
+
+                    if (onlineFriend.modifiedName != null)
+                    {
+                        return onlineFriend.modifiedName;
                     }
                     else
                     {
@@ -633,6 +652,30 @@ namespace ACE.Server.Utils
             }
 
             return "";
+        }
+
+        public static void addFriend(IPlayer friend, Player player)
+        {
+            if (friend.GetType() == typeof(Player))
+            {
+                ACE.Database.Models.Custom.CustomFriendList friendEntry =
+                    DatabaseManager.Custom.AddFriend(player.Character.Id, friend.Guid.Full, friend.Name, ((Player)friend).modifiedName, isAddFriendByActualName);
+                CustomData.friendList.Add(friendEntry);
+                player.customFriends.Add(friendEntry);
+            }
+            else if (friend.GetType() == typeof(OfflinePlayer))
+            {
+                ACE.Database.Models.Custom.CustomFriendList friendEntry =
+                    DatabaseManager.Custom.AddFriend(player.Character.Id, friend.Guid.Full, friend.Name, GetAnonymousName(), isAddFriendByActualName);
+                CustomData.friendList.Add(friendEntry);
+                player.customFriends.Add(friendEntry);
+            }
+        }
+
+        public static bool IsFriendByRealName(String friendName, Player player)
+        {
+            return player.customFriends.Where(x => x.CharacterId == player.Character.Id && x.FriendRealName == friendName && x.IsRealName).Any();
+            //return CustomData.friendList.Where(x => x.CharacterId == player.Character.Id && x.FriendRealName == friendName && x.IsRealName).Any();
         }
 
         public static bool IsReturnModifiedName()

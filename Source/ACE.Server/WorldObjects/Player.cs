@@ -45,6 +45,10 @@ namespace ACE.Server.WorldObjects
 
         public bool LastContact = true;
 
+        public List<ACE.Database.Models.Custom.CustomFriendList> customFriends= new List<ACE.Database.Models.Custom.CustomFriendList>();
+
+        public List<ACE.Database.Models.Custom.CustomSquelch> customSquelches = new List<ACE.Database.Models.Custom.CustomSquelch>();
+
         public bool IsJumping
         {
             get
@@ -122,6 +126,8 @@ namespace ACE.Server.WorldObjects
             AddBiotasToEquippedObjects(wieldedItems);
 
             UpdateCoinValue(false);
+
+            customFriends = DatabaseManager.Custom.GetFriendsByCharacter(this.Character.Id);
         }
 
         public override void InitPhysicsObj()
@@ -642,7 +648,6 @@ namespace ACE.Server.WorldObjects
             SetPropertiesAtLogOut();
             SavePlayerToDatabase();
             PlayerManager.SwitchPlayerFromOnlineToOffline(this);
-            Utils.PlayerUtils.RemovePlayerNameFromMap(Name);
 
             log.Debug($"[LOGOUT] Account {Account.AccountName} exited the world with character {Name} (0x{Guid}) at {DateTime.Now}.");
         }

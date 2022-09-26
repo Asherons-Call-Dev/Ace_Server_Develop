@@ -27,30 +27,46 @@ namespace ACE.Server.Network.GameAction.Actions
             }
 
             Utils.PlayerUtils.isGameActionTalkDirect = true;
-            session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {creature.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
+            //Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(creature.Name, session.Player);
+            //session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {creature.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
 
             if (creature is Player targetPlayer)
             {
+                Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(targetPlayer.BaseName, session.Player);
+                session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {targetPlayer.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
+
                 if (session.Player.IsGagged)
                 {
+                    Utils.PlayerUtils.isGameActionTell = false;
                     session.Player.SendGagError();
+                    Utils.PlayerUtils.isFriendByRealName = false;
                     return;
                 }
 
                 if (targetPlayer.SquelchManager.Squelches.Contains(session.Player, ChatMessageType.Tell))
                 {
+                    Utils.PlayerUtils.isGameActionTell = false;
                     session.Network.EnqueueSend(new GameEventWeenieErrorWithString(session, WeenieErrorWithString.MessageBlocked_, $"{targetPlayer.Name} has you squelched."));
                     //log.Warn($"Tell from {session.Player.Name} (0x{session.Player.Guid.ToString()}) to {targetPlayer.Name} (0x{targetPlayer.Guid.ToString()}) blocked due to squelch");
+                    Utils.PlayerUtils.isFriendByRealName = false;
                     return;
                 }
 
+                Utils.PlayerUtils.isGameActionTell = true;
+                Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(session.Player.BaseName, targetPlayer);
                 var tell = new GameEventTell(targetPlayer.Session, message, session.Player.GetNameWithSuffix(), session.Player.Guid.Full, targetPlayer.Guid.Full, ChatMessageType.Tell);
                 targetPlayer.Session.Network.EnqueueSend(tell);
+                Utils.PlayerUtils.isGameActionTell = false;
+                Utils.PlayerUtils.isFriendByRealName = false;
             }
             else
+            {
+                session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {creature.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
                 creature.EmoteManager.OnTalkDirect(session.Player, message);
+            }
 
             Utils.PlayerUtils.isGameActionTalkDirect = false;
+            Utils.PlayerUtils.isFriendByRealName = false;
         }
     }
 }

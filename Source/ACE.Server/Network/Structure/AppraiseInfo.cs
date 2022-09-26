@@ -362,15 +362,6 @@ namespace ACE.Server.Network.Structure
                     PropertiesInt.Remove(PropertyInt.NumDeaths);
                 if (!player.GetCharacterOption(CharacterOption.AllowOthersToSeeYourNumberOfTitles))
                     PropertiesInt.Remove(PropertyInt.NumCharacterTitles);
-                if (player.modifiedName != null)
-                {
-                    //PropertiesString.Remove(PropertyString.Name);
-                    PropertiesString[PropertyString.Name] = player.modifiedName;
-                    //PropertiesString.Values.Select(x => x.Replace(player.Name, player.modifiedName));
-                    //string displayName = PropertyString.DisplayName.GetDescription();
-                    //PropertiesString.Remove(PropertyString.Name);
-
-                }
 
                 // handle dynamic properties for appraisal
                 if (player.Allegiance != null && player.AllegianceNode != null)

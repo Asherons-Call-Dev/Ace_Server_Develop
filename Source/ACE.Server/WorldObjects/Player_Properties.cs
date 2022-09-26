@@ -26,15 +26,17 @@ namespace ACE.Server.WorldObjects
                 }
                 else
                 {
-                    if (Utils.PlayerUtils.playerNameMap.ContainsKey(base.Name))
-                    {
-                        return Utils.PlayerUtils.GetPlayerName(base.Name);
-                    }
-                    else
-                    {
-                        return base.Name;
-                    }
-                    
+                    return Utils.PlayerUtils.GetPlayerName(base.Name, this);
+
+                    //if (Utils.PlayerUtils.playerNameMap.ContainsKey(base.Name))
+                    //{
+                    //    return Utils.PlayerUtils.GetPlayerName(base.Name);
+                    //}
+                    //else
+                    //{
+                    //    return base.Name;
+                    //}
+
                     //if (Utils.PlayerUtils.IsReturnModifiedName())
                     //{
                     //    if (Utils.PlayerUtils.isGameActionBuyHouse)
@@ -56,15 +58,16 @@ namespace ACE.Server.WorldObjects
         {
             if (!IsOlthoiPlayer)
                 //return Name;
-                return ModifiedName;
+                //return ModifiedName;
+                return Utils.PlayerUtils.GetPlayerName(base.Name, this);
             else
             {
                 if (NoOlthoiTalk)
                     return ModifiedName + "^";
-                    //return Name + "^";
+                //return Name + "^";
                 else
                     return ModifiedName + "&";
-                    //return Name + "&";
+                //return Name + "&";
             }
         }
 
@@ -79,6 +82,19 @@ namespace ACE.Server.WorldObjects
             set
             {
                 modifiedName = value;
+            }
+        }
+
+        public string BaseName
+        {
+            get
+            {
+                if (IsPlussed && CloakStatus < CloakStatus.Player)
+                {
+                    return "+" + base.Name;
+                }
+
+                return base.Name;
             }
         }
 
