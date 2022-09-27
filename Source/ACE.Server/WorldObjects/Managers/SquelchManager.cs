@@ -101,6 +101,15 @@ namespace ACE.Server.WorldObjects.Managers
 
                 if (player == null)
                 {
+                    String basePlayerName = this.Player.customSquelches.Where(x => x.SquelchModifiedName == playerName).Select(y => y.SquelchRealName).FirstOrDefault();
+                    String modifiedPlayerName = Utils.CustomData.nameMap.Where(x => x.PlayerRealName == basePlayerName).Select(y => y.PlayerModifiedName).FirstOrDefault();
+                    //Utils.PlayerUtils.isAddRemoveSquelch = true;
+                    player = PlayerManager.FindByName(modifiedPlayerName);
+                    //Utils.PlayerUtils.isAddRemoveSquelch = false;
+                }
+               
+                if (player == null)
+                {
                     Player.Session.Network.EnqueueSend(new GameMessageSystemChat($"{playerName} not found.", ChatMessageType.Broadcast));
                     return;
                 }
@@ -116,7 +125,11 @@ namespace ACE.Server.WorldObjects.Managers
             if (squelch)
                 SquelchCharacter(player, messageType);
             else
+            {
                 UnsquelchCharacter(player, messageType);
+                ACE.Database.DatabaseManager.Custom.RemoveSquelch(this.Player.Character.Id, player.Guid.Full);
+            }
+               
 
             UpdateSquelchDB();
 
@@ -147,6 +160,7 @@ namespace ACE.Server.WorldObjects.Managers
             }
 
             Player.Character.AddOrUpdateSquelch(player.Guid.Full, 0, (uint)newMask, Player.CharacterDatabaseLock);
+            Utils.PlayerUtils.AddCharacterSquelch(this.Player, player, 0, (uint)newMask);
             Player.CharacterChangesDetected = true;
 
             Player.Session.Network.EnqueueSend(new GameMessageSystemChat($"{player.Name} has been squelched{channelMsg}.", ChatMessageType.Broadcast));
@@ -289,6 +303,8 @@ namespace ACE.Server.WorldObjects.Managers
         public void UpdateSquelchDB()
         {
             Squelches = new SquelchDB(Player.Character.GetSquelches(Player.CharacterDatabaseLock), Player.SquelchGlobal);
+
+            Utils.PlayerUtils.UpdateSquelches(Squelches);
         }
 
         /// <summary>

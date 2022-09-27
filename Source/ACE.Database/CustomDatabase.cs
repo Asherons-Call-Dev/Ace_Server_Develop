@@ -91,6 +91,26 @@ namespace ACE.Database
             return nameMaps;
         }
 
+        public CustomNameMap GetSingleNameMap(String playerName)
+        {
+            using (var context = new CustomDbContext())
+            {
+                var nameMap = context.NameMaps.Where(x => x.PlayerRealName == playerName).FirstOrDefault();
+
+                if (nameMap == null)
+                {
+                    nameMap = context.NameMaps.Where(x => x.PlayerModifiedName == playerName).FirstOrDefault();
+                }
+
+                if (nameMap != null)
+                {
+                    return nameMap;
+                }
+
+                return null;
+            }
+        }
+
         public CustomFriendList AddFriend(uint characterId, uint friendId, String realName, String modifiedName, bool isRealName)
         {
             using (var context = new CustomDbContext())
@@ -113,6 +133,21 @@ namespace ACE.Database
             }
 
             return null;
+        }
+
+        public void RemoveFriend(uint characterId, uint friendId)
+        {
+            using (var context = new CustomDbContext())
+            {
+                var friendItem = context.Friends
+                    .FirstOrDefault(r => (r.CharacterId == characterId) && (r.FriendId == friendId));
+
+                if (friendItem != null)
+                {
+                    context.Friends.Remove(friendItem);
+                    context.SaveChanges();
+                }
+            }
         }
 
         public List<CustomFriendList> GetAllFriends()
@@ -149,6 +184,51 @@ namespace ACE.Database
             }
 
             return squelches;
+        }
+
+        public CustomSquelch AddSquelch(uint characterId, uint squelchCharacterId, String realName, String modifiedName, uint squelchAccountId, uint type)
+        {
+            using (var context = new CustomDbContext())
+            {
+                var squelchItem = context.Squelches
+                    .FirstOrDefault(r => (r.CharacterId == characterId) && (r.SquelchCharacterId == squelchCharacterId));
+
+                if (squelchItem == null)
+                {
+                    var squelch = new CustomSquelch();
+                    squelch.CharacterId = characterId;
+                    squelch.SquelchCharacterId = squelchCharacterId;
+                    squelch.SquelchRealName = realName;
+                    squelch.SquelchModifiedName = modifiedName;
+                    squelch.SquelchAccountId = squelchAccountId;
+                    squelch.SquelchType = type;
+                    context.Squelches.Add(squelch);
+                    context.SaveChanges();
+                    return squelch;
+                }
+                else
+                {
+                    squelchItem.SquelchAccountId = squelchAccountId;
+                    squelchItem.SquelchType = type;
+                    squelchItem.SquelchModifiedName = modifiedName ?? null;
+                    return squelchItem;
+                }
+            }
+        }
+
+        public void RemoveSquelch(uint characterId, uint squelchCharacterId)
+        {
+            using (var context = new CustomDbContext())
+            {
+                var squelchItem = context.Squelches
+                    .FirstOrDefault(r => (r.CharacterId == characterId) && (r.SquelchCharacterId == squelchCharacterId));
+
+                if (squelchItem != null)
+                {
+                    context.Squelches.Remove(squelchItem);
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }

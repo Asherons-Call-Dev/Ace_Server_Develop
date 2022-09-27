@@ -153,7 +153,7 @@ namespace ACE.Server.WorldObjects
                 return;
             }
 
-            Utils.PlayerUtils.addFriend(friend, this);
+            Utils.PlayerUtils.AddFriend(friend, this);
 
             var newFriend = Character.AddFriend(friend.Guid.Full, CharacterDatabaseLock, out var friendAlreadyExists);
 
@@ -182,6 +182,8 @@ namespace ACE.Server.WorldObjects
             }
 
             CharacterChangesDetected = true;
+
+            Utils.PlayerUtils.RemoveFriend(friendGuid, this);
 
             // send network message
             Session.Network.EnqueueSend(new GameEventFriendsListUpdate(Session, GameEventFriendsListUpdate.FriendsUpdateTypeFlag.FriendRemoved, friendToRemove));

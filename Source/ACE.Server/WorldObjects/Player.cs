@@ -128,6 +128,7 @@ namespace ACE.Server.WorldObjects
             UpdateCoinValue(false);
 
             customFriends = DatabaseManager.Custom.GetFriendsByCharacter(this.Character.Id);
+            customSquelches = DatabaseManager.Custom.GetSquelchByCharacter(this.Character.Id);
         }
 
         public override void InitPhysicsObj()
