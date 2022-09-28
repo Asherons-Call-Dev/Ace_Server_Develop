@@ -53,7 +53,12 @@ namespace ACE.Database
                     customPlayer.LoginCount = 1;
                     context.CustomPlayers.Add(customPlayer);
                     context.SaveChanges();
-                    customPlayerList.Add(customPlayer);
+
+                    if (customPlayerList != null)
+                    {
+                        customPlayerList.Add(customPlayer);
+                    }
+
                     return customPlayer;
                 }
                 else

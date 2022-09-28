@@ -1141,7 +1141,7 @@ namespace ACE.Server.Command.Handlers
                     }
                 }
                 else if (parameters.Length > 1 && parameters[1] == "name")
-                {                    
+                {
                     var playerName = "";
                     for (var i = 2; i < parameters.Length; i++)
                         playerName += $"{parameters[i]} ";
@@ -1261,13 +1261,13 @@ namespace ACE.Server.Command.Handlers
                 else if (parameters.Length > 1 && parameters[1] == "summary")
                 {
                     var apartmentsTotal = 3000d;
-                    var cottagesTotal   = 2600d;
-                    var villasTotal     = 570d;
-                    var mansionsTotal   = 80d;
+                    var cottagesTotal = 2600d;
+                    var villasTotal = 570d;
+                    var mansionsTotal = 80d;
 
-                    var cottages   = 0;
-                    var villas     = 0;
-                    var mansions   = 0;
+                    var cottages = 0;
+                    var villas = 0;
+                    var mansions = 0;
                     var apartments = 0;
 
                     for (var i = 1u; i < 6251; i++)
@@ -1296,9 +1296,9 @@ namespace ACE.Server.Command.Handlers
                     }
 
                     var apartmentsAvail = (apartmentsTotal - apartments) / apartmentsTotal;
-                    var cottagesAvail   = (cottagesTotal - cottages) / cottagesTotal;
-                    var villasAvail     = (villasTotal - villas) / villasTotal;
-                    var mansionsAvail   = (mansionsTotal - mansions) / mansionsTotal;
+                    var cottagesAvail = (cottagesTotal - cottages) / cottagesTotal;
+                    var villasAvail = (villasTotal - villas) / villasTotal;
+                    var mansionsAvail = (mansionsTotal - mansions) / mansionsTotal;
 
                     var msg = "HUD Report:\n";
                     msg += "=========================================================\n";
@@ -1473,7 +1473,7 @@ namespace ACE.Server.Command.Handlers
                 msg += "@adminhouse payrent off / on: sets the targeted house to not require / require normal maintenance payments.\n";
 
                 session.Player.SendMessage(msg);
-            }    
+            }
         }
 
         private static void DumpHouse(Session session, House targetHouse, WorldObject wo)
@@ -1551,7 +1551,7 @@ namespace ACE.Server.Command.Handlers
                     session.Player.SendMessage(msg, ChatMessageType.System);
                 }
 
-                session.Player.SendMessage(AppendHouseLinkDump(house), ChatMessageType.System);                
+                session.Player.SendMessage(AppendHouseLinkDump(house), ChatMessageType.System);
 
                 if (house.HouseType == HouseType.Villa || house.HouseType == HouseType.Mansion)
                 {
@@ -1771,7 +1771,7 @@ namespace ACE.Server.Command.Handlers
 
                     var names = string.Join(" ", parameters).Split(",");
 
-                    var newCharName = names[1].TrimStart(' ').TrimEnd(' ');                    
+                    var newCharName = names[1].TrimStart(' ').TrimEnd(' ');
 
                     if (newCharName.StartsWith("+"))
                         newCharName = newCharName.Substring(1);
@@ -2421,7 +2421,7 @@ namespace ACE.Server.Command.Handlers
             var obj = WorldObjectFactory.CreateNewWorldObject(weenie);
 
             //if (obj.TimeToRot == null)
-                //obj.TimeToRot = double.MaxValue;
+            //obj.TimeToRot = double.MaxValue;
 
             if (obj.WeenieType == WeenieType.Creature)
                 obj.Location = session.Player.Location.InFrontOf(5f, true);
@@ -2690,7 +2690,7 @@ namespace ACE.Server.Command.Handlers
             {
                 session.Network.EnqueueSend(new GameMessageSystemChat($"You must select a player to send them a message.", ChatMessageType.Broadcast));
                 return;
-            }    
+            }
 
             var wo = session.Player.CurrentLandblock?.GetObject(objectId);
 
@@ -4739,6 +4739,37 @@ namespace ACE.Server.Command.Handlers
                 return;
             }
             LootSwap.UpdateTables(folder);
+        }
+
+        [CommandHandler("updatecustomdata", AccessLevel.Admin, CommandHandlerFlag.None, 0, "Syncs custom data with ACE data!")]
+        public static void HandleUpdateCustomData(Session session, params string[] parameters)
+        {
+            List<ACE.Database.Models.Custom.CustomPlayer> customPlayers = DatabaseManager.Custom.GetAllCustomPlayers();
+            List<uint> customPlayerIds = customPlayers.Select(x => x.PlayerId).ToList();
+
+            List<IPlayer> players = PlayerManager.GetAllPlayers();
+
+            foreach (var player in players)
+            {
+                if (!customPlayerIds.Contains(player.Guid.Full))
+                {
+                    ACE.Database.Models.Custom.CustomPlayer customPlayer = new ACE.Database.Models.Custom.CustomPlayer();
+
+                    if (player.GetType() == typeof(Player))
+                    {
+                        Player onlinePlayer = (Player)player;
+                        onlinePlayer.CustomPlayer = customPlayer;
+
+                        DatabaseManager.Custom.CreateCustomPlayer(onlinePlayer.Character.Id, onlinePlayer.BaseName,
+                            onlinePlayer.modifiedName, onlinePlayer.LoginTimestamp, onlinePlayer.CustomPlayer, Utils.CustomData.customPlayers);
+                    }
+                    else if (player.GetType() == typeof(OfflinePlayer))
+                    {
+                        DatabaseManager.Custom.CreateCustomPlayer(player.Guid.Full, player.Name,
+                            null, 0, customPlayer, Utils.CustomData.customPlayers);
+                    }
+                }
+            }
         }
     }
 }
