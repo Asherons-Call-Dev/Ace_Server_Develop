@@ -94,6 +94,29 @@ namespace ACE.Database
             }
         }
 
+        public void DeleteCustomPlayer(CustomPlayer customPlayer)
+        {
+            if (customPlayer != null)
+            {
+                using (var context = new CustomDbContext())
+                {
+                    foreach (CustomFriend friend in customPlayer.CustomFriends)
+                    {
+                        context.Entry(friend).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                    }
+
+                    foreach (CustomSquelch squelch in customPlayer.CustomSquelches)
+                    {
+                        context.Entry(squelch).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                    }
+
+                    context.Entry(customPlayer).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+
+                    context.SaveChanges();
+                }
+            }
+        }
+
         public List<CustomPlayer> GetAllCustomPlayers()
         {
             List<CustomPlayer> customPlayers = new List<CustomPlayer>();

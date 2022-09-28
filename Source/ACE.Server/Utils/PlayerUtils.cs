@@ -509,9 +509,17 @@ namespace ACE.Server.Utils
 
         public static void SaveCustomPlayerChanges(CustomPlayer customPlayer)
         {
-            if (customPlayer.CustomPlayerChangesDetected)
+            if (customPlayer != null && customPlayer.CustomPlayerChangesDetected)
             {
                 DatabaseManager.Custom.SaveCustomPlayerToDatabase(customPlayer);
+            }
+        }
+
+        public static void DeleteCustomPlayer(CustomPlayer customPlayer)
+        {
+            if (customPlayer != null)
+            {
+                DatabaseManager.Custom.DeleteCustomPlayer(customPlayer);
             }
         }
 
