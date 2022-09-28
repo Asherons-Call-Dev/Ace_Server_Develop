@@ -35,6 +35,7 @@ namespace ACE.Server.Utils
         public static bool isWorldObjectCreation = false;
         public static bool isAddFriendByActualName = false;
         public static bool isFriendByRealName = false;
+        public static bool isAllegianceChat = false;
         public static Player targetPlayer = null;
         public static String targetPlayerName = null;
 
@@ -357,10 +358,11 @@ namespace ACE.Server.Utils
             {
                 return GetAnonymousName();
             }
-            else if (isFriendByRealName || isAddRemoveSquelch)
+            else if (isFriendByRealName || isAddRemoveSquelch || isAllegianceChat)
             {
                 isAddRemoveSquelch = false;
                 isFriendByRealName = false;
+                isAllegianceChat = false;
                 return basePlayerName;
             }
             else
@@ -485,6 +487,14 @@ namespace ACE.Server.Utils
         public static bool IsFriendByRealName(String friendName, Player player)
         {
             return player.CustomPlayer.CustomFriends.Where(x => x.CharacterId == player.Character.Id && x.FriendRealName == friendName && x.IsRealName).Any();
+        }
+
+        public static void IsAllegianceChat(uint adjustedChannelID)
+        {
+            if (adjustedChannelID > TurbineChatChannel.Olthoi || adjustedChannelID == TurbineChatChannel.Allegiance)
+            {
+                isAllegianceChat = true;
+            }
         }
 
         public static uint[] PlayerSpellTable = {
