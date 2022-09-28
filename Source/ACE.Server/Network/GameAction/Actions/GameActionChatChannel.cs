@@ -97,6 +97,7 @@ namespace ACE.Server.Network.GameAction.Actions
                             break;
                         }
 
+                        Utils.PlayerUtils.isFellowshipChat = true;
                         var fellowshipMembers = session.Player.Fellowship.GetFellowshipMembers();
 
                         foreach (var fellowmember in fellowshipMembers.Values)
@@ -104,6 +105,7 @@ namespace ACE.Server.Network.GameAction.Actions
                                 fellowmember.Session.Network.EnqueueSend(new GameEventChannelBroadcast(fellowmember.Session, groupChatType, session.Player.Name, message));
                             else
                                 session.Network.EnqueueSend(new GameEventChannelBroadcast(session, groupChatType, "", message));
+                        Utils.PlayerUtils.isFellowshipChat = false;
                     }
                     break;
                 case Channel.Vassals:

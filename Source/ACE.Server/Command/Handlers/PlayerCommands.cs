@@ -524,7 +524,7 @@ namespace ACE.Server.Command.Handlers
             session.Network.EnqueueSend(new GameMessageSystemChat(msg, ChatMessageType.AdminTell));
         }
 
-        [CommandHandler("addfriendactual", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Adds friend by actual name")]
+        [CommandHandler("addfriendbyname", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Adds friend by character name")]
         public static void HandleAddFriendByActualName(Session session, params string[] parameters)
         {
             var friendName = string.Join(" ", parameters);
@@ -532,6 +532,36 @@ namespace ACE.Server.Command.Handlers
             Utils.PlayerUtils.isAddFriendByActualName = true;
             session.Player.HandleActionAddFriend(friendName);
             Utils.PlayerUtils.isAddFriendByActualName = false;
+        }
+
+        [CommandHandler("displaynamefellowship", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Shows character name in fellowship chat")]
+        public static void HandleFellowshipChatDisplayName(Session session, params string[] parameters)
+        {
+            var result = string.Join(" ", parameters).ToLower();
+
+            if (result == "on")
+            {
+                session.Player.CustomPlayer.IsRealNameFellowship = true;
+            }
+            else if (result == "off")
+            {
+                session.Player.CustomPlayer.IsRealNameFellowship = false;
+            }
+        }
+
+        [CommandHandler("displaynameallegiance", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Shows character name in allegiance chat")]
+        public static void HandleAllegianceChatDisplayName(Session session, params string[] parameters)
+        {
+            var result = string.Join(" ", parameters).ToLower();
+
+            if (result == "on")
+            {
+                session.Player.CustomPlayer.IsRealNameAllegiance = true;
+            }
+            else if (result == "off")
+            {
+                session.Player.CustomPlayer.IsRealNameAllegiance = false;
+            }
         }
     }
 }

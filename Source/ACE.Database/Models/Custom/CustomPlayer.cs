@@ -19,6 +19,8 @@ namespace ACE.Database.Models.Custom
         public String PlayerModifiedName { get; set; }
         public double? LastLoginTimestamp { get; set; }
         public uint LoginCount { get; set; }
+        public bool IsRealNameAllegiance { get; set; }
+        public bool IsRealNameFellowship { get; set; }
 
         public virtual ICollection<CustomFriend> CustomFriends { get; set; }
 

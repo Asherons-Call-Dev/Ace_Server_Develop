@@ -36,6 +36,7 @@ namespace ACE.Server.Utils
         public static bool isAddFriendByActualName = false;
         public static bool isFriendByRealName = false;
         public static bool isAllegianceChat = false;
+        public static bool isFellowshipChat = false;
         public static Player targetPlayer = null;
         public static String targetPlayerName = null;
 
@@ -358,11 +359,19 @@ namespace ACE.Server.Utils
             {
                 return GetAnonymousName();
             }
-            else if (isFriendByRealName || isAddRemoveSquelch || isAllegianceChat)
+            else if (isFriendByRealName || isAddRemoveSquelch)
             {
                 isAddRemoveSquelch = false;
                 isFriendByRealName = false;
                 isAllegianceChat = false;
+                return basePlayerName;
+            }
+            else if (isAllegianceChat && player.CustomPlayer.IsRealNameAllegiance)
+            {
+                return basePlayerName;
+            }
+            else if (isFellowshipChat && player.CustomPlayer.IsRealNameFellowship)
+            {
                 return basePlayerName;
             }
             else
