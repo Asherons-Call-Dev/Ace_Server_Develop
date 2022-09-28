@@ -14,11 +14,11 @@ namespace ACE.Database.Models.Custom
         {
         }
 
-        public virtual DbSet<CustomNameMap> NameMaps { get; set; }
+        public virtual DbSet<CustomPlayer> CustomPlayers { get; set; }
 
-        public virtual DbSet<CustomFriendList> Friends { get; set; }
+        public virtual DbSet<CustomFriend> CustomFriends { get; set; }
 
-        public virtual DbSet<CustomSquelch> Squelches { get; set; }
+        public virtual DbSet<CustomSquelch> CustomSquelches { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,14 +42,14 @@ namespace ACE.Database.Models.Custom
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CustomNameMap>(entity =>
+            modelBuilder.Entity<CustomPlayer>(entity =>
             {
                 entity.HasKey(e => e.PlayerId)
                     .HasName("PRIMARY");
 
                 entity.Property(e => e.PlayerId).HasColumnName("player_id");
 
-                entity.ToTable("custom_name_map");
+                entity.ToTable("custom_player");
 
                 entity.Property(e => e.PlayerRealName)
                     .HasColumnName("player_real_name");
@@ -64,7 +64,7 @@ namespace ACE.Database.Models.Custom
                     .HasColumnName("login_count");
             });
 
-            modelBuilder.Entity<CustomFriendList>(entity =>
+            modelBuilder.Entity<CustomFriend>(entity =>
             {
                 entity.HasKey(e => e.CharacterId)
                     .HasName("PRIMARY");
@@ -76,7 +76,7 @@ namespace ACE.Database.Models.Custom
 
                 entity.Property(e => e.FriendId).HasColumnName("friend_id");
 
-                entity.ToTable("custom_friend_list");
+                entity.ToTable("custom_friend");
 
                 entity.Property(e => e.FriendRealName)
                     .HasColumnName("friend_real_name");
@@ -86,6 +86,11 @@ namespace ACE.Database.Models.Custom
 
                 entity.Property(e => e.IsRealName)
                     .HasColumnName("is_real_name");
+
+                entity.HasOne(d => d.Object)
+                    .WithMany(p => p.CustomFriends)
+                    .HasForeignKey(d => d.CharacterId)
+                    .HasConstraintName("player_id");
             });
 
             modelBuilder.Entity<CustomSquelch>(entity =>
@@ -113,6 +118,11 @@ namespace ACE.Database.Models.Custom
 
                 entity.Property(e => e.SquelchType)
                     .HasColumnName("type");
+
+                entity.HasOne(d => d.Object)
+                    .WithMany(p => p.CustomSquelches)
+                    .HasForeignKey(d => d.CharacterId)
+                    .HasConstraintName("squelch_id");
             });
 
             OnModelCreatingPartial(modelBuilder);

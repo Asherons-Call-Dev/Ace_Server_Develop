@@ -217,8 +217,8 @@ namespace ACE.Server.Managers
             if (olthoiPlayerReturnedToLifestone)
                 session.Player.Location = new Position(session.Player.Sanctuary);
 
-            String playerName = session.Player.Name;
-            Utils.PlayerUtils.SetRandomizedPlayerName(session.Player, playerName);
+            Utils.PlayerUtils.SetRandomizedPlayerName(session.Player);
+            Utils.PlayerUtils.SetCustomPlayer(session.Player);
 
             session.Player.PlayerEnterWorld();
 

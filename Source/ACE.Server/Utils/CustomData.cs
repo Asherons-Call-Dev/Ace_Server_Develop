@@ -11,18 +11,24 @@ namespace ACE.Server.Utils
 {
     internal class CustomData
     {
-        public static List<CustomNameMap> nameMap = new List<CustomNameMap>();
-        public static List<CustomFriendList> friendList = new List<CustomFriendList>();
+        public static List<CustomPlayer> customPlayers = new List<CustomPlayer>();
+        public static List<CustomFriend> customFriends = new List<CustomFriend>();
+        public static List<CustomSquelch> customSquelches = new List<CustomSquelch>();
 
 
-        public static void InitializeCustomNameMaps()
+        public static void InitializeCustomPlayers()
         {
-            nameMap = DatabaseManager.Custom.GetAllNameMaps();
+            customPlayers = DatabaseManager.Custom.GetAllCustomPlayers();
         }
 
-        public static void InitializeCustomFriendList()
+        public static void InitializeCustomFriends()
         {
-            friendList = DatabaseManager.Custom.GetAllFriends();
+            customFriends = DatabaseManager.Custom.GetAllFriends();
+        }
+
+        public static void InitializeCustomSquelches()
+        {
+            customSquelches = DatabaseManager.Custom.GetAllSquelches();
         }
     }
 }

@@ -38,8 +38,6 @@ namespace ACE.Server.Utils
         public static Player targetPlayer = null;
         public static String targetPlayerName = null;
 
-        //public static Dictionary<String, String> playerNameMap = new Dictionary<String, String>();
-
 
         public static void BuffPlayerLevelSeven(Player player, bool self = true, ulong maxLevel = 7)
         {
@@ -311,16 +309,28 @@ namespace ACE.Server.Utils
             return false;
         }
 
-        public static void SetRandomizedPlayerName(Player player, String playerName)
+        public static void SetRandomizedPlayerName(Player player)
         {
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             string randomizedName = new string(Enumerable.Repeat(chars, 10)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
-            player.modifiedName = randomizedName;
-            DatabaseManager.Custom.CreateNameMap(player.Character.Id, playerName, player.modifiedName, player.LoginTimestamp, Utils.CustomData.nameMap);
-            //AddPlayerNameToMap(playerName, player.modifiedName);
+            CheckIfRandomizedNameExists(randomizedName, player);
+        }
+
+        public static void CheckIfRandomizedNameExists(String randomizedName, Player player)
+        {
+            List<String> randomizedNames = DatabaseManager.Custom.GetAllCustomPlayers().Select(x => x.PlayerModifiedName).ToList();
+
+            if (randomizedNames.Contains(randomizedName))
+            {
+                SetRandomizedPlayerName(player);
+            }
+            else
+            {
+                player.modifiedName = randomizedName;
+            }
         }
 
         public static void ResetPlayerName(Player player)
@@ -328,8 +338,17 @@ namespace ACE.Server.Utils
             player.Name = player.Character.Name;
         }
 
+        public static void SetCustomPlayer(Player player)
+        {
+            DatabaseManager.Custom.CreateCustomPlayer(player.Character.Id, player.BaseName,
+                player.modifiedName, player.LoginTimestamp, player.CustomPlayer, Utils.CustomData.customPlayers);
+        }
+
         public static String GetPlayerName(String basePlayerName, Player player)
         {
+            String playerName = player.Character.Name;
+            String modifiedName = player.modifiedName;
+
             if (isWorldObjectCreation)
             {
                 return basePlayerName;
@@ -338,22 +357,17 @@ namespace ACE.Server.Utils
             {
                 return GetAnonymousName();
             }
-            else if (IsFriendByRealName(basePlayerName, player))
-            {
-                return basePlayerName;
-            }
             else if (isFriendByRealName || isAddRemoveSquelch)
             {
-                targetPlayer = null;
                 isAddRemoveSquelch = false;
                 isFriendByRealName = false;
                 return basePlayerName;
             }
             else
             {
-                if (CustomData.nameMap.Any(x => x.PlayerRealName == basePlayerName))
+                if (CustomData.customPlayers.Any(x => x.PlayerRealName == basePlayerName))
                 {
-                    String modName = CustomData.nameMap.Where(x => x.PlayerRealName == basePlayerName && x.PlayerModifiedName != null)
+                    String modName = CustomData.customPlayers.Where(x => x.PlayerRealName == basePlayerName && x.PlayerModifiedName != null)
                         .Select(y => y.PlayerModifiedName).FirstOrDefault();
 
                     if (modName != null)
@@ -368,11 +382,6 @@ namespace ACE.Server.Utils
                     return basePlayerName;
                 }              
             }
-        }
-
-        public static String GetAnonymousName()
-        {
-            return "Anonymous";
         }
 
         public static String GetFriendName(IPlayer friend, Player player)
@@ -410,29 +419,35 @@ namespace ACE.Server.Utils
 
             return "";
         }
+
+        public static String GetAnonymousName()
+        {
+            return "Anonymous";
+        }
+
         public static void AddFriend(IPlayer friend, Player player)
         {
             if (friend.GetType() == typeof(Player))
             {
-                ACE.Database.Models.Custom.CustomFriendList friendEntry =
+                ACE.Database.Models.Custom.CustomFriend friendEntry =
                     DatabaseManager.Custom.AddFriend(player.Character.Id, friend.Guid.Full, ((Player)friend).BaseName, ((Player)friend).modifiedName, isAddFriendByActualName);
-                CustomData.friendList.Add(friendEntry);
-                player.customFriends.Add(friendEntry);
+                CustomData.customFriends.Add(friendEntry);
+                player.CustomPlayer.CustomFriends.Add(friendEntry);
             }
             else if (friend.GetType() == typeof(OfflinePlayer))
             {
-                ACE.Database.Models.Custom.CustomFriendList friendEntry =
+                ACE.Database.Models.Custom.CustomFriend friendEntry =
                     DatabaseManager.Custom.AddFriend(player.Character.Id, friend.Guid.Full, friend.Name, GetAnonymousName(), isAddFriendByActualName);
-                CustomData.friendList.Add(friendEntry);
-                player.customFriends.Add(friendEntry);
+                CustomData.customFriends.Add(friendEntry);
+                player.CustomPlayer.CustomFriends.Add(friendEntry);
             }
         }
 
         public static void RemoveFriend(uint friendId, Player player)
         {
-            ACE.Database.Models.Custom.CustomFriendList friendEntry =
-                CustomData.friendList.Where(x => x.FriendId == friendId && x.CharacterId == player.Character.Id).FirstOrDefault();
-            player.customFriends.Remove(friendEntry);
+            ACE.Database.Models.Custom.CustomFriend friendEntry =
+                CustomData.customFriends.Where(x => x.FriendId == friendId && x.CharacterId == player.Character.Id).FirstOrDefault();
+            player.CustomPlayer.CustomFriends.Remove(friendEntry);
             ACE.Database.DatabaseManager.Custom.RemoveFriend(player.Character.Id, friendId);
         }
 
@@ -442,17 +457,15 @@ namespace ACE.Server.Utils
             {
                 ACE.Database.Models.Custom.CustomSquelch squelchEntry =
                     DatabaseManager.Custom.AddSquelch(player.Character.Id, squelchPlayer.Guid.Full, ((Player)squelchPlayer).BaseName,
-                        ((Player)squelchPlayer).modifiedName, squelchAccountId, type);
-                //CustomData.friendList.Add(squelchEntry);
-                player.customSquelches.Add(squelchEntry);
+                        ((Player)squelchPlayer).modifiedName, squelchAccountId, type);;
+                player.CustomPlayer.CustomSquelches.Add(squelchEntry);
             }
             else if (squelchPlayer.GetType() == typeof(OfflinePlayer))
             {
                 ACE.Database.Models.Custom.CustomSquelch squelchEntry =
                     DatabaseManager.Custom.AddSquelch(player.Character.Id, squelchPlayer.Guid.Full, squelchPlayer.Name,
                         GetAnonymousName(), squelchAccountId, type);
-                //CustomData.friendList.Add(squelchEntry);
-                player.customSquelches.Add(squelchEntry);
+                player.CustomPlayer.CustomSquelches.Add(squelchEntry);
             }
         }
 
@@ -460,7 +473,7 @@ namespace ACE.Server.Utils
         {
             foreach (SquelchInfo squelch in squelches.Characters.Values)
             {
-                ACE.Database.Models.Custom.CustomNameMap nameMap = ACE.Database.DatabaseManager.Custom.GetSingleNameMap(squelch.PlayerName);
+                ACE.Database.Models.Custom.CustomPlayer nameMap = ACE.Database.DatabaseManager.Custom.GetSingleCustomPlayerByName(squelch.PlayerName);
 
                 if (nameMap != null)
                 {
@@ -471,8 +484,7 @@ namespace ACE.Server.Utils
 
         public static bool IsFriendByRealName(String friendName, Player player)
         {
-            return player.customFriends.Where(x => x.CharacterId == player.Character.Id && x.FriendRealName == friendName && x.IsRealName).Any();
-            //return CustomData.friendList.Where(x => x.CharacterId == player.Character.Id && x.FriendRealName == friendName && x.IsRealName).Any();
+            return player.CustomPlayer.CustomFriends.Where(x => x.CharacterId == player.Character.Id && x.FriendRealName == friendName && x.IsRealName).Any();
         }
 
         public static uint[] PlayerSpellTable = {

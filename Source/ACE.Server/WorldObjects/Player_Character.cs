@@ -129,7 +129,7 @@ namespace ACE.Server.WorldObjects
 
 
         // =====================================
-        // Friends
+        // CustomFriends
         // =====================================
 
         /// <summary>

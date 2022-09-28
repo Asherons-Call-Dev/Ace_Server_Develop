@@ -14,5 +14,7 @@ namespace ACE.Database.Models.Custom
         public String SquelchRealName { get; set; }
         public String SquelchModifiedName { get; set; }
         public uint SquelchType { get; set; }
+
+        public virtual CustomPlayer Object { get; set; }
     }
 }

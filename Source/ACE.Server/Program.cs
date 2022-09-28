@@ -303,11 +303,14 @@ namespace ACE.Server
             log.Info("Initializing EventManager...");
             EventManager.Initialize();
 
-            log.Info("Initializing CustomNameMaps...");
-            Utils.CustomData.InitializeCustomNameMaps();
+            log.Info("Initializing CustomPlayers...");
+            Utils.CustomData.InitializeCustomPlayers();
 
-            log.Info("Initializing CustomFriendList...");
-            Utils.CustomData.InitializeCustomFriendList();
+            log.Info("Initializing CustomFriends...");
+            Utils.CustomData.InitializeCustomFriends();
+
+            log.Info("Initializing CustomSquelches...");
+            Utils.CustomData.InitializeCustomSquelches();
 
             // Free up memory before the server goes online. This can free up 6 GB+ on larger servers.
             log.Info("Forcing .net garbage collection...");

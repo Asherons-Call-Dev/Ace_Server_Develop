@@ -37,69 +37,105 @@ namespace ACE.Database
             }
         }
 
-        public void CreateNameMap(uint playerId, String realName, String modifiedName, double? loginTimestamp, List<CustomNameMap> nameMapList)
+        public CustomPlayer CreateCustomPlayer(uint playerId, String realName, String modifiedName, double? loginTimestamp, CustomPlayer customPlayer, List<CustomPlayer> customPlayerList)
         {
             using (var context = new CustomDbContext())
             {
-                var nameMapItem = context.NameMaps
+                var customPlayerItem = context.CustomPlayers
                     .FirstOrDefault(r => r.PlayerId == playerId);
 
-                if (nameMapItem == null)
+                if (customPlayerItem == null)
                 {
-                    var nameMap = new CustomNameMap();
-                    nameMap.PlayerId = playerId;
-                    nameMap.PlayerRealName = realName;
-                    nameMap.PlayerModifiedName = modifiedName;
-                    nameMap.LastLoginTimestamp = loginTimestamp;
-                    nameMap.LoginCount = 1;
-                    context.NameMaps.Add(nameMap);
+                    customPlayer.PlayerId = playerId;
+                    customPlayer.PlayerRealName = realName;
+                    customPlayer.PlayerModifiedName = modifiedName;
+                    customPlayer.LastLoginTimestamp = loginTimestamp;
+                    customPlayer.LoginCount = 1;
+                    context.CustomPlayers.Add(customPlayer);
                     context.SaveChanges();
-                    nameMapList.Add(nameMap);
+                    customPlayerList.Add(customPlayer);
+                    return customPlayer;
                 }
                 else
                 {
-                    UpdateNameMap(playerId, realName, modifiedName, loginTimestamp, nameMapItem, context, nameMapList);
+                    CustomPlayer updatedPlayer = UpdateCustomPlayer(playerId, realName, modifiedName, loginTimestamp, customPlayerItem, context, customPlayerList);
+                    return updatedPlayer;
                 }
             }
         }
 
-        public void UpdateNameMap(uint playerId, String realName, String modifiedName, double? loginTimestamp, CustomNameMap nameMap, CustomDbContext context, List<CustomNameMap> nameMapList)
+        public CustomPlayer UpdateCustomPlayer(uint playerId, String realName, String modifiedName, double? loginTimestamp, CustomPlayer customPlayer, CustomDbContext context, List<CustomPlayer> customPlayerList)
         {
-            if (nameMap != null)
+            if (customPlayer != null)
             {
-                CustomNameMap existingItem = nameMapList.Where(x => x.PlayerId == playerId).FirstOrDefault();
-                int index = nameMapList.IndexOf(existingItem);
-                nameMap.PlayerModifiedName = modifiedName;
-                nameMap.LastLoginTimestamp = loginTimestamp;
-                nameMap.LoginCount++;
+                CustomPlayer existingCustomPlayer = customPlayerList.Where(x => x.PlayerId == playerId).FirstOrDefault();
+                int index = customPlayerList.IndexOf(existingCustomPlayer);
+                customPlayer.PlayerModifiedName = modifiedName;
+                customPlayer.LastLoginTimestamp = loginTimestamp;
+                customPlayer.LoginCount++;
 
                 context.SaveChanges();
-                nameMapList[index] = nameMap;
+                customPlayerList[index] = customPlayer;
+                return customPlayer;
                 
             }
+
+            return null;
         }
 
-        public List<CustomNameMap> GetAllNameMaps()
+        public List<CustomPlayer> GetAllCustomPlayers()
         {
-            List<CustomNameMap> nameMaps = new List<CustomNameMap>();
+            List<CustomPlayer> customPlayers = new List<CustomPlayer>();
 
             using (var context = new CustomDbContext())
             {
-                nameMaps = context.NameMaps.ToList();
+                customPlayers = context.CustomPlayers.ToList();
             }
 
-            return nameMaps;
+            return customPlayers;
         }
 
-        public CustomNameMap GetSingleNameMap(String playerName)
+        public CustomPlayer GetSingleCustomPlayer(uint playerId)
         {
             using (var context = new CustomDbContext())
             {
-                var nameMap = context.NameMaps.Where(x => x.PlayerRealName == playerName).FirstOrDefault();
+                var customPlayer = context.CustomPlayers.Where(x => x.PlayerId == playerId).FirstOrDefault();
+
+                if (customPlayer != null)
+                {
+                    return customPlayer;
+                }
+
+                return null;
+            }
+        }
+
+        public CustomPlayer InitializeExistingCustomPlayer(uint playerId)
+        {
+            using (var context = new CustomDbContext())
+            {
+                var customPlayer = context.CustomPlayers.Where(x => x.PlayerId == playerId).FirstOrDefault();
+
+                if (customPlayer != null)
+                {
+                    customPlayer.CustomFriends = context.CustomFriends.Where(x => x.CharacterId == playerId).ToList();
+                    customPlayer.CustomSquelches = context.CustomSquelches.Where(x => x.CharacterId == playerId).ToList();
+                    return customPlayer;
+                }
+
+                return null;
+            }
+        }
+
+        public CustomPlayer GetSingleCustomPlayerByName(String playerName)
+        {
+            using (var context = new CustomDbContext())
+            {
+                var nameMap = context.CustomPlayers.Where(x => x.PlayerRealName == playerName).FirstOrDefault();
 
                 if (nameMap == null)
                 {
-                    nameMap = context.NameMaps.Where(x => x.PlayerModifiedName == playerName).FirstOrDefault();
+                    nameMap = context.CustomPlayers.Where(x => x.PlayerModifiedName == playerName).FirstOrDefault();
                 }
 
                 if (nameMap != null)
@@ -111,22 +147,22 @@ namespace ACE.Database
             }
         }
 
-        public CustomFriendList AddFriend(uint characterId, uint friendId, String realName, String modifiedName, bool isRealName)
+        public CustomFriend AddFriend(uint characterId, uint friendId, String realName, String modifiedName, bool isRealName)
         {
             using (var context = new CustomDbContext())
             {
-                var friendItem = context.Friends
+                var friendItem = context.CustomFriends
                     .FirstOrDefault(r => (r.CharacterId == characterId) && (r.FriendId == friendId));
 
                 if (friendItem == null)
                 {
-                    var friendMap = new CustomFriendList();
+                    var friendMap = new CustomFriend();
                     friendMap.CharacterId = characterId;
                     friendMap.FriendId = friendId;
                     friendMap.FriendRealName = realName;
                     friendMap.FriendModifiedName = modifiedName;
                     friendMap.IsRealName = isRealName;
-                    context.Friends.Add(friendMap);
+                    context.CustomFriends.Add(friendMap);
                     context.SaveChanges();
                     return friendMap;
                 }
@@ -139,36 +175,36 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var friendItem = context.Friends
+                var friendItem = context.CustomFriends
                     .FirstOrDefault(r => (r.CharacterId == characterId) && (r.FriendId == friendId));
 
                 if (friendItem != null)
                 {
-                    context.Friends.Remove(friendItem);
+                    context.CustomFriends.Remove(friendItem);
                     context.SaveChanges();
                 }
             }
         }
 
-        public List<CustomFriendList> GetAllFriends()
+        public List<CustomFriend> GetAllFriends()
         {
-            List<CustomFriendList> friends = new List<CustomFriendList>();
+            List<CustomFriend> friends = new List<CustomFriend>();
 
             using (var context = new CustomDbContext())
             {
-                friends = context.Friends.ToList();
+                friends = context.CustomFriends.ToList();
             }
 
             return friends;
         }
 
-        public List<CustomFriendList> GetFriendsByCharacter(uint characterId)
+        public List<CustomFriend> GetFriendsByCharacter(uint characterId)
         {
-            List<CustomFriendList> friends = new List<CustomFriendList>();
+            List<CustomFriend> friends = new List<CustomFriend>();
 
             using (var context = new CustomDbContext())
             {
-                friends = context.Friends.Where(x => x.CharacterId == characterId).ToList();
+                friends = context.CustomFriends.Where(x => x.CharacterId == characterId).ToList();
             }
 
             return friends;
@@ -180,7 +216,7 @@ namespace ACE.Database
 
             using (var context = new CustomDbContext())
             {
-                squelches = context.Squelches.Where(x => x.CharacterId == characterId).ToList();
+                squelches = context.CustomSquelches.Where(x => x.CharacterId == characterId).ToList();
             }
 
             return squelches;
@@ -190,7 +226,7 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var squelchItem = context.Squelches
+                var squelchItem = context.CustomSquelches
                     .FirstOrDefault(r => (r.CharacterId == characterId) && (r.SquelchCharacterId == squelchCharacterId));
 
                 if (squelchItem == null)
@@ -202,7 +238,7 @@ namespace ACE.Database
                     squelch.SquelchModifiedName = modifiedName;
                     squelch.SquelchAccountId = squelchAccountId;
                     squelch.SquelchType = type;
-                    context.Squelches.Add(squelch);
+                    context.CustomSquelches.Add(squelch);
                     context.SaveChanges();
                     return squelch;
                 }
@@ -220,15 +256,27 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var squelchItem = context.Squelches
+                var squelchItem = context.CustomSquelches
                     .FirstOrDefault(r => (r.CharacterId == characterId) && (r.SquelchCharacterId == squelchCharacterId));
 
                 if (squelchItem != null)
                 {
-                    context.Squelches.Remove(squelchItem);
+                    context.CustomSquelches.Remove(squelchItem);
                     context.SaveChanges();
                 }
             }
+        }
+
+        public List<CustomSquelch> GetAllSquelches()
+        {
+            List<CustomSquelch> squelches = new List<CustomSquelch>();
+
+            using (var context = new CustomDbContext())
+            {
+                squelches = context.CustomSquelches.ToList();
+            }
+
+            return squelches;
         }
     }
 }

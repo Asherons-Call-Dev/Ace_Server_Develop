@@ -101,8 +101,8 @@ namespace ACE.Server.WorldObjects.Managers
 
                 if (player == null)
                 {
-                    String basePlayerName = this.Player.customSquelches.Where(x => x.SquelchModifiedName == playerName).Select(y => y.SquelchRealName).FirstOrDefault();
-                    String modifiedPlayerName = Utils.CustomData.nameMap.Where(x => x.PlayerRealName == basePlayerName).Select(y => y.PlayerModifiedName).FirstOrDefault();
+                    String basePlayerName = this.Player.CustomPlayer.CustomSquelches.Where(x => x.SquelchModifiedName == playerName).Select(y => y.SquelchRealName).FirstOrDefault();
+                    String modifiedPlayerName = Utils.CustomData.customPlayers.Where(x => x.PlayerRealName == basePlayerName).Select(y => y.PlayerModifiedName).FirstOrDefault();
                     //Utils.PlayerUtils.isAddRemoveSquelch = true;
                     player = PlayerManager.FindByName(modifiedPlayerName);
                     //Utils.PlayerUtils.isAddRemoveSquelch = false;

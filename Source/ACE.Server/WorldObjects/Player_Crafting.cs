@@ -164,7 +164,7 @@ namespace ACE.Server.WorldObjects
             //    TryCreateInInventoryWithNetworking(salvageBag);
 
             //// send network messages
-            //if (!SquelchManager.Squelches.Contains(this, ChatMessageType.Salvaging))
+            //if (!SquelchManager.CustomSquelches.Contains(this, ChatMessageType.Salvaging))
             //{
             //    foreach (var kvp in salvageResults.GetMessages())
             //        Session.Network.EnqueueSend(new GameEventSalvageOperationsResult(Session, kvp.Key, kvp.Value));

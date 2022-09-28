@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace ACE.Database.Models.Custom
 {
-    public partial class CustomFriendList
+    public partial class CustomFriend
     {
         public uint CharacterId { get; set; }
         public uint FriendId { get; set; }
         public String FriendRealName { get; set; }
         public String FriendModifiedName { get; set; }
         public bool IsRealName { get; set; }
+
+        public virtual CustomPlayer Object { get; set; }
     }
 }

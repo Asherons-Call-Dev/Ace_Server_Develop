@@ -45,9 +45,7 @@ namespace ACE.Server.WorldObjects
 
         public bool LastContact = true;
 
-        public List<ACE.Database.Models.Custom.CustomFriendList> customFriends= new List<ACE.Database.Models.Custom.CustomFriendList>();
-
-        public List<ACE.Database.Models.Custom.CustomSquelch> customSquelches = new List<ACE.Database.Models.Custom.CustomSquelch>();
+        public ACE.Database.Models.Custom.CustomPlayer CustomPlayer { get; set; }
 
         public bool IsJumping
         {
@@ -108,6 +106,8 @@ namespace ACE.Server.WorldObjects
             }
             else
                 Biota.PropertiesCreateList?.Clear();
+
+            CustomPlayer = new ACE.Database.Models.Custom.CustomPlayer();           
         }
 
         /// <summary>
@@ -127,8 +127,7 @@ namespace ACE.Server.WorldObjects
 
             UpdateCoinValue(false);
 
-            customFriends = DatabaseManager.Custom.GetFriendsByCharacter(this.Character.Id);
-            customSquelches = DatabaseManager.Custom.GetSquelchByCharacter(this.Character.Id);
+            CustomPlayer = DatabaseManager.Custom.InitializeExistingCustomPlayer(this.Character.Id);
         }
 
         public override void InitPhysicsObj()

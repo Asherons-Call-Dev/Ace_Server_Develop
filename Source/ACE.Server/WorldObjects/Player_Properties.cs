@@ -27,26 +27,6 @@ namespace ACE.Server.WorldObjects
                 else
                 {
                     return Utils.PlayerUtils.GetPlayerName(base.Name, this);
-
-                    //if (Utils.PlayerUtils.playerNameMap.ContainsKey(base.Name))
-                    //{
-                    //    return Utils.PlayerUtils.GetPlayerName(base.Name);
-                    //}
-                    //else
-                    //{
-                    //    return base.Name;
-                    //}
-
-                    //if (Utils.PlayerUtils.IsReturnModifiedName())
-                    //{
-                    //    if (Utils.PlayerUtils.isGameActionBuyHouse)
-                    //    {
-                    //        return "Anonymous";
-                    //    }
-                    //    return modifiedName;
-                    //}
-
-                    //return base.Name;
                 }
             }
 
@@ -58,7 +38,6 @@ namespace ACE.Server.WorldObjects
         {
             if (!IsOlthoiPlayer)
                 //return Name;
-                //return ModifiedName;
                 return Utils.PlayerUtils.GetPlayerName(base.Name, this);
             else
             {
