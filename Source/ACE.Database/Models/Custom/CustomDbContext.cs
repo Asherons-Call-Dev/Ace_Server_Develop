@@ -62,6 +62,12 @@ namespace ACE.Database.Models.Custom
 
                 entity.Property(e => e.LoginCount)
                     .HasColumnName("login_count");
+
+                entity.Property(e => e.UseRealNameAllegiance)
+                    .HasColumnName("use_name_allegiance");
+
+                entity.Property(e => e.UseRealNameFellowship)
+                    .HasColumnName("use_name_fellowship");
             });
 
             modelBuilder.Entity<CustomFriend>(entity =>

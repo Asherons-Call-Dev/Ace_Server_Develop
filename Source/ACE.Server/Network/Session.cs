@@ -206,6 +206,8 @@ namespace ACE.Server.Network
             if (Player.CharacterChangesDetected)
                 Player.SaveCharacterToDatabase();
 
+            Utils.PlayerUtils.SaveCustomPlayerChanges(Player.CustomPlayer);
+
             if (logOffRequestTime == DateTime.MinValue)
             {
                 var result = Player.LogOut(false, forceImmediate);

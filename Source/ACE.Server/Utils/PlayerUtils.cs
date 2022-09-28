@@ -1,4 +1,5 @@
 using ACE.Database;
+using ACE.Database.Models.Custom;
 using ACE.Database.Models.Shard;
 using ACE.DatLoader;
 using ACE.Entity;
@@ -366,11 +367,11 @@ namespace ACE.Server.Utils
                 isAllegianceChat = false;
                 return basePlayerName;
             }
-            else if (isAllegianceChat && player.CustomPlayer.IsRealNameAllegiance)
+            else if (isAllegianceChat && player.CustomPlayer.UseRealNameAllegiance)
             {
                 return basePlayerName;
             }
-            else if (isFellowshipChat && player.CustomPlayer.IsRealNameFellowship)
+            else if (isFellowshipChat && player.CustomPlayer.UseRealNameFellowship)
             {
                 return basePlayerName;
             }
@@ -503,6 +504,14 @@ namespace ACE.Server.Utils
             if (adjustedChannelID > TurbineChatChannel.Olthoi || adjustedChannelID == TurbineChatChannel.Allegiance)
             {
                 isAllegianceChat = true;
+            }
+        }
+
+        public static void SaveCustomPlayerChanges(CustomPlayer customPlayer)
+        {
+            if (customPlayer.CustomPlayerChangesDetected)
+            {
+                DatabaseManager.Custom.SaveCustomPlayerToDatabase(customPlayer);
             }
         }
 

@@ -83,6 +83,17 @@ namespace ACE.Database
             return null;
         }
 
+        public void SaveCustomPlayerToDatabase(CustomPlayer customPlayer)
+        {
+            if (customPlayer != null)
+            {
+                using (var context = new CustomDbContext())
+                {
+                    context.SaveChanges();
+                }
+            }
+        }
+
         public List<CustomPlayer> GetAllCustomPlayers()
         {
             List<CustomPlayer> customPlayers = new List<CustomPlayer>();

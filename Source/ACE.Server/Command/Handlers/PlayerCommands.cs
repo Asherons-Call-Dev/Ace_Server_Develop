@@ -532,6 +532,7 @@ namespace ACE.Server.Command.Handlers
             Utils.PlayerUtils.isAddFriendByActualName = true;
             session.Player.HandleActionAddFriend(friendName);
             Utils.PlayerUtils.isAddFriendByActualName = false;
+            session.Player.CustomPlayer.CustomPlayerChangesDetected = true;
         }
 
         [CommandHandler("displaynamefellowship", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Shows character name in fellowship chat")]
@@ -541,12 +542,14 @@ namespace ACE.Server.Command.Handlers
 
             if (result == "on")
             {
-                session.Player.CustomPlayer.IsRealNameFellowship = true;
+                session.Player.CustomPlayer.UseRealNameFellowship = true;
             }
             else if (result == "off")
             {
-                session.Player.CustomPlayer.IsRealNameFellowship = false;
+                session.Player.CustomPlayer.UseRealNameFellowship = false;
             }
+
+            session.Player.CustomPlayer.CustomPlayerChangesDetected = true;
         }
 
         [CommandHandler("displaynameallegiance", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Shows character name in allegiance chat")]
@@ -556,12 +559,14 @@ namespace ACE.Server.Command.Handlers
 
             if (result == "on")
             {
-                session.Player.CustomPlayer.IsRealNameAllegiance = true;
+                session.Player.CustomPlayer.UseRealNameAllegiance = true;
             }
             else if (result == "off")
             {
-                session.Player.CustomPlayer.IsRealNameAllegiance = false;
+                session.Player.CustomPlayer.UseRealNameAllegiance = false;
             }
+
+            session.Player.CustomPlayer.CustomPlayerChangesDetected = true;
         }
     }
 }
