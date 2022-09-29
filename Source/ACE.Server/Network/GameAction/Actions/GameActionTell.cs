@@ -33,13 +33,8 @@ namespace ACE.Server.Network.GameAction.Actions
                 return;
             }
 
-            Utils.PlayerUtils.isGameActionTell = true;
-            Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(targetPlayer.BaseName, session.Player);
             if (session.Player != targetPlayer)
             {
-                //Utils.PlayerUtils.targetPlayer = targetPlayer;
-                Utils.PlayerUtils.targetPlayerName = targetPlayer.Name;
-                Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(targetPlayer.BaseName, session.Player);
                 session.Network.EnqueueSend(new GameMessageSystemChat($"You tell {targetPlayer.Name}, \"{message}\"", ChatMessageType.OutgoingTell));
             }
 
@@ -58,7 +53,6 @@ namespace ACE.Server.Network.GameAction.Actions
 
             var tell = new GameEventTell(targetPlayer.Session, message, session.Player.GetNameWithSuffix(), session.Player.Guid.Full, targetPlayer.Guid.Full, ChatMessageType.Tell);
             targetPlayer.Session.Network.EnqueueSend(tell);
-            Utils.PlayerUtils.isGameActionTell = false;
         }
     }
 }

@@ -95,6 +95,7 @@ namespace ACE.Database
                 using (var context = new CustomDbContext())
                 {
                     context.SaveChanges();
+                    customPlayer.CustomPlayerChangesDetected = false;
                 }
             }
         }
@@ -170,16 +171,16 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var nameMap = context.CustomPlayers.Where(x => x.PlayerRealName == playerName).FirstOrDefault();
+                var customPlayer = context.CustomPlayers.Where(x => x.PlayerRealName == playerName).FirstOrDefault();
 
-                if (nameMap == null)
+                if (customPlayer == null)
                 {
-                    nameMap = context.CustomPlayers.Where(x => x.PlayerModifiedName == playerName).FirstOrDefault();
+                    customPlayer = context.CustomPlayers.Where(x => x.PlayerModifiedName == playerName).FirstOrDefault();
                 }
 
-                if (nameMap != null)
+                if (customPlayer != null)
                 {
-                    return nameMap;
+                    return customPlayer;
                 }
 
                 return null;
@@ -210,16 +211,13 @@ namespace ACE.Database
             return null;
         }
 
-        public void RemoveFriend(uint characterId, uint friendId)
+        public void RemoveFriend(CustomFriend customFriend)
         {
             using (var context = new CustomDbContext())
             {
-                var friendItem = context.CustomFriends
-                    .FirstOrDefault(r => (r.CharacterId == characterId) && (r.FriendId == friendId));
-
-                if (friendItem != null)
+                if (customFriend != null)
                 {
-                    context.CustomFriends.Remove(friendItem);
+                    context.CustomFriends.Remove(customFriend);
                     context.SaveChanges();
                 }
             }

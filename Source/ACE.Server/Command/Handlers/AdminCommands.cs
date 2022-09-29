@@ -4741,7 +4741,7 @@ namespace ACE.Server.Command.Handlers
             LootSwap.UpdateTables(folder);
         }
 
-        [CommandHandler("updatecustomdata", AccessLevel.Admin, CommandHandlerFlag.None, 0, "Syncs custom data with ACE data!")]
+        [CommandHandler("updatecustomdata", AccessLevel.Admin, CommandHandlerFlag.None, 0, "Syncs custom data with ACE data")]
         public static void HandleUpdateCustomData(Session session, params string[] parameters)
         {
             List<ACE.Database.Models.Custom.CustomPlayer> customPlayers = DatabaseManager.Custom.GetAllCustomPlayers();
@@ -4771,5 +4771,21 @@ namespace ACE.Server.Command.Handlers
                 }
             }
         }
-    }
+
+        [CommandHandler("getplayername", AccessLevel.Admin, CommandHandlerFlag.RequiresWorld, 1, "Gets player's unmodified name")]
+        public static void HandleGetPlayerName(Session session, params string[] parameters)
+        {
+            var playerModifiedName = string.Join(" ", parameters);
+
+            ACE.Database.Models.Custom.CustomPlayer customPlayer = DatabaseManager.Custom.GetSingleCustomPlayerByName(playerModifiedName);
+
+            if (customPlayer != null)
+            {
+                CommandHandlerHelper.WriteOutputInfo(session, "Player name: " + customPlayer.PlayerRealName, ChatMessageType.Help);
+            }
+            else
+            {
+                CommandHandlerHelper.WriteOutputInfo(session, "Player name not found", ChatMessageType.Help);
+            }
+        }
 }

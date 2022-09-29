@@ -344,7 +344,7 @@ namespace ACE.Server.Utils
         public static void SetCustomPlayer(Player player)
         {
             DatabaseManager.Custom.CreateCustomPlayer(player.Character.Id, player.BaseName,
-                player.modifiedName, player.LoginTimestamp, player.CustomPlayer, Utils.CustomData.customPlayers);
+                player.modifiedName, player.LoginTimestamp, player.CustomPlayer, CustomData.customPlayers);
         }
 
         public static String GetPlayerName(String basePlayerName, Player player)
@@ -377,17 +377,9 @@ namespace ACE.Server.Utils
             }
             else
             {
-                if (CustomData.customPlayers.Any(x => x.PlayerRealName == basePlayerName))
+                if (player.CustomPlayer.PlayerModifiedName != null)
                 {
-                    String modName = CustomData.customPlayers.Where(x => x.PlayerRealName == basePlayerName && x.PlayerModifiedName != null)
-                        .Select(y => y.PlayerModifiedName).FirstOrDefault();
-
-                    if (modName != null)
-                    {
-                        return modName;
-                    }
-
-                    return basePlayerName;
+                    return player.CustomPlayer.PlayerModifiedName;
                 }
                 else
                 {
@@ -441,43 +433,63 @@ namespace ACE.Server.Utils
         {
             if (friend.GetType() == typeof(Player))
             {
-                ACE.Database.Models.Custom.CustomFriend friendEntry =
+                CustomFriend friendEntry =
                     DatabaseManager.Custom.AddFriend(player.Character.Id, friend.Guid.Full, ((Player)friend).BaseName, ((Player)friend).modifiedName, isAddFriendByActualName);
-                CustomData.customFriends.Add(friendEntry);
-                player.CustomPlayer.CustomFriends.Add(friendEntry);
+
+                if (friendEntry != null)
+                {
+                    CustomData.customFriends.Add(friendEntry);
+                    player.CustomPlayer.CustomFriends.Add(friendEntry);
+                }
             }
             else if (friend.GetType() == typeof(OfflinePlayer))
             {
-                ACE.Database.Models.Custom.CustomFriend friendEntry =
+                CustomFriend friendEntry =
                     DatabaseManager.Custom.AddFriend(player.Character.Id, friend.Guid.Full, friend.Name, GetAnonymousName(), isAddFriendByActualName);
-                CustomData.customFriends.Add(friendEntry);
-                player.CustomPlayer.CustomFriends.Add(friendEntry);
+
+                if (friendEntry != null)
+                {
+                    CustomData.customFriends.Add(friendEntry);
+                    player.CustomPlayer.CustomFriends.Add(friendEntry);
+                }
             }
         }
 
         public static void RemoveFriend(uint friendId, Player player)
         {
-            ACE.Database.Models.Custom.CustomFriend friendEntry =
+            CustomFriend friendEntry =
                 CustomData.customFriends.Where(x => x.FriendId == friendId && x.CharacterId == player.Character.Id).FirstOrDefault();
             player.CustomPlayer.CustomFriends.Remove(friendEntry);
-            ACE.Database.DatabaseManager.Custom.RemoveFriend(player.Character.Id, friendId);
+
+            if (friendEntry != null)
+            {
+                DatabaseManager.Custom.RemoveFriend(friendEntry);
+            }           
         }
 
         public static void AddCharacterSquelch(Player player, IPlayer squelchPlayer, uint squelchAccountId, uint type)
         {
             if (squelchPlayer.GetType() == typeof(Player))
             {
-                ACE.Database.Models.Custom.CustomSquelch squelchEntry =
+                CustomSquelch squelchEntry =
                     DatabaseManager.Custom.AddSquelch(player.Character.Id, squelchPlayer.Guid.Full, ((Player)squelchPlayer).BaseName,
-                        ((Player)squelchPlayer).modifiedName, squelchAccountId, type);;
-                player.CustomPlayer.CustomSquelches.Add(squelchEntry);
+                        ((Player)squelchPlayer).modifiedName, squelchAccountId, type);
+
+                if (squelchEntry != null)
+                {
+                    player.CustomPlayer.CustomSquelches.Add(squelchEntry);
+                }
             }
             else if (squelchPlayer.GetType() == typeof(OfflinePlayer))
             {
-                ACE.Database.Models.Custom.CustomSquelch squelchEntry =
+                CustomSquelch squelchEntry =
                     DatabaseManager.Custom.AddSquelch(player.Character.Id, squelchPlayer.Guid.Full, squelchPlayer.Name,
                         GetAnonymousName(), squelchAccountId, type);
-                player.CustomPlayer.CustomSquelches.Add(squelchEntry);
+
+                if (squelchEntry != null)
+                {
+                    player.CustomPlayer.CustomSquelches.Add(squelchEntry);
+                }
             }
         }
 
@@ -485,7 +497,7 @@ namespace ACE.Server.Utils
         {
             foreach (SquelchInfo squelch in squelches.Characters.Values)
             {
-                ACE.Database.Models.Custom.CustomPlayer nameMap = ACE.Database.DatabaseManager.Custom.GetSingleCustomPlayerByName(squelch.PlayerName);
+                CustomPlayer nameMap = DatabaseManager.Custom.GetSingleCustomPlayerByName(squelch.PlayerName);
 
                 if (nameMap != null)
                 {

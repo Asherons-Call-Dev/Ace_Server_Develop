@@ -107,6 +107,7 @@ namespace ACE.Server.WorldObjects
         {
             CharacterLastRequestedDatabaseSave = DateTime.UtcNow;
             CharacterChangesDetected = false;
+            Utils.PlayerUtils.SaveCustomPlayerChanges(this.CustomPlayer);
 
             //DatabaseManager.Shard.SaveCharacter(Character, CharacterDatabaseLock, null);
             DatabaseManager.Shard.SaveCharacter(Character, CharacterDatabaseLock, result =>
