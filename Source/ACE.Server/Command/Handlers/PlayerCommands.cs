@@ -541,7 +541,7 @@ namespace ACE.Server.Command.Handlers
             var friendName = string.Join(" ", parameters);
 
             Utils.PlayerUtils.isAddFriendByActualName = true;
-            session.Player.HandleActionAddFriend(friendName);
+            session.Player.HandleActionAddGuest(friendName);
             Utils.PlayerUtils.isAddFriendByActualName = false;
             session.Player.CustomPlayer.CustomPlayerChangesDetected = true;
         }
