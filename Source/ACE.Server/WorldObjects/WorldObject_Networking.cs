@@ -1343,7 +1343,7 @@ namespace ACE.Server.WorldObjects
         /// Sends network messages to all Players who currently know about this object
         /// within a maximum range
         /// </summary>
-        public void EnqueueBroadcast(GameMessage msg, float range, ChatMessageType? squelchType = null)
+        public void EnqueueBroadcast(GameMessage msg, float range, ChatMessageType? squelchType = null, GameMessage warDetectMsg = null, bool isSpellWords = false)
         {
             if (PhysicsObj == null || CurrentLandblock == null) return;
 
@@ -1373,7 +1373,18 @@ namespace ACE.Server.WorldObjects
                 //var distSquared = Vector3.DistanceSquared(Location.ToGlobal(), player.Location.ToGlobal());
                 var distSquared = Location.SquaredDistanceTo(player.Location);
                 if (distSquared <= rangeSquared)
+                {
                     player.Session.Network.EnqueueSend(msg);
+
+                    //if (player.isUsingWarDetect && isSpellWords)
+                    //{
+                    //player.Session.Network.EnqueueSend(warDetectMsg);
+                    //}
+                    //else
+                    //{
+                    //    player.Session.Network.EnqueueSend(msg);
+                    //}
+                }               
             }
         }
 

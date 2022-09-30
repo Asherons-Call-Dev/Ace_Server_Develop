@@ -535,6 +535,17 @@ namespace ACE.Server.Command.Handlers
             session.Player.CustomPlayer.CustomPlayerChangesDetected = true;
         }
 
+        [CommandHandler("addguestbyname", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Adds guest by character name")]
+        public static void HandleAddGuestByActualName(Session session, params string[] parameters)
+        {
+            var friendName = string.Join(" ", parameters);
+
+            Utils.PlayerUtils.isAddFriendByActualName = true;
+            session.Player.HandleActionAddFriend(friendName);
+            Utils.PlayerUtils.isAddFriendByActualName = false;
+            session.Player.CustomPlayer.CustomPlayerChangesDetected = true;
+        }
+
         [CommandHandler("displaynamefellowship", AccessLevel.Player, CommandHandlerFlag.RequiresWorld, 1, "Shows character name in fellowship chat")]
         public static void HandleFellowshipChatDisplayName(Session session, params string[] parameters)
         {

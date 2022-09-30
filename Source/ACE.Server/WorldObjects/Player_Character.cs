@@ -144,8 +144,10 @@ namespace ACE.Server.WorldObjects
                 return;
             }
 
+            Utils.PlayerUtils.isFriendByRealName = true;
             // get friend player info
             var friend = PlayerManager.FindByName(friendName);
+            Utils.PlayerUtils.isFriendByRealName = false;
 
             if (friend == null)
             {

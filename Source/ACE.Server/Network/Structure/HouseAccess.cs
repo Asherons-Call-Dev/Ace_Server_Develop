@@ -51,7 +51,12 @@ namespace ACE.Server.Network.Structure
                 var player = PlayerManager.FindByGuid(guest.Key);
 
                 if (player != null && player.Guid != MonarchID)
-                    GuestList.Add(guest.Key, new GuestInfo(guest.Value, player.Name));
+                {
+                    String guestName = Utils.PlayerUtils.GetHouseGuestAndStorageName(house.HouseOwner.Value, player);
+                    GuestList.Add(guest.Key, new GuestInfo(guest.Value, guestName));
+                    //GuestList.Add(guest.Key, new GuestInfo(guest.Value, player.Name));
+                }
+                    
 
                 if (player.Guid == MonarchID)
                 {                    

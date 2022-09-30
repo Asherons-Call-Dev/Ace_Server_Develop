@@ -41,7 +41,6 @@ namespace ACE.Server.Network.GameAction.Actions
             if (targetPlayer.SquelchManager.Squelches.Contains(session.Player, ChatMessageType.Tell))
             {
                 session.Network.EnqueueSend(new GameEventWeenieErrorWithString(session, WeenieErrorWithString.MessageBlocked_,$"{target} has you squelched."));
-                Utils.PlayerUtils.isGameActionTell = false;
                 return;
             }
 

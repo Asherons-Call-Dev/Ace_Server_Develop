@@ -134,9 +134,7 @@ namespace ACE.Server.Network.Managers
 
                 try
                 {
-                    Utils.PlayerUtils.isGameAction = true;
                     actionHandlerInfo.Handler.Invoke(message, session);
-                    Utils.PlayerUtils.isGameAction = false;
                 }
                 catch (Exception ex)
                 {

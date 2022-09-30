@@ -4788,4 +4788,5 @@ namespace ACE.Server.Command.Handlers
                 CommandHandlerHelper.WriteOutputInfo(session, "Player name not found", ChatMessageType.Help);
             }
         }
+    }
 }

@@ -36,16 +36,20 @@ namespace ACE.Server.WorldObjects
 
         public string GetNameWithSuffix()
         {
-            if (!IsOlthoiPlayer)
+            if (IsPlussed && CloakStatus < CloakStatus.Player)
+            {
+                return "+" + base.Name;
+            }
+            else if (!IsOlthoiPlayer)
                 //return Name;
                 return Utils.PlayerUtils.GetPlayerName(base.Name, this);
             else
             {
                 if (NoOlthoiTalk)
-                    return ModifiedName + "^";
+                    return Utils.PlayerUtils.GetPlayerName(base.Name, this) + "^";
                 //return Name + "^";
                 else
-                    return ModifiedName + "&";
+                    return Utils.PlayerUtils.GetPlayerName(base.Name, this) + "&";
                 //return Name + "&";
             }
         }

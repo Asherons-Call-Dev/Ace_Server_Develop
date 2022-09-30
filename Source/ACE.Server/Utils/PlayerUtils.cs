@@ -6,6 +6,7 @@ using ACE.Entity;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Server.Entity;
+using ACE.Server.Managers;
 using ACE.Server.Network;
 using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.GameMessages.Messages;
@@ -27,19 +28,12 @@ namespace ACE.Server.Utils
         public static bool isAddRemoveFriend = false;
         public static bool isAddRemoveHouseGuest = false;
         public static bool isAddRemoveHouseStorage = false;
-        public static bool isGameActionTell = false;
-        public static bool isGameMessageTurbineChat = false;
-        public static bool isGameActionTalkDirect = false;
-        public static bool isGameAction = false;
         public static bool isGameActionBuyHouse = false;
-        public static bool isGameEventMessage = false;
         public static bool isWorldObjectCreation = false;
         public static bool isAddFriendByActualName = false;
         public static bool isFriendByRealName = false;
         public static bool isAllegianceChat = false;
         public static bool isFellowshipChat = false;
-        public static Player targetPlayer = null;
-        public static String targetPlayerName = null;
 
 
         public static void BuffPlayerLevelSeven(Player player, bool self = true, ulong maxLevel = 7)
@@ -343,8 +337,11 @@ namespace ACE.Server.Utils
 
         public static void SetCustomPlayer(Player player)
         {
-            DatabaseManager.Custom.CreateCustomPlayer(player.Character.Id, player.BaseName,
-                player.modifiedName, player.LoginTimestamp, player.CustomPlayer, CustomData.customPlayers);
+            if (!player.IsPlussed && player.CloakStatus == CloakStatus.Undef)
+            {
+                DatabaseManager.Custom.CreateCustomPlayer(player.Character.Id, player.BaseName,
+                    player.modifiedName, player.LoginTimestamp, player.CustomPlayer, CustomData.customPlayers);
+            }
         }
 
         public static String GetPlayerName(String basePlayerName, Player player)
@@ -363,7 +360,7 @@ namespace ACE.Server.Utils
             else if (isFriendByRealName || isAddRemoveSquelch)
             {
                 isAddRemoveSquelch = false;
-                isFriendByRealName = false;
+                //isFriendByRealName = false;
                 isAllegianceChat = false;
                 return basePlayerName;
             }
@@ -422,6 +419,34 @@ namespace ACE.Server.Utils
             }
 
             return "";
+        }
+
+        public static String GetHouseGuestAndStorageName(uint homeOwnerId, IPlayer guest)
+        {
+            IPlayer homeOwner = PlayerManager.FindByGuid(homeOwnerId);
+
+            if (guest.GetType() == typeof(Player))
+            {
+                if (IsFriendByRealName(((Player)guest).BaseName, (Player)homeOwner))
+                {
+                    return ((Player)guest).BaseName;
+                }
+
+                return ((Player)guest)?.modifiedName ?? guest.Name;
+            }
+            else if (guest.GetType() == typeof(OfflinePlayer))
+            {
+                CustomPlayer customPlayer = DatabaseManager.Custom.GetSingleCustomPlayer(guest.Guid.Full);
+
+                if (customPlayer != null && IsFriendByRealName(customPlayer.PlayerRealName, (Player)homeOwner))
+                {
+                    return customPlayer.PlayerRealName;
+                }
+
+                return customPlayer?.PlayerModifiedName ?? guest.Name;
+            }
+
+            return guest.Name;
         }
 
         public static String GetAnonymousName()

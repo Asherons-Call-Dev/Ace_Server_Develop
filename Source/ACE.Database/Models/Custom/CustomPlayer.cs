@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,8 @@ namespace ACE.Database.Models.Custom
         public bool UseRealNameAllegiance { get; set; }
         public bool UseRealNameFellowship { get; set; }
 
-        public bool CustomPlayerChangesDetected { get; set; }
+        [NotMapped]
+        public virtual bool CustomPlayerChangesDetected { get; set; }
 
         public virtual ICollection<CustomFriend> CustomFriends { get; set; }
 

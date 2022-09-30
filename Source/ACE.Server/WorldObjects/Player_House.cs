@@ -975,7 +975,9 @@ namespace ACE.Server.WorldObjects
             }
 
             var house = GetHouse();
+            Utils.PlayerUtils.isFriendByRealName = true;
             var guest = PlayerManager.FindByName(guestName, out bool isOnline);
+            Utils.PlayerUtils.isFriendByRealName = false;
 
             if (guest == null)
             {
@@ -1024,7 +1026,9 @@ namespace ACE.Server.WorldObjects
             }
 
             var house = GetHouse();
+            Utils.PlayerUtils.isFriendByRealName = Utils.PlayerUtils.IsFriendByRealName(guestName, this);
             var guest = PlayerManager.FindByName(guestName, out bool isOnline);
+            Utils.PlayerUtils.isFriendByRealName = false;
 
             if (guest == null)
             {

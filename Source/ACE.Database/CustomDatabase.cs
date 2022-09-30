@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using log4net;
 using ACE.Database.Models.Custom;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ACE.Database
 {
@@ -41,7 +42,7 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var customPlayerItem = context.CustomPlayers
+                var customPlayerItem = context.CustomPlayers.AsNoTracking()
                     .FirstOrDefault(r => r.PlayerId == playerId);
 
                 if (customPlayerItem == null)
@@ -63,7 +64,7 @@ namespace ACE.Database
                 }
                 else
                 {
-                    CustomPlayer updatedPlayer = UpdateCustomPlayer(playerId, realName, modifiedName, loginTimestamp, customPlayerItem, context, customPlayerList);
+                    CustomPlayer updatedPlayer = UpdateCustomPlayer(playerId, realName, modifiedName, loginTimestamp, customPlayer, context, customPlayerList);
                     return updatedPlayer;
                 }
             }
@@ -79,6 +80,9 @@ namespace ACE.Database
                 customPlayer.LastLoginTimestamp = loginTimestamp;
                 customPlayer.LoginCount++;
 
+                UpdateCustomFriends(customPlayer, context);
+                UpdateCustomSquelches(customPlayer, context);
+                context.Entry(customPlayer).State = EntityState.Modified;
                 context.SaveChanges();
                 customPlayerList[index] = customPlayer;
                 return customPlayer;
@@ -88,12 +92,35 @@ namespace ACE.Database
             return null;
         }
 
+        public void UpdateCustomFriends(CustomPlayer customPlayer, CustomDbContext context)
+        {
+            List<CustomFriend> customFriends = GetAllFriends().Where(x => x.FriendRealName == customPlayer.PlayerRealName).ToList();
+
+            foreach (CustomFriend customFriend in customFriends)
+            {
+                customFriend.FriendModifiedName = customPlayer.PlayerModifiedName;
+                context.Entry(customFriend).State = EntityState.Modified;
+            }
+        }
+
+        public void UpdateCustomSquelches(CustomPlayer customPlayer, CustomDbContext context)
+        {
+            List<CustomSquelch> customSquelches = GetAllSquelches().Where(x => x.SquelchRealName == customPlayer.PlayerRealName).ToList();
+
+            foreach (CustomSquelch customSquelch in customSquelches)
+            {
+                customSquelch.SquelchModifiedName = customPlayer.PlayerModifiedName;
+                context.Entry(customSquelch).State = EntityState.Modified;
+            }
+        }
+
         public void SaveCustomPlayerToDatabase(CustomPlayer customPlayer)
         {
             if (customPlayer != null)
             {
                 using (var context = new CustomDbContext())
                 {
+                    context.Entry(customPlayer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
                     customPlayer.CustomPlayerChangesDetected = false;
                 }
@@ -129,7 +156,7 @@ namespace ACE.Database
 
             using (var context = new CustomDbContext())
             {
-                customPlayers = context.CustomPlayers.ToList();
+                customPlayers = context.CustomPlayers.AsNoTracking().ToList();
             }
 
             return customPlayers;
@@ -139,7 +166,7 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var customPlayer = context.CustomPlayers.Where(x => x.PlayerId == playerId).FirstOrDefault();
+                var customPlayer = context.CustomPlayers.AsNoTracking().Where(x => x.PlayerId == playerId).FirstOrDefault();
 
                 if (customPlayer != null)
                 {
@@ -154,12 +181,12 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var customPlayer = context.CustomPlayers.Where(x => x.PlayerId == playerId).FirstOrDefault();
+                var customPlayer = context.CustomPlayers.AsNoTracking().Where(x => x.PlayerId == playerId).FirstOrDefault();
 
                 if (customPlayer != null)
                 {
-                    customPlayer.CustomFriends = context.CustomFriends.Where(x => x.CharacterId == playerId).ToList();
-                    customPlayer.CustomSquelches = context.CustomSquelches.Where(x => x.CharacterId == playerId).ToList();
+                    customPlayer.CustomFriends = context.CustomFriends.AsNoTracking().Where(x => x.CharacterId == playerId).ToList();
+                    customPlayer.CustomSquelches = context.CustomSquelches.AsNoTracking().Where(x => x.CharacterId == playerId).ToList();
                     return customPlayer;
                 }
 
@@ -171,11 +198,11 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var customPlayer = context.CustomPlayers.Where(x => x.PlayerRealName == playerName).FirstOrDefault();
+                var customPlayer = context.CustomPlayers.AsNoTracking().Where(x => x.PlayerRealName == playerName).FirstOrDefault();
 
                 if (customPlayer == null)
                 {
-                    customPlayer = context.CustomPlayers.Where(x => x.PlayerModifiedName == playerName).FirstOrDefault();
+                    customPlayer = context.CustomPlayers.AsNoTracking().Where(x => x.PlayerModifiedName == playerName).FirstOrDefault();
                 }
 
                 if (customPlayer != null)
@@ -191,7 +218,7 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var friendItem = context.CustomFriends
+                var friendItem = context.CustomFriends.AsNoTracking()
                     .FirstOrDefault(r => (r.CharacterId == characterId) && (r.FriendId == friendId));
 
                 if (friendItem == null)
@@ -229,7 +256,7 @@ namespace ACE.Database
 
             using (var context = new CustomDbContext())
             {
-                friends = context.CustomFriends.ToList();
+                friends = context.CustomFriends.AsNoTracking().ToList();
             }
 
             return friends;
@@ -241,7 +268,7 @@ namespace ACE.Database
 
             using (var context = new CustomDbContext())
             {
-                friends = context.CustomFriends.Where(x => x.CharacterId == characterId).ToList();
+                friends = context.CustomFriends.AsNoTracking().Where(x => x.CharacterId == characterId).ToList();
             }
 
             return friends;
@@ -253,7 +280,7 @@ namespace ACE.Database
 
             using (var context = new CustomDbContext())
             {
-                squelches = context.CustomSquelches.Where(x => x.CharacterId == characterId).ToList();
+                squelches = context.CustomSquelches.AsNoTracking().Where(x => x.CharacterId == characterId).ToList();
             }
 
             return squelches;
@@ -263,7 +290,7 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var squelchItem = context.CustomSquelches
+                var squelchItem = context.CustomSquelches.AsNoTracking()
                     .FirstOrDefault(r => (r.CharacterId == characterId) && (r.SquelchCharacterId == squelchCharacterId));
 
                 if (squelchItem == null)
@@ -293,7 +320,7 @@ namespace ACE.Database
         {
             using (var context = new CustomDbContext())
             {
-                var squelchItem = context.CustomSquelches
+                var squelchItem = context.CustomSquelches.AsNoTracking()
                     .FirstOrDefault(r => (r.CharacterId == characterId) && (r.SquelchCharacterId == squelchCharacterId));
 
                 if (squelchItem != null)
@@ -310,7 +337,7 @@ namespace ACE.Database
 
             using (var context = new CustomDbContext())
             {
-                squelches = context.CustomSquelches.ToList();
+                squelches = context.CustomSquelches.AsNoTracking().ToList();
             }
 
             return squelches;

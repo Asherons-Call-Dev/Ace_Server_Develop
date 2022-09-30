@@ -68,6 +68,8 @@ namespace ACE.Database.Models.Custom
 
                 entity.Property(e => e.UseRealNameFellowship)
                     .HasColumnName("use_name_fellowship");
+
+                entity.Ignore(i => i.CustomPlayerChangesDetected);
             });
 
             modelBuilder.Entity<CustomFriend>(entity =>
