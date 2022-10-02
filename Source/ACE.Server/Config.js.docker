@@ -153,22 +153,29 @@
       "Host": "ace-db",
       "Port": 3306,
       "Database": "ace_auth",
-      "Username": "acedockeruser",
-      "Password": "2020acEmulator2017"
+      "Username": "AceDev",
+      "Password": "AceEmulator2022"
     },
     "Shard": {
       "Host": "ace-db",
       "Port": 3306,
       "Database": "ace_shard",
-      "Username": "acedockeruser",
-      "Password": "2020acEmulator2017"
+      "Username": "AceDev",
+      "Password": "AceEmulator2022"
     },
     "World": {
+        "Host": "ace-db",
+        "Port": 3306,
+        "Database": "ace_world",
+        "Username": "AceDev",
+        "Password": "AceEmulator2022"
+    },
+    "Custom": {
       "Host": "ace-db",
       "Port": 3306,
-      "Database": "ace_world",
-      "Username": "acedockeruser",
-      "Password": "2020acEmulator2017"
+      "Database": "ace_custom",
+      "Username": "AceDev",
+      "Password": "AceEmulator2022"
     }
   },
   // This section can trigger events that may happen before the world starts up, or after it shuts down
