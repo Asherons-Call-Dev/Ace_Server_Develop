@@ -7,6 +7,7 @@ using log4net;
 using ACE.Database.Models.Custom;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using ACE.Common;
 
 namespace ACE.Database
 {
@@ -50,7 +51,7 @@ namespace ACE.Database
                     customPlayer.PlayerId = playerId;
                     customPlayer.PlayerRealName = realName;
                     customPlayer.PlayerModifiedName = modifiedName;
-                    customPlayer.LastLoginTimestamp = loginTimestamp;
+                    customPlayer.LastLoginTimestamp = loginTimestamp ?? Time.GetUnixTime();
                     customPlayer.LoginCount = 1;
                     context.CustomPlayers.Add(customPlayer);
                     context.SaveChanges();
@@ -123,6 +124,17 @@ namespace ACE.Database
                     context.Entry(customPlayer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
                     customPlayer.CustomPlayerChangesDetected = false;
+                }
+            }
+        }
+
+        public void AddNewCustomPlayerToContext(CustomPlayer customPlayer)
+        {
+            if (customPlayer != null)
+            {
+                using (var context = new CustomDbContext())
+                {
+                    context.CustomPlayers.Add(customPlayer);
                 }
             }
         }

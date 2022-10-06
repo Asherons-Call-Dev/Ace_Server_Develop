@@ -506,17 +506,29 @@ namespace ACE.Server.WorldObjects
                 var landblockUpdate = Location.Cell >> 16 != newPosition.Cell >> 16;
 
                 Location = newPosition;
+                //playerTarget2.Location = newPosition;
 
                 if (RecordCast.Enabled)
                     RecordCast.Log($"CurPos: {Location.ToLOCString()}");
 
                 if (RequestedLocationBroadcast || DateTime.UtcNow - LastUpdatePosition >= MoveToState_UpdatePosition_Threshold)
+                {
                     SendUpdatePosition();
+                    //playerTarget2.SendUpdatePosition();
+                }
+
                 else
+                {
                     Session.Network.EnqueueSend(new GameMessageUpdatePosition(this));
+                    //Session.Network.EnqueueSend(new GameMessageUpdatePosition(playerTarget2));
+                }
 
                 if (!InUpdate)
+                {
                     LandblockManager.RelocateObjectForPhysics(this, true);
+                    //LandblockManager.RelocateObjectForPhysics(playerTarget2, true);
+                }
+
 
                 return landblockUpdate;
             }

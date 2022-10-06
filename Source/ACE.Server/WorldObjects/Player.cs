@@ -78,6 +78,10 @@ namespace ACE.Server.WorldObjects
 
         public float CurrentRadarRange => Location.Indoors ? MaxRadarRange_Indoors : MaxRadarRange_Outdoors;
 
+        public WorldObject playerInventoryTarget;
+
+        public WorldObject playerTarget;
+
         /// <summary>
         /// A new biota be created taking all of its values from weenie.
         /// </summary>
@@ -106,8 +110,6 @@ namespace ACE.Server.WorldObjects
             }
             else
                 Biota.PropertiesCreateList?.Clear();
-
-            CustomPlayer = new ACE.Database.Models.Custom.CustomPlayer();           
         }
 
         /// <summary>
@@ -128,6 +130,11 @@ namespace ACE.Server.WorldObjects
             UpdateCoinValue(false);
 
             CustomPlayer = DatabaseManager.Custom.InitializeExistingCustomPlayer(this.Character.Id);
+
+            if (CustomPlayer == null)
+            {
+                CustomPlayer = new ACE.Database.Models.Custom.CustomPlayer();
+            }
         }
 
         public override void InitPhysicsObj()

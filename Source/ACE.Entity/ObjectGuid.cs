@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace ACE.Entity
 {
     public enum GuidType
@@ -37,14 +39,33 @@ namespace ACE.Entity
         public static bool IsStatic(uint guid) { return (guid >= StaticObjectMin && guid <= StaticObjectMax); }
         public static bool IsDynamic(uint guid) { return (guid >= DynamicMin && guid <= DynamicMax); }
 
-        public uint Full { get; }
-        public uint Low => Full & 0xFFFFFF;
-        public uint High => (Full >> 24);
-        public GuidType Type { get; }
+        public uint Full { get; set; }
+        //public uint Low => Full & 0xFFFFFF;
+        //public uint High => (Full >> 24);
+        public GuidType Type { get; set; }
+
+        public static Dictionary<uint, ObjectGuid> objectGuidMap = new Dictionary<uint, ObjectGuid>();
+
+        public Dictionary<uint, ObjectGuid> ObjectGuidMap
+        {
+            get
+            {
+                return objectGuidMap;
+            }
+            set
+            {
+                objectGuidMap = value;
+            }
+        }
+
+        public uint Low { get; set; }
+        public uint High { get; set; }
 
         public ObjectGuid(uint full)
         {
             Full = full;
+            Low = Full & 0xFFFFFF;
+            High = (Full >> 24);
 
             if (IsPlayer(full))
                 Type = GuidType.Player;
@@ -54,6 +75,29 @@ namespace ACE.Entity
                 Type = GuidType.Dynamic;
             else
                 Type = GuidType.Undef;
+
+            //if (Type == GuidType.Player)
+            //{
+            //    ObjectGuid cloneObject = (ObjectGuid)this.MemberwiseClone();
+            //    string fullString = full.ToString();
+            //    fullString = "3" + fullString.Remove(0, 1);
+            //    fullString = "3" + fullString.Substring(1);
+            //    cloneObject.Full = uint.Parse(fullString);
+            //    cloneObject.High = this.High;
+            //    cloneObject.Low = this.Low;
+
+            //    if (objectGuidMap != null)
+            //    {
+            //        if (objectGuidMap.ContainsKey(full))
+            //        {
+            //            objectGuidMap[full] = cloneObject;
+            //        }
+            //        else
+            //        {
+            //            objectGuidMap.Add(full, cloneObject);
+            //        }
+            //    }
+            //}
         }
 
         public bool IsPlayer()

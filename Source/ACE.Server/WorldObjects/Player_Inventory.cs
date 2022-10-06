@@ -35,7 +35,21 @@ namespace ACE.Server.WorldObjects
             foreach (var item in Inventory.Values)
             {
                 if (item is Container container)
+                {
                     results.AddRange(container.Inventory.Values);
+                }
+
+                if (item is Book book)
+                {
+                    String bookName = book.Name;
+                    String weenieName = book.WeenieClassName;
+                    if (book.Name == "Custom Parchment")
+                    {
+                        //item.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(this.Location));
+                        //item.Location = this.Location;
+                        this.playerInventoryTarget = item;
+                    }
+                }
             }
 
             results.AddRange(EquippedObjects.Values);

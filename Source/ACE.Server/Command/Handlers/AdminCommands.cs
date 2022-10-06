@@ -4788,5 +4788,54 @@ namespace ACE.Server.Command.Handlers
                 CommandHandlerHelper.WriteOutputInfo(session, "Player name not found", ChatMessageType.Help);
             }
         }
+
+        [CommandHandler("getAllPlayers", AccessLevel.Admin, CommandHandlerFlag.None, 0, "Gets all players")]
+        public static void HandleGetAllPlayers(Session session, params string[] parameters)
+        {
+            var players = PlayerManager.GetAllPlayers();
+
+            foreach (IPlayer player in players)
+            {
+                bool isPrintHeader = true;
+                if (player.GetType() == typeof(Player))
+                {
+                    if (isPrintHeader)
+                    {
+                        System.Console.WriteLine("Online Players: ");
+                        isPrintHeader = false;
+                    }
+
+                    System.Console.WriteLine("Name= " + player.Name + ", Guid= " + player.Guid.Full);
+                }
+                else if (player.GetType() == typeof(OfflinePlayer))
+                {
+                    isPrintHeader = true;
+                    if (isPrintHeader)
+                    {
+                        System.Console.WriteLine("Offline Players: ");
+                        isPrintHeader = false;
+                    }
+
+                    System.Console.WriteLine("Name= " + player.Name + ", Guid= " + player.Guid.Full);
+                }
+            }
+        }
+
+        [CommandHandler("createPlayerTarget", AccessLevel.Admin, CommandHandlerFlag.None, 0, "Creates a player target")]
+        public static void HandleCreatePlayerTarger(Session session, params string[] parameters)
+        {
+            var weenie = DatabaseManager.World.GetCachedWeenie(100154);
+            var obj = CreateObjectForCommand(session, weenie);
+
+            if (obj == null)
+                return;
+
+            obj.EnterWorld();
+
+            //session.Player.playerTarget2 = ACE.Server.Factories.WorldObjectFactory.CreateNewWorldObject(100154);
+            //session.Player.playerTarget2.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(session.Player.Location));
+            //session.Player.playerTarget2.Location = session.Player.Location;
+            //LandblockManager.AddObject(session.Player.playerTarget2, true);
+        }
     }
 }
