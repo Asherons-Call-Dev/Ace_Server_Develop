@@ -33,21 +33,7 @@ namespace ACE.Server.Network.Structure
     {
         public static void Write(this BinaryWriter writer, TurnToObject turnTo)
         {
-            if (turnTo.Target.IsPlayer())
-            {
-                IPlayer player = ACE.Server.Managers.PlayerManager.FindByGuid(turnTo.Target.Full);
-
-                if (player.GetType() == typeof(Player) || player.GetType() == typeof(Admin))
-                {
-                    //WorldObject targetObject = ((Player)player).playerTarget;
-                    //targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
-                    //targetObject.Location = ((Player)player).Location;
-                    //WorldObject targetObject = ((Player)player).playerTarget;
-                    //targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
-                    //targetObject.Location = ((Player)player).Location;
-                    //turnTo.Target.Full = targetObject.Guid.Full;
-                }              
-            }
+            turnTo.Target.Full = Utils.PlayerUtils.TargetPlayersInvisibleTargetDummyToBreakWarDetect(turnTo);
 
             writer.WriteGuid(turnTo.Target);
             writer.Write(turnTo.DesiredHeading);

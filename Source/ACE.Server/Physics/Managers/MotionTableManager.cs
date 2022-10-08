@@ -49,7 +49,10 @@ namespace ACE.Server.Physics.Animation
                         PendingAnimations.RemoveFirst();
 
                     if (PhysicsObj.WeenieObj != null)
+                    {
                         PhysicsObj.WeenieObj.OnMotionDone(motionID, success);
+                    }
+
 
                     node = PendingAnimations.First;
                 }
@@ -80,7 +83,9 @@ namespace ACE.Server.Physics.Animation
                     PendingAnimations.Remove(pendingAnimation);
 
                 if (PhysicsObj.WeenieObj != null)
+                {
                     PhysicsObj.WeenieObj.OnMotionDone(motionID, true);
+                }
             }
         }
 

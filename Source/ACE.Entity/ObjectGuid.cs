@@ -75,29 +75,6 @@ namespace ACE.Entity
                 Type = GuidType.Dynamic;
             else
                 Type = GuidType.Undef;
-
-            //if (Type == GuidType.Player)
-            //{
-            //    ObjectGuid cloneObject = (ObjectGuid)this.MemberwiseClone();
-            //    string fullString = full.ToString();
-            //    fullString = "3" + fullString.Remove(0, 1);
-            //    fullString = "3" + fullString.Substring(1);
-            //    cloneObject.Full = uint.Parse(fullString);
-            //    cloneObject.High = this.High;
-            //    cloneObject.Low = this.Low;
-
-            //    if (objectGuidMap != null)
-            //    {
-            //        if (objectGuidMap.ContainsKey(full))
-            //        {
-            //            objectGuidMap[full] = cloneObject;
-            //        }
-            //        else
-            //        {
-            //            objectGuidMap.Add(full, cloneObject);
-            //        }
-            //    }
-            //}
         }
 
         public bool IsPlayer()

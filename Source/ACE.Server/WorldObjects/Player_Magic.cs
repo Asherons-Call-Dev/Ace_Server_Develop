@@ -953,7 +953,7 @@ namespace ACE.Server.WorldObjects
 
                 // return to magic ready stance
                 var actionChain = new ActionChain();
-                EnqueueMotion(actionChain, MotionCommand.Ready, 1.0f, true, castGesture, false, fastbuff);
+                EnqueueMotion(actionChain, MotionCommand.Magic, 1.0f, true, castGesture, false, fastbuff);
                 actionChain.AddAction(this, () =>
                 {
                     IsBusy = false;

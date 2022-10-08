@@ -1,4 +1,3 @@
-using ACE.Common;
 using ACE.Database;
 using ACE.Database.Models.Custom;
 using ACE.Database.Models.Shard;
@@ -13,16 +12,15 @@ using ACE.Server.Network.GameEvent.Events;
 using ACE.Server.Network.GameMessages.Messages;
 using ACE.Server.Network.Structure;
 using ACE.Server.WorldObjects;
-using ACE.Server.WorldObjects.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ACE.Server.Utils
 {
+    /// <summary>
+    /// Utility class for custom player logic
+    /// </summary>
     internal class PlayerUtils
     {
         public static bool isAddRemoveSquelch = false;
@@ -36,7 +34,14 @@ namespace ACE.Server.Utils
         public static bool isAllegianceChat = false;
         public static bool isFellowshipChat = false;
 
-
+        /// <summary>
+        /// Buffs a player with full level 7 spells on their
+        /// first login.  This method only executes if the players
+        /// login count is less than 1.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="self"></param>
+        /// <param name="maxLevel"></param>
         public static void BuffPlayerLevelSeven(Player player, bool self = true, ulong maxLevel = 7)
         {
             var SelfOrOther = self ? "Self" : "Other";
@@ -125,6 +130,13 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Finds and casts a spell on a player on
+        /// their first login.
+        /// </summary>
+        /// <param name="spell"></param>
+        /// <param name="target"></param>
+        /// <param name="player"></param>
         private static void CreateEnchantmentSilent(Spell spell, WorldObject target, Player player)
         {
             var addResult = target.EnchantmentManager.Add(spell, player, null);
@@ -137,6 +149,10 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Broadcast messages of buffs casted on a player
+        /// after their first login.
+        /// </summary>
         private class BuffMessage
         {
             public bool Bane { get; set; } = false;
@@ -156,6 +172,12 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Used to create the buff message broadcasted
+        /// in the BuffMessage method.
+        /// </summary>
+        /// <param name="spellID"></param>
+        /// <returns></returns>
         private static BuffMessage BuildBuffMessage(uint spellID)
         {
             BuffMessage buff = new BuffMessage();
@@ -165,6 +187,11 @@ namespace ACE.Server.Utils
             return buff;
         }
 
+        /// <summary>
+        /// Buffs a new player when their login count
+        /// is less than 1
+        /// </summary>
+        /// <param name="player"></param>
         public static void buffNewPlayer(Player player)
         {
             // Fancy fireworks on login
@@ -174,6 +201,13 @@ namespace ACE.Server.Utils
             BuffPlayerLevelSeven(player);
         }
 
+        /// <summary>
+        /// Sets new players entering the world to be lvl 275
+        /// with full xp dumped into all trained/specialized skills
+        /// and the max remaining experiance available.
+        /// Also prelearns all common spells lvl 1-7 for the player.
+        /// </summary>
+        /// <param name="player"></param>
         public static void createMaxNewPlayer(Player player)
         {
             player.AvailableExperience = player.AvailableExperience ?? 191226310247;
@@ -186,6 +220,11 @@ namespace ACE.Server.Utils
             SpendAllAttributeAndVitalXp(player, false);
         }
 
+        /// <summary>
+        /// Grants a player max default skill credits
+        /// upon first login (Quest related skill credits not included)
+        /// </summary>
+        /// <param name="player"></param>
         public static void addMaxPlayerSkillCredits(Player player)
         {
             player.SetProperty(PropertyInt.AvailableSkillCredits, 46);
@@ -214,6 +253,12 @@ namespace ACE.Server.Utils
             player.SpendAllAvailableVitalXp(player.Mana, sendNetworkUpdate);
         }
 
+        /// <summary>
+        /// Spends all possible experience in a players trained/specialized
+        /// skills upon first login.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="sendNetworkUpdate"></param>
         public static void SpendAllSkillXp(Player player, bool sendNetworkUpdate = true)
         {
             foreach (var skill in player.Skills)
@@ -223,6 +268,11 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Teaches the player all spells 1-7 for war, life, creature and item
+        /// upon their first login.
+        /// </summary>
+        /// <param name="player"></param>
         private static void AddAllSpellsOneThroughSeven(Player player)
         {
             for (uint spellLevel = 1; spellLevel <= 7; spellLevel++)
@@ -236,7 +286,9 @@ namespace ACE.Server.Utils
         }
 
         /// <summary>
-        ///  Learns spells in bulk, without notification, filtered by school and level
+        ///  Learns spells in bulk, without notification, filtered by school and level.
+        ///  This method also weeds out any spells that are not common or spells that were
+        ///  castable by the player in retail.
         /// </summary>
         public static void LearnSpellsInBulk(Player player, MagicSchool school, uint spellLevel, bool withNetworking = true)
         {
@@ -266,6 +318,11 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Preloads a spellbar with recall spells for the player
+        /// on first login.
+        /// </summary>
+        /// <param name="player"></param>
         private static void LoadDefaultSpellBars(Player player)
         {
             // Recall Spells
@@ -287,6 +344,13 @@ namespace ACE.Server.Utils
             session.Player.SendWeenieError(WeenieError.ItemsAttemptingToSalvageIsInvalid);
         }
 
+        /// <summary>
+        /// Prevents the use of void in PVP.  Void is only
+        /// allowed in PVE.
+        /// </summary>
+        /// <param name="spell"></param>
+        /// <param name="targetPlayer"></param>
+        /// <returns></returns>
         public static bool disableVoidAgainstPlayers(Spell spell, Player targetPlayer)
         {
             if (spell.School == MagicSchool.VoidMagic && targetPlayer != null)
@@ -297,6 +361,11 @@ namespace ACE.Server.Utils
             return false;
         }
 
+        /// <summary>
+        /// Prevents players from purchasing cottages or villas
+        /// </summary>
+        /// <param name="slumlord"></param>
+        /// <returns></returns>
         public static bool disablePurchaseCottageOrVilla(SlumLord slumlord)
         {
             if (slumlord.House.HouseType == HouseType.Cottage || slumlord.House.HouseType == HouseType.Villa)
@@ -307,6 +376,11 @@ namespace ACE.Server.Utils
             return false;
         }
 
+        /// <summary>
+        /// Creates a random string to assign as the players
+        /// name upon each login.
+        /// </summary>
+        /// <param name="player"></param>
         public static void SetRandomizedPlayerName(Player player)
         {
             Random random = new Random();
@@ -317,6 +391,13 @@ namespace ACE.Server.Utils
             CheckIfRandomizedNameExists(randomizedName, player);
         }
 
+        /// <summary>
+        /// Checks if the randomized string created for a
+        /// players name is in use already.  If the name is already
+        /// in use then recursively call SetRandomizedPlayerName() again.
+        /// </summary>
+        /// <param name="randomizedName"></param>
+        /// <param name="player"></param>
         public static void CheckIfRandomizedNameExists(String randomizedName, Player player)
         {
             List<String> randomizedNames = DatabaseManager.Custom.GetAllCustomPlayers().Select(x => x.PlayerModifiedName).ToList();
@@ -336,6 +417,10 @@ namespace ACE.Server.Utils
             player.Name = player.Character.Name;
         }
 
+        /// <summary>
+        /// Sets or creates a new custom player object for each player upon login.
+        /// </summary>
+        /// <param name="player"></param>
         public static void SetCustomPlayer(Player player)
         {
             if (!player.IsPlussed && player.CloakStatus == CloakStatus.Undef)
@@ -345,6 +430,14 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Used to retrieve the players name.  Determines if the name
+        /// returned should be the base name, randomized/modified name, or
+        /// an "Anonymous" name.
+        /// </summary>
+        /// <param name="basePlayerName"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static String GetPlayerName(String basePlayerName, Player player)
         {
             String playerName = player.Character.Name;
@@ -386,6 +479,15 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Used to retrieve the friends name.  Determines if the name
+        /// returned should be the base name, randomized/modified name, or
+        /// an "Anonymous" name.  Only returns the base name if it is a friend
+        /// who was added by their real name using the custom playercommand.
+        /// </summary>
+        /// <param name="basePlayerName"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static String GetFriendName(IPlayer friend, Player player)
         {
             if (friend != null)
@@ -422,6 +524,15 @@ namespace ACE.Server.Utils
             return "";
         }
 
+        /// <summary>
+        /// Used to retrieve the players name displayed in a house guest/storage list.
+        /// Determines if the name returned should be the base name or randomized/modified name.
+        /// Only returns the base name if it is a friend
+        /// who was added by their real name using the custom playercommand.
+        /// </summary>
+        /// <param name="homeOwnerId"></param>
+        /// <param name="guest"></param>
+        /// <returns></returns>
         public static String GetHouseGuestAndStorageName(uint homeOwnerId, IPlayer guest)
         {
             IPlayer homeOwner = PlayerManager.FindByGuid(homeOwnerId);
@@ -450,11 +561,22 @@ namespace ACE.Server.Utils
             return guest.Name;
         }
 
+        /// <summary>
+        /// Returns the name as "Anonymous" in certain situtations where
+        /// logic for returning base name or modified name have not been implemented yet.
+        /// </summary>
+        /// <returns></returns>
         public static String GetAnonymousName()
         {
             return "Anonymous";
         }
 
+        /// <summary>
+        /// Adds friends to custom friend table which contains a
+        /// mapping of their base name and modified name.
+        /// </summary>
+        /// <param name="friend"></param>
+        /// <param name="player"></param>
         public static void AddFriend(IPlayer friend, Player player)
         {
             if (friend.GetType() == typeof(Player))
@@ -481,6 +603,10 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Removes friends from the custom friend table which contains a
+        /// mapping of their base name and modified name.
+        /// </summary>
         public static void RemoveFriend(uint friendId, Player player)
         {
             CustomFriend friendEntry =
@@ -493,6 +619,14 @@ namespace ACE.Server.Utils
             }           
         }
 
+        /// <summary>
+        /// Adds squelches to the custom squelch table which contains a
+        /// mapping of their base name and modified name.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="squelchPlayer"></param>
+        /// <param name="squelchAccountId"></param>
+        /// <param name="type"></param>
         public static void AddCharacterSquelch(Player player, IPlayer squelchPlayer, uint squelchAccountId, uint type)
         {
             if (squelchPlayer.GetType() == typeof(Player))
@@ -519,6 +653,10 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Updates squelches in the custom squelch table which contains a
+        /// mapping of their base name and modified name.
+        /// </summary>
         public static void UpdateSquelches(SquelchDB squelches)
         {
             foreach (SquelchInfo squelch in squelches.Characters.Values)
@@ -532,11 +670,22 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Checks a players Custom friends to determine if a friend should
+        /// be revealed by their base name or modified name.
+        /// </summary>
+        /// <param name="friendName"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static bool IsFriendByRealName(String friendName, Player player)
         {
             return player.CustomPlayer.CustomFriends.Where(x => x.CharacterId == player.Character.Id && x.FriendRealName == friendName && x.IsRealName).Any();
         }
 
+        /// <summary>
+        /// Toggles a flag when allegiance chat is used by a player
+        /// </summary>
+        /// <param name="adjustedChannelID"></param>
         public static void IsAllegianceChat(uint adjustedChannelID)
         {
             if (adjustedChannelID > TurbineChatChannel.Olthoi || adjustedChannelID == TurbineChatChannel.Allegiance)
@@ -545,6 +694,10 @@ namespace ACE.Server.Utils
             }
         }
 
+        /// <summary>
+        /// Saves custom player to the database when the player is saved
+        /// </summary>
+        /// <param name="customPlayer"></param>
         public static void SaveCustomPlayerChanges(CustomPlayer customPlayer)
         {
             if (customPlayer != null && customPlayer.CustomPlayerChangesDetected)
@@ -561,6 +714,53 @@ namespace ACE.Server.Utils
             }
         }
 
+        public static uint TargetPlayersInvisibleTargetDummyToBreakWarDetect(TurnToObject turnTo)
+        {
+            if (turnTo.Target.IsPlayer())
+            {
+                IPlayer player = ACE.Server.Managers.PlayerManager.FindByGuid(turnTo.Target.Full);
+
+                if (player.GetType() == typeof(Player) || player.GetType() == typeof(Admin))
+                {
+                    // THIS BLOCK IS FOR THE INVISIBLE TARGET THAT FOLLOWS A PLAYER
+                    WorldObject targetObject = ((Player)player).playerTarget;
+                    targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
+                    // OR
+                    //targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(Position));
+                    targetObject.Location = ((Player)player).Location;
+                    //turnTo.Target.Full = targetObject.Guid.Full;
+                    return targetObject.Guid.Full;
+                }
+            }
+
+            return turnTo.Target.Full;
+        }
+
+        public static void SetPlayerTargetLocation(Player player, Position newPosition)
+        {
+            player.playerTarget.Location = newPosition;
+        }
+
+        public static void SendUpdatePlayerTargetPosition(Player player)
+        {
+            player.playerTarget.SendUpdatePosition();
+        }
+
+        public static void EnqueueSendGameMessageUpdatePlayerTargerPosition(Player player)
+        {
+            player.Session.Network.EnqueueSend(new GameMessageUpdatePosition(player.playerTarget));
+        }
+
+        public static void RelocatePlayerTargetObjectForPhysics(Player player)
+        {
+            LandblockManager.RelocateObjectForPhysics(player.playerTarget, true);
+        }
+
+        /// <summary>
+        /// Spell id's that are used for creating known spells for a player
+        /// upon first login.  Some of these Id's are filtered out with logic
+        /// in the method used for creating them.
+        /// </summary>
         public static uint[] PlayerSpellTable = {
             1,2,3,5,6,7,9,15,16,17,18,19,20,21,22,23,24,25,26,27,28,35,36,37,38,47,48,49,
             50,51,53,54,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,99,
@@ -637,6 +837,9 @@ namespace ACE.Server.Utils
             6320
         };
 
+        /// <summary>
+        /// Buffs casted on a player on their first login.
+        /// </summary>
         // TODO: switch this over to SpellProgressionTables
         private static string[] Buffs = new string[] {
 #region spells

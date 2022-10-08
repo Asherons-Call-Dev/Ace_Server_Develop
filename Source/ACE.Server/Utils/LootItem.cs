@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ACE.Server.Utils
 {
+    /// <summary>
+    /// Model object for custom loot weenies
+    /// that is used for determining drop chance %.
+    /// </summary>
     public class LootItem
     {
         public int weenieId;

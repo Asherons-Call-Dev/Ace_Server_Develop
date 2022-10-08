@@ -3,16 +3,18 @@ using ACE.Database.Models.World;
 using ACE.Entity.Enum;
 using ACE.Entity.Enum.Properties;
 using ACE.Server.WorldObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ACE.Server.Utils
 {
     internal class RecipeUtil
     {
+        /// <summary>
+        /// Hashset contains custom Weenies for all imbue salvage.
+        /// This hashset is checked against when the player uses a tinkering recipe.
+        /// If the recipes source WCID is found in the Hashset then the success percentage
+        /// is always returned as 33% or higher pending imbue augs.
+        /// </summary>
         public static readonly HashSet<CustomSalvageWeenies> imbueSalvage = new HashSet<CustomSalvageWeenies>()
         {
             // imbue salvages (not rend salvage)
@@ -55,16 +57,36 @@ namespace ACE.Server.Utils
            // CustomSalvageWeenies.custommaterialfireopal
         };
 
+        /// <summary>
+        /// This method is called to always return 100% success
+        /// percentage when applying salvage
+        /// </summary>
+        /// <returns>100%</returns>
         public static double? oneHundredPercentSuccess()
         {
             return 1;
         }
 
+        /// <summary>
+        /// This method is called to always return 33% success
+        /// percentage when applying salvage
+        /// </summary>
+        /// <returns>33%</returns>
         public static double? thirtyThreePercentSuccess()
         {
             return .33;
         }
 
+        /// <summary>
+        /// If the source of a recipe is not found in the ACE code, it
+        /// then calls this method to check the custom salvage weenies
+        /// and return it's recipe.
+        /// </summary>
+        /// <param name="recipe"></param>
+        /// <param name="player"></param>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public static Recipe CheckCustomSalvageWeenies(Recipe recipe, Player player, WorldObject source, WorldObject target)
         {
             switch ((CustomSalvageWeenies)source.WeenieClassId)
@@ -296,6 +318,11 @@ namespace ACE.Server.Utils
             return recipe;
         }
 
+        /// <summary>
+        /// Dicitonary for custom salvage weenie recipes
+        /// Key: Custom Salvage Weenie object
+        /// Value: Recipe ID
+        /// </summary>
         public static Dictionary<CustomSalvageWeenies, uint> SourceToRecipe = new Dictionary<CustomSalvageWeenies, uint>()
         {
             { CustomSalvageWeenies.custommaterialiron,            3853 },
@@ -343,6 +370,5 @@ namespace ACE.Server.Utils
             { CustomSalvageWeenies.custommaterialsunstone,                   3865 },
             { CustomSalvageWeenies.custommaterialwhitesapphire,              4453 },
         };
-
     }
 }

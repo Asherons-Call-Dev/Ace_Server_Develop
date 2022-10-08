@@ -1,4 +1,3 @@
-using ACE.Common;
 using ACE.Server.Entity;
 using ACE.Server.Factories;
 using ACE.Server.WorldObjects;
@@ -6,87 +5,117 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ACE.Server.Utils
 {
-    internal class LootUtil
+    /// <summary>
+    /// Utility for generating custom loot in a creatures
+    /// inventory after death.
+    /// </summary>
+    public static class LootUtil
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static List<WorldObject> TryGenerateCustomLoot(Creature creature, DamageHistoryInfo killer)
+        public static List<LootItem> loot = new List<LootItem>();
+
+        /// <summary>
+        /// Initializes custom loot items by adding them to
+        /// a List of LootItems.
+        /// </summary>
+        public static void CreateCustomLootItems()
         {
-            Player player = (Player)killer.TryGetAttacker();
-            int tier = 0;
-            int t1_chance = 100;
-            int imbueCurrency = 100054;
-            int salvageCurrency = 100055;
-            WorldObject wo = null;
-            List<WorldObject> worldObjectList = new List<WorldObject>();
+            loot.Add(new LootItem(100055, 1000)); // Salvage vendor currency, 1% drop rate
+            loot.Add(new LootItem(100054, 200)); // Imbue vendor currency, 0.2% drop rate
+        }
 
-            if (player.AugmentationBonusSalvage > 0)
+        /// <summary>
+        /// Attempts to generate custom loot items on a
+        /// creatures death inventory.
+        /// </summary>
+        /// <param name="killer"></param>
+        /// <param name="creature"></param>
+        /// <returns></returns>
+        public static List<WorldObject> TryGenerateCustomLootItems(DamageHistoryInfo killer, Creature creature)
+        {
+            if (!loot.Any())
             {
-                t1_chance = t1_chance * player.AugmentationBonusSalvage;
+                CreateCustomLootItems();
             }
 
-            float aetheria_drop_rate = 1.0f;
+            List<WorldObject> droppedItems = new List<WorldObject>();
+            var rand = new Random();
+            double augBonus = 0.0;
 
-            var dropRateMod = 1.0f / aetheria_drop_rate;
-            var rng = ThreadSafeRandom.Next(0.0f, 1.0f * dropRateMod);
-
-            if (rng < 0.02f)
+            if (killer.IsPlayer)
             {
+                Player player = (Player)killer.TryGetAttacker();
 
-            }
-
-            if (ThreadSafeRandom.Next(1, t1_chance) == 1)   // 1 in 100 chance
-            {
-                tier = 1;
-                if (ThreadSafeRandom.Next(1, 3) == 1)      // 1 in 300 chance
+                if (player != null)
                 {
-                    tier = 2;
+                    if (player.AugmentationBonusSalvage > 0)
+                    {
+                        augBonus = player.AugmentationBonusSalvage / 4;
+                    }
                 }
-                //if (ThreadSafeRandom.Next(1, 100) == 1)     // 1 in 250,000 chance
-                //{
-                //    tier = 3;
-                //}
-                //if (ThreadSafeRandom.Next(1, 1250) == 1)    // 1 in 3,120,000 chance
-                //{
-                //    tier = 4;
-                //}
-                //if (ThreadSafeRandom.Next(1, 3017) == 1)    // 1 in 7,542,500 (wiki avg. 7,543,103)
-                //{
-                //    tier = 5;
-                //}
-                //if (ThreadSafeRandom.Next(1, 3500) == 1)    // 1 in 8,750,000 chance
-                //{
-                //    tier = 6;
-                //}
             }
 
-            if (tier == 1)
+            foreach (LootItem item in loot)
             {
-                wo = WorldObjectFactory.CreateNewWorldObject((uint)salvageCurrency);
-                worldObjectList.Add(wo);
+                double randomNumber = rand.Next(1, 100001);
+
+                double dropChance = GetItemDropChance(augBonus, item.dropChance, creature);
+
+                if (randomNumber <= dropChance)
+                {
+                    WorldObject wo = WorldObjectFactory.CreateNewWorldObject((uint)item.weenieId);
+
+                    if (wo == null)
+                    {
+                        log.Error($"Failed to generate custom loot for wcid {wo.WeenieClassId}");
+                    }
+                    else
+                    {
+                        droppedItems.Add(wo);
+                    }
+                }
             }
-            else if (tier == 2)
+
+            return droppedItems;
+        }
+
+        /// <summary>
+        /// Returns a custom loot items drop chance
+        /// </summary>
+        /// <param name="augBonus"></param>
+        /// <param name="dropChance"></param>
+        /// <param name="creature"></param>
+        /// <returns></returns>
+        public static double GetItemDropChance(double augBonus, double dropChance, Creature creature)
+        {
+            dropChance = dropChance + augBonus;
+
+            if (creature != null)
             {
-                wo = WorldObjectFactory.CreateNewWorldObject((uint)imbueCurrency);
-                worldObjectList.Add(wo);
+                switch (creature.Level)
+                {
+                    case < 20:
+                        dropChance = (dropChance / 6);
+                        break;
+                    case < 50:
+                        dropChance = (dropChance / 4);
+                        break;
+                    case < 100:
+                        dropChance = (dropChance / 2);
+                        break;
+                    case < 180:
+                        dropChance = (dropChance / 1.5);
+                        break;
+                    default:
+                        break;
+                }
             }
 
-            if (tier != 0 && wo == null)
-            {
-                log.Error($"Failed to generate custom loot for wcid {wo.WeenieClassId}");
-            }
-
-            return worldObjectList;
-
-            //log.Debug($"[LOOT][RARE] {Name} ({Guid}) generated rare {wo.Name} ({wo.Guid}) for {killer.Name} ({killer.Guid})");
-            //log.Debug($"[LOOT][RARE] Tier {tier} -- 1 / {chance:N0} chance -- {luck:N0} luck");
-
-
+            return dropChance;
         }
     }
 }
