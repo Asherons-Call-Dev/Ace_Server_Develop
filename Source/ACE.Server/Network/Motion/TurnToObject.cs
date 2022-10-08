@@ -33,7 +33,8 @@ namespace ACE.Server.Network.Structure
     {
         public static void Write(this BinaryWriter writer, TurnToObject turnTo)
         {
-            turnTo.Target.Full = Utils.PlayerUtils.TargetPlayersInvisibleTargetDummyToBreakWarDetect(turnTo);
+            //turnTo.Target.Full = Utils.PlayerUtils.TargetPlayersInvisibleTargetDummyToBreakWarDetect(turnTo);
+            turnTo.Target.Full = Utils.PlayerUtils.TargetPlayerWieldedItemToBreakWarDetect(turnTo);
 
             writer.WriteGuid(turnTo.Target);
             writer.Write(turnTo.DesiredHeading);

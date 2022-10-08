@@ -744,24 +744,38 @@ namespace ACE.Server.Utils
             return turnTo.Target.Full;
         }
 
-        //public static uint TargetPlayerWieldedItemToBreakWarDetect(TurnToObject turnTo)
-        //{
-        //    if (turnTo.Target.IsPlayer())
-        //    {
-        //        IPlayer player = ACE.Server.Managers.PlayerManager.FindByGuid(turnTo.Target.Full);
+        public static uint TargetPlayerWieldedItemToBreakWarDetect(TurnToObject turnTo)
+        {
+            if (turnTo.Target.IsPlayer())
+            {
+                IPlayer player = ACE.Server.Managers.PlayerManager.FindByGuid(turnTo.Target.Full);
 
-        //        if (player.GetType() == typeof(Player) || player.GetType() == typeof(Admin))
-        //        {
-        //            targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
-        //            // OR
-        //            //targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(Position));
-        //            targetObject.Location = ((Player)player).Location;
-        //            return targetObject.Guid.Full;
-        //        }
-        //    }
+                if (player.GetType() == typeof(Player) || player.GetType() == typeof(Admin))
+                {
+                    //List<WorldObject> equippedItems = ((Player)player).WieldedTreasure;
+                    Dictionary<ObjectGuid, WorldObject> equippedItems = ((Player)player).Inventory;
 
-        //    return turnTo.Target.Full;
-        //}
+                    foreach (var wo in equippedItems)
+                    {
+                        var key = wo.Key;
+                        var value = wo.Value;
+
+                        if (value.CurrentWieldedLocation == EquipMask.MeleeWeapon || value.CurrentWieldedLocation == EquipMask.MissileWeapon ||
+                                value.CurrentWieldedLocation == EquipMask.Shield || value.CurrentWieldedLocation == EquipMask.Held ||
+                                value.CurrentWieldedLocation == EquipMask.TwoHanded)
+                        {
+                            value.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
+                            // OR
+                            //targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(Position));
+                            value.Location = ((Player)player).Location;
+                            return value.Guid.Full;
+                        }
+                    }
+                }
+            }
+
+            return turnTo.Target.Full;
+        }
 
         public static void SetPlayerTargetLocation(Player player, Position newPosition)
         {
