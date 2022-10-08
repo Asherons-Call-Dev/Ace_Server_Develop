@@ -736,6 +736,25 @@ namespace ACE.Server.Utils
             return turnTo.Target.Full;
         }
 
+        //public static uint TargetPlayerWieldedItemToBreakWarDetect(TurnToObject turnTo)
+        //{
+        //    if (turnTo.Target.IsPlayer())
+        //    {
+        //        IPlayer player = ACE.Server.Managers.PlayerManager.FindByGuid(turnTo.Target.Full);
+
+        //        if (player.GetType() == typeof(Player) || player.GetType() == typeof(Admin))
+        //        {
+        //            targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
+        //            // OR
+        //            //targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(Position));
+        //            targetObject.Location = ((Player)player).Location;
+        //            return targetObject.Guid.Full;
+        //        }
+        //    }
+
+        //    return turnTo.Target.Full;
+        //}
+
         public static void SetPlayerTargetLocation(Player player, Position newPosition)
         {
             player.playerTarget.Location = newPosition;

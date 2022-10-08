@@ -154,28 +154,28 @@
                 "Port": 3306,
                     "Database": "ace_auth",
                         "Username": "AceDev",
-                            "Password": "Ginobili#1290"
+                            "Password": "password"
         },
         "Shard": {
             "Host": "127.0.0.1",
                 "Port": 3306,
                     "Database": "ace_shard",
                         "Username": "AceDev",
-                            "Password": "Ginobili#1290"
+                            "Password": "password"
         },
         "World": {
             "Host": "127.0.0.1",
                 "Port": 3306,
                     "Database": "ace_world",
                         "Username": "AceDev",
-                            "Password": "Ginobili#1290"
+                            "Password": "password"
         },
         "Custom": {
             "Host": "127.0.0.1",
                 "Port": 3306,
                     "Database": "ace_custom",
                         "Username": "AceDev",
-                            "Password": "Ginobili#1290"
+                            "Password": "password"
         }
     },
     // This section can trigger events that may happen before the world starts up, or after it shuts down
