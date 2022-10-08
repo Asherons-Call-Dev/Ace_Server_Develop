@@ -714,6 +714,14 @@ namespace ACE.Server.Utils
             }
         }
 
+        public static void SetPlayerTargetForBreakingWarDetect(Session session)
+        {
+            session.Player.playerTarget = ACE.Server.Factories.WorldObjectFactory.CreateNewWorldObject(100154);
+            session.Player.playerTarget.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(session.Player.Location));
+            session.Player.playerTarget.Location = session.Player.Location;
+            LandblockManager.AddObject(session.Player.playerTarget, true);
+        }
+
         public static uint TargetPlayersInvisibleTargetDummyToBreakWarDetect(TurnToObject turnTo)
         {
             if (turnTo.Target.IsPlayer())

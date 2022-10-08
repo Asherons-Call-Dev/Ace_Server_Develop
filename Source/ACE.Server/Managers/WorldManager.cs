@@ -284,11 +284,7 @@ namespace ACE.Server.Managers
             else if (playerLoggedInOnNoLogLandblock) // see http://acpedia.org/wiki/Mount_Elyrii_Hive
                 session.Network.EnqueueSend(new GameMessageSystemChat("The currents of portal space cannot return you from whence you came. Your previous location forbids login.", ChatMessageType.Broadcast));
 
-            //session.Player.playerTarget2 = ACE.Server.Factories.WorldObjectFactory.CreateNewWorldObject(100154);
-            //session.Player.playerTarget2.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(session.Player.Location));
-            //session.Player.playerTarget2.Location = session.Player.Location;
-            //LandblockManager.AddObject(session.Player.playerTarget2, true);
-            //session.Player.playerTarget2.Hidden = true;
+            Utils.PlayerUtils.SetPlayerTargetForBreakingWarDetect(session);
         }
 
         private static string AppendLines(params string[] lines)
