@@ -752,23 +752,19 @@ namespace ACE.Server.Utils
 
                 if (player.GetType() == typeof(Player) || player.GetType() == typeof(Admin))
                 {
-                    //List<WorldObject> equippedItems = ((Player)player).WieldedTreasure;
-                    Dictionary<ObjectGuid, WorldObject> equippedItems = ((Player)player).Inventory;
+                    List<WorldObject> equippedItems = ((Player)player).GetEquippedItems(((Player)player), EquipMask.All);
 
                     foreach (var wo in equippedItems)
                     {
-                        var key = wo.Key;
-                        var value = wo.Value;
-
-                        if (value.CurrentWieldedLocation == EquipMask.MeleeWeapon || value.CurrentWieldedLocation == EquipMask.MissileWeapon ||
-                                value.CurrentWieldedLocation == EquipMask.Shield || value.CurrentWieldedLocation == EquipMask.Held ||
-                                value.CurrentWieldedLocation == EquipMask.TwoHanded)
+                        if (wo.CurrentWieldedLocation == EquipMask.MeleeWeapon || wo.CurrentWieldedLocation == EquipMask.MissileWeapon ||
+                                wo.CurrentWieldedLocation == EquipMask.Shield || wo.CurrentWieldedLocation == EquipMask.Held ||
+                                wo.CurrentWieldedLocation == EquipMask.TwoHanded)
                         {
-                            value.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
+                            wo.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(((Player)player).Location));
                             // OR
                             //targetObject.SetPosition(ACE.Entity.Enum.Properties.PositionType.Location, new Position(Position));
-                            value.Location = ((Player)player).Location;
-                            return value.Guid.Full;
+                            wo.Location = ((Player)player).Location;
+                            return wo.Guid.Full;
                         }
                     }
                 }
