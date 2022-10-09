@@ -1,0 +1,155 @@
+{
+  "wcid": 100008,
+  "weenieType": 44,
+  "boolStats": [
+    {
+      "key": 22,
+      "value": 1
+    },
+    {
+      "key": 23,
+      "value": 1
+    }
+  ],
+  "intStats": [
+    {
+      "key": 1,
+      "value": 1073741824
+    },
+    {
+      "key": 3,
+      "value": 13
+    },
+    {
+      "key": 5,
+      "value": 100
+    },
+    {
+      "key": 8,
+      "value": 100
+    },
+    {
+      "key": 9,
+      "value": 0
+    },
+    {
+      "key": 11,
+      "value": 1
+    },
+    {
+      "key": 12,
+      "value": 1
+    },
+    {
+      "key": 13,
+      "value": 100
+    },
+    {
+      "key": 14,
+      "value": 100
+    },
+    {
+      "key": 15,
+      "value": 10
+    },
+    {
+      "key": 16,
+      "value": 524296
+    },
+    {
+      "key": 19,
+      "value": 10
+    },
+    {
+      "key": 33,
+      "value": 1
+    },
+    {
+      "key": 91,
+      "value": 100
+    },
+    {
+      "key": 92,
+      "value": 100
+    },
+    {
+      "key": 93,
+      "value": 1044
+    },
+    {
+      "key": 94,
+      "value": 6
+    },
+    {
+      "key": 105,
+      "value": 100
+    },
+    {
+      "key": 131,
+      "value": 64
+    },
+    {
+      "key": 150,
+      "value": 103
+    },
+    {
+      "key": 151,
+      "value": 9
+    },
+    {
+      "key": 170,
+      "value": 10
+    }
+  ],
+  "didStats": [
+    {
+      "key": 1,
+      "value": 33554817
+    },
+    {
+      "key": 3,
+      "value": 536870932
+    },
+    {
+      "key": 6,
+      "value": 67111919
+    },
+    {
+      "key": 7,
+      "value": 268436874
+    },
+    {
+      "key": 8,
+      "value": 100677145
+    },
+    {
+      "key": 22,
+      "value": 872415275
+    }
+  ],
+  "iidStats": [],
+  "floatStats": [],
+  "int64Stats": [],
+  "stringStats": [
+    {
+      "key": 1,
+      "value": "Foolproof Salvaged Steel"
+    },
+    {
+      "key": 14,
+      "value": "Apply this material to treasure-generated armor to increase the armor's armor level by 20. This material cannot be used on Covenant Armor."
+    },
+    {
+      "key": 15,
+      "value": "A bar of steel material salvaged from old items."
+    }
+  ],
+  "changelog": [
+    {
+      "created": "2022-08-17T22:45:13.0298784Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    }
+  ],
+  "isDone": false
+}

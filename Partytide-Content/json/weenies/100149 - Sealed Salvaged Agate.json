@@ -1,0 +1,140 @@
+{
+  "wcid": 100149,
+  "weenieType": 38,
+  "boolStats": [
+    {
+      "key": 22,
+      "value": 1
+    },
+    {
+      "key": 23,
+      "value": 1
+    }
+  ],
+  "intStats": [
+    {
+      "key": 1,
+      "value": 128
+    },
+    {
+      "key": 3,
+      "value": 39
+    },
+    {
+      "key": 5,
+      "value": 10
+    },
+    {
+      "key": 11,
+      "value": 100
+    },
+    {
+      "key": 12,
+      "value": 1
+    },
+    {
+      "key": 13,
+      "value": 10
+    },
+    {
+      "key": 15,
+      "value": 1
+    },
+    {
+      "key": 16,
+      "value": 8
+    },
+    {
+      "key": 19,
+      "value": 1
+    },
+    {
+      "key": 33,
+      "value": 1
+    },
+    {
+      "key": 93,
+      "value": 1044
+    },
+    {
+      "key": 94,
+      "value": 16
+    },
+    {
+      "key": 269,
+      "value": 1
+    }
+  ],
+  "didStats": [
+    {
+      "key": 1,
+      "value": 33554817
+    },
+    {
+      "key": 3,
+      "value": 536870932
+    },
+    {
+      "key": 6,
+      "value": 67111919
+    },
+    {
+      "key": 7,
+      "value": 268436430
+    },
+    {
+      "key": 8,
+      "value": 100667436
+    },
+    {
+      "key": 22,
+      "value": 872415275
+    },
+    {
+      "key": 38,
+      "value": 100080
+    },
+    {
+      "key": 50,
+      "value": 100673259
+    }
+  ],
+  "iidStats": [],
+  "floatStats": [
+    {
+      "key": 39,
+      "value": 0.8
+    }
+  ],
+  "int64Stats": [],
+  "stringStats": [
+    {
+      "key": 1,
+      "value": "Sealed Bag of Salvaged Agate"
+    },
+    {
+      "key": 14,
+      "value": "Use this bag to break the seal and open it."
+    },
+    {
+      "key": 16,
+      "value": "A sealed and certified bag of perfectly salvaged Agate. Not for individual resale."
+    }
+  ],
+  "lastModified": "2022-09-13T21:14:51.9839106Z",
+  "modifiedBy": "ACE.Adapter",
+  "changelog": [
+    {
+      "created": "2022-09-13T21:14:12.72593Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T21:14:51.9789829Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    }
+  ],
+  "userChangeSummary": "Weenie exported from ACEmulator world database using ACE.Adapter",
+  "isDone": false
+}

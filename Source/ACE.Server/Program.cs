@@ -24,7 +24,7 @@ namespace ACE.Server
         /// https://docs.microsoft.com/en-us/windows/desktop/api/timeapi/nf-timeapi-timebeginperiod
         /// Important note: This function affects a global Windows setting. Windows uses the lowest value (that is, highest resolution) requested by any process.
         /// </summary>
-        [DllImport("winmm.dll", EntryPoint="timeBeginPeriod")]
+        [DllImport("winmm.dll", EntryPoint = "timeBeginPeriod")]
         public static extern uint MM_BeginPeriod(uint uMilliseconds);
 
         /// <summary>
@@ -34,15 +34,21 @@ namespace ACE.Server
         [DllImport("winmm.dll", EntryPoint = "timeEndPeriod")]
         public static extern uint MM_EndPeriod(uint uMilliseconds);
 
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static readonly bool IsRunningInContainer = Convert.ToBoolean(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"));
+
+        private static ManualResetEventSlim waitForProcessShutdownStart;
+        private static ManualResetEventSlim waitForMainExit;
 
         public static void Main(string[] args)
         {
             var consoleTitle = $"ACEmulator - v{ServerBuildInfo.FullVersion}";
 
             Console.Title = consoleTitle;
+
+            waitForProcessShutdownStart = new ManualResetEventSlim();
+            waitForMainExit = new ManualResetEventSlim();
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
@@ -84,7 +90,7 @@ namespace ACE.Server
                         File.Copy(log4netConfigExample, log4netConfig);
                     }
                     else
-                    {                        
+                    {
                         if (!File.Exists(log4netConfigContainer))
                         {
                             Console.WriteLine("log4net Configuration file is missing, ACEmulator is running in a container,  cloning from docker file.");
@@ -101,8 +107,8 @@ namespace ACE.Server
                 }
             }
 
-            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            XmlConfigurator.ConfigureAndWatch(logRepository, log4netFileInfo);
+            var logRepository = LogManager.GetRepository(System.Reflection.Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, log4netFileInfo);
 
             if (Environment.ProcessorCount < 2)
                 log.Warn("Only one vCPU was detected. ACE may run with limited performance. You should increase your vCPU count for anything more than a single player server.");
@@ -125,7 +131,9 @@ namespace ACE.Server
 
             if (IsRunningInContainer)
                 log.Info("ACEmulator is running in a container...");
-            
+
+            Console.Title = @$"ACEmulator - v{ServerBuildInfo.FullVersion}";
+
             var configFile = Path.Combine(exeLocation, "Config.js");
             var configConfigContainer = Path.Combine(containerConfigDirectory, "Config.js");
 
@@ -171,32 +179,6 @@ namespace ACE.Server
                 log.Info($"Purged {numberOfBiotasPurged:N0} biotas.");
             }
 
-            if (ConfigManager.Config.Offline.PruneDeletedCharactersFromFriendLists)
-            {
-                log.Info($"Pruning invalid friends from all friend lists...");
-                ShardDatabaseOfflineTools.PruneDeletedCharactersFromFriendLists(out var numberOfFriendsPruned);
-                log.Info($"Pruned {numberOfFriendsPruned:N0} invalid friends found on friend lists.");
-            }
-
-            if (ConfigManager.Config.Offline.PruneDeletedObjectsFromShortcutBars)
-            {
-                log.Info($"Pruning invalid shortcuts from all shortcut bars...");
-                ShardDatabaseOfflineTools.PruneDeletedObjectsFromShortcutBars(out var numberOfShortcutsPruned);
-                log.Info($"Pruned {numberOfShortcutsPruned:N0} deleted objects found on shortcut bars.");
-            }
-
-            if (ConfigManager.Config.Offline.PruneDeletedCharactersFromSquelchLists)
-            {
-                log.Info($"Pruning invalid squelches from all squelch lists...");
-                ShardDatabaseOfflineTools.PruneDeletedCharactersFromSquelchLists(out var numberOfSquelchesPruned);
-                log.Info($"Pruned {numberOfSquelchesPruned:N0} invalid squelched characters found on squelch lists.");
-            }
-
-            if (ConfigManager.Config.Offline.AutoServerUpdateCheck)
-                CheckForServerUpdate();
-            else
-                log.Info($"AutoServerVersionCheck is disabled...");
-
             if (ConfigManager.Config.Offline.AutoUpdateWorldDatabase)
             {
                 CheckForWorldDatabaseUpdate();
@@ -213,18 +195,9 @@ namespace ACE.Server
                 log.Info($"AutoApplyDatabaseUpdates is disabled...");
 
             // This should only be enabled manually. To enable it, simply uncomment this line
-            //ACE.Database.OfflineTools.Shard.BiotaGuidConsolidator.ConsolidateBiotaGuids(0xA0000000, true, false, out int numberOfBiotasConsolidated, out int numberOfBiotasSkipped, out int numberOfErrors);
-            //ACE.Database.OfflineTools.Shard.BiotaGuidConsolidator.ConsolidateBiotaGuids(0xD0000000, false, true, out int numberOfBiotasConsolidated2, out int numberOfBiotasSkipped2, out int numberOfErrors2);
+            //ACE.Database.OfflineTools.Shard.BiotaGuidConsolidator.ConsolidateBiotaGuids(0xC0000000, out int numberOfBiotasConsolidated, out int numberOfErrors);
 
             ShardDatabaseOfflineTools.CheckForBiotaPropertiesPaletteOrderColumnInShard();
-
-            // pre-load starterGear.json, abort startup if file is not found as it is required to create new characters.
-            if (Factories.StarterGearFactory.GetStarterGearConfiguration() == null)
-            {
-                log.Fatal("Unable to load or parse starterGear.json. ACEmulator will now abort startup.");
-                ServerManager.StartupAbort();
-                Environment.Exit(0);
-            }
 
             log.Info("Initializing ServerManager...");
             ServerManager.Initialize();
@@ -234,13 +207,6 @@ namespace ACE.Server
 
             log.Info("Initializing DatabaseManager...");
             DatabaseManager.Initialize();
-
-            if (DatabaseManager.InitializationFailure)
-            {
-                log.Fatal("DatabaseManager initialization failed. ACEmulator will now abort startup.");
-                ServerManager.StartupAbort();
-                Environment.Exit(0);
-            }
 
             log.Info("Starting DatabaseManager...");
             DatabaseManager.Start();
@@ -303,18 +269,9 @@ namespace ACE.Server
             log.Info("Initializing EventManager...");
             EventManager.Initialize();
 
-            log.Info("Initializing CustomPlayers...");
-            Utils.CustomData.InitializeCustomPlayers();
-
-            log.Info("Initializing CustomFriends...");
-            Utils.CustomData.InitializeCustomFriends();
-
-            log.Info("Initializing CustomSquelches...");
-            Utils.CustomData.InitializeCustomSquelches();
-
             // Free up memory before the server goes online. This can free up 6 GB+ on larger servers.
             log.Info("Forcing .net garbage collection...");
-            for (int i = 0 ; i < 10 ; i++)
+            for (int i = 0; i < 10; i++)
                 GC.Collect();
 
             // This should be last
@@ -325,15 +282,11 @@ namespace ACE.Server
             {
                 WorldManager.Open(null);
             }
-        }
 
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            log.Error(e.ExceptionObject);
-        }
+            waitForProcessShutdownStart.Wait();
 
-        private static void OnProcessExit(object sender, EventArgs e)
-        {
+
+            log.Info("Shutdown Called!!!");
             if (!IsRunningInContainer)
             {
                 if (!ServerManager.ShutdownInitiated)
@@ -357,9 +310,21 @@ namespace ACE.Server
             }
             else
             {
-                ServerManager.DoShutdownNow();
-                DatabaseManager.Stop();
+                ServerManager.BeginShutdown(waitForMainExit);
             }
+
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            log.Error(e.ExceptionObject);
+        }
+
+        private static void OnProcessExit(object sender, EventArgs e)
+        {
+            waitForProcessShutdownStart.Set();
+            waitForMainExit.Wait();
+            DatabaseManager.Stop();
         }
     }
 }

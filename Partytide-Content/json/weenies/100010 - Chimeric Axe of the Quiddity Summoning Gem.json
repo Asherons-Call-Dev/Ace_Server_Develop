@@ -1,0 +1,128 @@
+{
+  "wcid": 100010,
+  "weenieType": 38,
+  "boolStats": [
+    {
+      "key": 22,
+      "value": 1
+    },
+    {
+      "key": 69,
+      "value": 0
+    }
+  ],
+  "intStats": [
+    {
+      "key": 1,
+      "value": 128
+    },
+    {
+      "key": 5,
+      "value": 10
+    },
+    {
+      "key": 11,
+      "value": 1
+    },
+    {
+      "key": 12,
+      "value": 1
+    },
+    {
+      "key": 13,
+      "value": 10
+    },
+    {
+      "key": 15,
+      "value": 3
+    },
+    {
+      "key": 16,
+      "value": 8
+    },
+    {
+      "key": 19,
+      "value": 3
+    },
+    {
+      "key": 33,
+      "value": 1
+    },
+    {
+      "key": 93,
+      "value": 1044
+    },
+    {
+      "key": 94,
+      "value": 16
+    },
+    {
+      "key": 269,
+      "value": 1
+    }
+  ],
+  "didStats": [
+    {
+      "key": 1,
+      "value": 33556223
+    },
+    {
+      "key": 3,
+      "value": 536870932
+    },
+    {
+      "key": 6,
+      "value": 67111928
+    },
+    {
+      "key": 8,
+      "value": 100670993
+    },
+    {
+      "key": 22,
+      "value": 872415275
+    },
+    {
+      "key": 38,
+      "value": 100011
+    },
+    {
+      "key": 50,
+      "value": 100673758
+    },
+    {
+      "key": 52,
+      "value": 100689403
+    }
+  ],
+  "iidStats": [],
+  "floatStats": [
+    {
+      "key": 39,
+      "value": 0.8
+    }
+  ],
+  "int64Stats": [],
+  "stringStats": [
+    {
+      "key": 1,
+      "value": "Chimeric Axe of the Quiddity Summoning Gem"
+    },
+    {
+      "key": 14,
+      "value": "Use this gem to summon the weapon it is bound to."
+    },
+    {
+      "key": 16,
+      "value": "A gem, seeming made of congealed portal energy. You know that using this gem will summon forth the weapon known as the Chimeric Axe of the Quiddity. Once summoned, the weapon will only remain in the world for 3 hours. (BE WARNED: 1 - This duration will continue to count down, even if the character bearing the weapon is logged out. 2 - Have a free space in your main pack when you use this gem. 3 - You must be at least level 120 to wield the weapon summoned by this gem.)"
+    }
+  ],
+  "changelog": [
+    {
+      "created": "2022-08-19T04:03:39.7977543Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    }
+  ],
+  "isDone": false
+}

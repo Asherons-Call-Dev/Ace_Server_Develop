@@ -1,0 +1,259 @@
+{
+  "wcid": 100058,
+  "weenieType": 12,
+  "attributes": {
+    "strength": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 680
+    },
+    "endurance": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 640
+    },
+    "coordination": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 630
+    },
+    "quickness": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 550
+    },
+    "focus": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 550
+    },
+    "self": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 585
+    },
+    "health": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 800,
+      "current": 1120
+    },
+    "stamina": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 851,
+      "current": 1491
+    },
+    "mana": {
+      "cp_spent": 0,
+      "level_from_cp": 0,
+      "init_level": 500,
+      "current": 1085
+    }
+  },
+  "boolStats": [
+    {
+      "key": 1,
+      "value": 1
+    },
+    {
+      "key": 19,
+      "value": 0
+    },
+    {
+      "key": 39,
+      "value": 1
+    }
+  ],
+  "intStats": [
+    {
+      "key": 1,
+      "value": 16
+    },
+    {
+      "key": 2,
+      "value": 13
+    },
+    {
+      "key": 6,
+      "value": -1
+    },
+    {
+      "key": 7,
+      "value": -1
+    },
+    {
+      "key": 16,
+      "value": 32
+    },
+    {
+      "key": 25,
+      "value": 100
+    },
+    {
+      "key": 74,
+      "value": 0
+    },
+    {
+      "key": 75,
+      "value": 0
+    },
+    {
+      "key": 76,
+      "value": 100000
+    },
+    {
+      "key": 93,
+      "value": 2098200
+    },
+    {
+      "key": 133,
+      "value": 4
+    },
+    {
+      "key": 134,
+      "value": 16
+    }
+  ],
+  "didStats": [
+    {
+      "key": 1,
+      "value": 33560279
+    },
+    {
+      "key": 2,
+      "value": 150995334
+    },
+    {
+      "key": 3,
+      "value": 536870933
+    },
+    {
+      "key": 7,
+      "value": 268436634
+    },
+    {
+      "key": 8,
+      "value": 100674350
+    },
+    {
+      "key": 22,
+      "value": 872415269
+    },
+    {
+      "key": 57,
+      "value": 100054
+    }
+  ],
+  "iidStats": [],
+  "floatStats": [
+    {
+      "key": 37,
+      "value": 1.0
+    },
+    {
+      "key": 38,
+      "value": 1.0
+    },
+    {
+      "key": 39,
+      "value": 1.3
+    },
+    {
+      "key": 54,
+      "value": 3.0
+    }
+  ],
+  "int64Stats": [],
+  "stringStats": [
+    {
+      "key": 1,
+      "value": "Weapon Imbue Vendor"
+    }
+  ],
+  "createList": [
+    {
+      "wcid": 100081,
+      "palette": 0,
+      "shade": 0.0,
+      "destination": 4,
+      "stack_size": -1,
+      "try_to_bond": 0
+    },
+    {
+      "wcid": 100083,
+      "palette": 0,
+      "shade": 0.0,
+      "destination": 4,
+      "stack_size": -1,
+      "try_to_bond": 0
+    },
+    {
+      "wcid": 36620,
+      "palette": 0,
+      "shade": 0.0,
+      "destination": 4,
+      "stack_size": -1,
+      "try_to_bond": 0
+    }
+  ],
+  "emoteTable": [
+    {
+      "key": 2,
+      "value": [
+        {
+          "category": 2,
+          "emotes": [
+            {
+              "type": 10,
+              "delay": 0.0,
+              "extent": 1.0,
+              "msg": "Welcome adventurer, may you enjoy the gifts Asheron has sent for you."
+            }
+          ],
+          "probability": 0.8,
+          "vendorType": 1
+        },
+        {
+          "category": 2,
+          "emotes": [
+            {
+              "type": 10,
+              "delay": 0.0,
+              "extent": 1.0,
+              "msg": "Enjoy your gifts, may they serve you well."
+            }
+          ],
+          "probability": 0.8,
+          "vendorType": 2
+        }
+      ]
+    }
+  ],
+  "lastModified": "2022-09-13T22:15:13.1082282Z",
+  "modifiedBy": "ACE.Adapter",
+  "changelog": [
+    {
+      "created": "2022-09-13T21:48:58.7618664Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T21:50:47.2719169Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T21:51:51.7105075Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T22:15:13.0834191Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    }
+  ],
+  "userChangeSummary": "Weenie exported from ACEmulator world database using ACE.Adapter",
+  "isDone": false
+}

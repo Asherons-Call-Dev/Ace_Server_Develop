@@ -1,0 +1,352 @@
+{
+  "wcid": 100007,
+  "weenieType": 20,
+  "boolStats": [
+    {
+      "key": 1,
+      "value": 1
+    },
+    {
+      "key": 2,
+      "value": 0
+    },
+    {
+      "key": 3,
+      "value": 1
+    },
+    {
+      "key": 11,
+      "value": 1
+    },
+    {
+      "key": 12,
+      "value": 1
+    },
+    {
+      "key": 14,
+      "value": 1
+    },
+    {
+      "key": 19,
+      "value": 1
+    },
+    {
+      "key": 86,
+      "value": 1
+    }
+  ],
+  "intStats": [
+    {
+      "key": 1,
+      "value": 512
+    },
+    {
+      "key": 5,
+      "value": 14750
+    },
+    {
+      "key": 6,
+      "value": -1
+    },
+    {
+      "key": 7,
+      "value": -1
+    },
+    {
+      "key": 16,
+      "value": 48
+    },
+    {
+      "key": 19,
+      "value": 2500
+    },
+    {
+      "key": 38,
+      "value": 9999
+    },
+    {
+      "key": 81,
+      "value": 1
+    },
+    {
+      "key": 82,
+      "value": 1
+    },
+    {
+      "key": 93,
+      "value": 1048
+    },
+    {
+      "key": 100,
+      "value": 1
+    }
+  ],
+  "didStats": [
+    {
+      "key": 1,
+      "value": 33554556
+    },
+    {
+      "key": 2,
+      "value": 150994948
+    },
+    {
+      "key": 3,
+      "value": 536870945
+    },
+    {
+      "key": 8,
+      "value": 100667424
+    },
+    {
+      "key": 22,
+      "value": 872415275
+    }
+  ],
+  "iidStats": [],
+  "floatStats": [
+    {
+      "key": 11,
+      "value": 1.0
+    },
+    {
+      "key": 41,
+      "value": 1.0
+    },
+    {
+      "key": 43,
+      "value": 1.0
+    },
+    {
+      "key": 54,
+      "value": 1.0
+    }
+  ],
+  "int64Stats": [],
+  "stringStats": [
+    {
+      "key": 1,
+      "value": "Test Sho Pathwarden Chest"
+    },
+    {
+      "key": 12,
+      "value": "pathwardenchestkey"
+    },
+    {
+      "key": 14,
+      "value": "Use this item to open it and see its contents."
+    }
+  ],
+  "generatorTable": [
+    {
+      "delay": 0.0,
+      "frame": {
+        "origin": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angles": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "initCreate": 1,
+      "maxNum": 1,
+      "objcell_id": 0,
+      "probability": 0.10000000149011612,
+      "ptid": 0,
+      "shade": 0.0,
+      "slot": 0,
+      "stackSize": 1,
+      "type": 30094,
+      "whenCreate": 2,
+      "whereCreate": 8
+    },
+    {
+      "delay": 0.0,
+      "frame": {
+        "origin": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angles": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "initCreate": 1,
+      "maxNum": 1,
+      "objcell_id": 0,
+      "probability": 0.20000000298023224,
+      "ptid": 0,
+      "shade": 0.0,
+      "slot": 1,
+      "stackSize": 1,
+      "type": 30095,
+      "whenCreate": 2,
+      "whereCreate": 8
+    },
+    {
+      "delay": 0.0,
+      "frame": {
+        "origin": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angles": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "initCreate": 1,
+      "maxNum": 1,
+      "objcell_id": 0,
+      "probability": 0.30000001192092896,
+      "ptid": 0,
+      "shade": 0.0,
+      "slot": 2,
+      "stackSize": 1,
+      "type": 30097,
+      "whenCreate": 2,
+      "whereCreate": 8
+    },
+    {
+      "delay": 0.0,
+      "frame": {
+        "origin": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angles": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "initCreate": 1,
+      "maxNum": 1,
+      "objcell_id": 0,
+      "probability": 0.4000000059604645,
+      "ptid": 0,
+      "shade": 0.0,
+      "slot": 3,
+      "stackSize": 1,
+      "type": 30099,
+      "whenCreate": 2,
+      "whereCreate": 8
+    },
+    {
+      "delay": 0.0,
+      "frame": {
+        "origin": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angles": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "initCreate": 1,
+      "maxNum": 1,
+      "objcell_id": 0,
+      "probability": 0.5,
+      "ptid": 0,
+      "shade": 0.0,
+      "slot": 4,
+      "stackSize": 1,
+      "type": 30100,
+      "whenCreate": 2,
+      "whereCreate": 8
+    },
+    {
+      "delay": 0.0,
+      "frame": {
+        "origin": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angles": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "initCreate": 1,
+      "maxNum": 1,
+      "objcell_id": 0,
+      "probability": 0.6000000238418579,
+      "ptid": 0,
+      "shade": 0.0,
+      "slot": 5,
+      "stackSize": 1,
+      "type": 30102,
+      "whenCreate": 2,
+      "whereCreate": 8
+    },
+    {
+      "delay": 0.0,
+      "frame": {
+        "origin": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "angles": {
+          "w": 1.0,
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      },
+      "initCreate": 1,
+      "maxNum": 1,
+      "objcell_id": 0,
+      "probability": 0.699999988079071,
+      "ptid": 0,
+      "shade": 0.0,
+      "slot": 6,
+      "stackSize": 1,
+      "type": 30104,
+      "whenCreate": 2,
+      "whereCreate": 8
+    }
+  ],
+  "lastModified": "2022-08-19T03:16:54.9611312Z",
+  "modifiedBy": "ACE.Adapter",
+  "changelog": [
+    {
+      "created": "2022-08-19T03:12:26.492918Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-08-19T03:16:07.6677606Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-08-19T03:16:54.9605872Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    }
+  ],
+  "userChangeSummary": "Weenie exported from ACEmulator world database using ACE.Adapter",
+  "isDone": false
+}
