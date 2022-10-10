@@ -217,6 +217,15 @@ namespace ACE.Server
             log.Info("Initializing GuidManager...");
             GuidManager.Initialize();
 
+            log.Info("Initializing CustomPlayers...");
+            Utils.CustomData.InitializeCustomPlayers();
+
+            log.Info("Initializing CustomFriends...");
+            Utils.CustomData.InitializeCustomFriends();
+
+            log.Info("Initializing CustomSquelches...");
+            Utils.CustomData.InitializeCustomSquelches();
+
             if (ConfigManager.Config.Server.ServerPerformanceMonitorAutoStart)
             {
                 log.Info("Server Performance Monitor auto starting...");
