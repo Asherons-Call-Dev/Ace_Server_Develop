@@ -1,0 +1,175 @@
+{
+  "wcid": 100081,
+  "weenieType": 44,
+  "boolStats": [
+    {
+      "key": 22,
+      "value": 1
+    },
+    {
+      "key": 23,
+      "value": 1
+    }
+  ],
+  "intStats": [
+    {
+      "key": 1,
+      "value": 128
+    },
+    {
+      "key": 3,
+      "value": 2
+    },
+    {
+      "key": 5,
+      "value": 10
+    },
+    {
+      "key": 11,
+      "value": 100
+    },
+    {
+      "key": 12,
+      "value": 1
+    },
+    {
+      "key": 13,
+      "value": 10
+    },
+    {
+      "key": 15,
+      "value": 1
+    },
+    {
+      "key": 16,
+      "value": 524296
+    },
+    {
+      "key": 19,
+      "value": 1
+    },
+    {
+      "key": 26,
+      "value": 1
+    },
+    {
+      "key": 33,
+      "value": 1
+    },
+    {
+      "key": 91,
+      "value": 100
+    },
+    {
+      "key": 92,
+      "value": 100
+    },
+    {
+      "key": 93,
+      "value": 1044
+    },
+    {
+      "key": 94,
+      "value": 8
+    },
+    {
+      "key": 105,
+      "value": 100
+    },
+    {
+      "key": 131,
+      "value": 10
+    },
+    {
+      "key": 151,
+      "value": 9
+    },
+    {
+      "key": 170,
+      "value": 10
+    }
+  ],
+  "didStats": [
+    {
+      "key": 1,
+      "value": 33554817
+    },
+    {
+      "key": 3,
+      "value": 536870932
+    },
+    {
+      "key": 6,
+      "value": 67111919
+    },
+    {
+      "key": 7,
+      "value": 268436430
+    },
+    {
+      "key": 8,
+      "value": 100667436
+    },
+    {
+      "key": 22,
+      "value": 872415275
+    },
+    {
+      "key": 50,
+      "value": 100673259
+    }
+  ],
+  "iidStats": [],
+  "floatStats": [],
+  "int64Stats": [],
+  "stringStats": [
+    {
+      "key": 1,
+      "value": "Salvaged Agate"
+    },
+    {
+      "key": 14,
+      "value": "Apply this material to a piece of magical treasure-generated jewelry to imbue the target with Minor Focus. This will also raise the Arcane Lore difficulty and the Spellcraft of the piece by 25."
+    },
+    {
+      "key": 15,
+      "value": "Chips of agate material salvaged from old items."
+    }
+  ],
+  "lastModified": "2022-09-13T22:53:12.0256166Z",
+  "modifiedBy": "ACE.Adapter",
+  "changelog": [
+    {
+      "created": "2022-09-13T21:06:53.5599018Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T21:48:35.5074983Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T22:44:16.3186003Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T22:45:29.1519849Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T22:45:51.4930923Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    },
+    {
+      "created": "2022-09-13T22:53:12.02522Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    }
+  ],
+  "userChangeSummary": "Weenie exported from ACEmulator world database using ACE.Adapter",
+  "isDone": false
+}

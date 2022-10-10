@@ -1,0 +1,220 @@
+{
+  "key": 4445,
+  "desc": "21034",
+  "recipe": {
+    "RecipeID": 0,
+    "Skill": 30,
+    "SkillCheckFormulaType": 2,
+    "DataID": 0,
+    "Difficulty": 0,
+    "SuccessWcid": 0,
+    "SuccessAmount": 0,
+    "SuccessMessage": "You apply the Agate.",
+    "SuccessConsumeTargetAmount": 0,
+    "SuccessConsumeTargetChance": 0.0,
+    "SuccessConsumeToolAmount": 1,
+    "SuccessConsumeToolChance": 1.0,
+    "FailWcid": 0,
+    "FailAmount": 0,
+    "FailMessage": "You apply the Agate, but in the process you destroy the target.",
+    "FailureConsumeTargetAmount": 1,
+    "FailureConsumeTargetChance": 1.0,
+    "FailureConsumeToolAmount": 1,
+    "FailureConsumeToolChance": 1.0,
+    "Unknown": 0,
+    "Mods": [
+      {
+        "IntRequirements": [
+          {
+            "Unknown": 0,
+            "OperationType": 2,
+            "Stat": 109,
+            "Value": 25
+          },
+          {
+            "Unknown": 0,
+            "OperationType": 2,
+            "Stat": 106,
+            "Value": 25
+          },
+          {
+            "Unknown": 0,
+            "OperationType": 7,
+            "Stat": 2581,
+            "Value": -1
+          }
+        ],
+        "DIDRequirements": [],
+        "IIDRequirements": [],
+        "FloatRequirements": [],
+        "StringRequirements": [],
+        "BoolRequirements": [],
+        "ModifyHealth": 0,
+        "ModifyStamina": 0,
+        "ModifyMana": 0,
+        "RequiresHealth": 0,
+        "RequiresStamina": 0,
+        "RequiresMana": 0,
+        "Unknown7": false,
+        "ModificationScriptId": 939524161,
+        "Unknown9": 0,
+        "Unknown10": 0
+      },
+      null,
+      null,
+      {
+        "IntRequirements": [],
+        "DIDRequirements": [],
+        "IIDRequirements": [],
+        "FloatRequirements": [],
+        "StringRequirements": [
+          {
+            "Unknown": 0,
+            "OperationType": 3,
+            "Stat": 40
+          }
+        ],
+        "BoolRequirements": [],
+        "ModifyHealth": 0,
+        "ModifyStamina": 0,
+        "ModifyMana": 0,
+        "RequiresHealth": 0,
+        "RequiresStamina": 0,
+        "RequiresMana": 0,
+        "Unknown7": false,
+        "ModificationScriptId": 0,
+        "Unknown9": 0,
+        "Unknown10": 0
+      },
+      null,
+      null,
+      null,
+      null
+    ],
+    "Requirements": [
+      {
+        "IntRequirements": [
+          {
+            "OperationType": 2,
+            "Message": "The target item cannot be tinkered!",
+            "Stat": 105,
+            "Value": 1
+          },
+          {
+            "OperationType": 3,
+            "Message": "The target item has been tinkered too many times already!",
+            "Stat": 171,
+            "Value": 10
+          },
+          {
+            "OperationType": 3,
+            "Message": "The target item has been imbued already!",
+            "Stat": 179,
+            "Value": 1
+          },
+          {
+            "OperationType": 2,
+            "Message": "The target item must be magical!",
+            "Stat": 108,
+            "Value": 1
+          }
+        ],
+        "DIDRequirements": [],
+        "IIDRequirements": [],
+        "FloatRequirements": [],
+        "StringRequirements": [],
+        "BoolRequirements": []
+      },
+      {
+        "IntRequirements": [
+          {
+            "OperationType": 2,
+            "Message": "The material is not complete!",
+            "Stat": 92,
+            "Value": 100
+          }
+        ],
+        "DIDRequirements": [],
+        "IIDRequirements": [],
+        "FloatRequirements": [],
+        "StringRequirements": [],
+        "BoolRequirements": []
+      },
+      null
+    ]
+  },
+  "precursors": [
+    {
+      "Tool": 21034,
+      "Target": 294
+    },
+    {
+      "Tool": 21034,
+      "Target": 295
+    },
+    {
+      "Tool": 21034,
+      "Target": 297
+    },
+    {
+      "Tool": 21034,
+      "Target": 621
+    },
+    {
+      "Tool": 21034,
+      "Target": 622
+    },
+    {
+      "Tool": 21034,
+      "Target": 623
+    },
+    {
+      "Tool": 21034,
+      "Target": 624
+    },
+    {
+      "Tool": 21034,
+      "Target": 1443
+    },
+    {
+      "Tool": 21034,
+      "Target": 2367
+    },
+    {
+      "Tool": 100081,
+      "Target": 294
+    },
+    {
+      "Tool": 100081,
+      "Target": 295
+    },
+    {
+      "Tool": 100081,
+      "Target": 297
+    },
+    {
+      "Tool": 100081,
+      "Target": 621
+    },
+    {
+      "Tool": 100081,
+      "Target": 622
+    },
+    {
+      "Tool": 100081,
+      "Target": 623
+    },
+    {
+      "Tool": 100081,
+      "Target": 624
+    },
+    {
+      "Tool": 100081,
+      "Target": 1443
+    },
+    {
+      "Tool": 100081,
+      "Target": 2367
+    }
+  ]
+}

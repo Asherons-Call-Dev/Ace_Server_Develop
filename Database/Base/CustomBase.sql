@@ -1,4 +1,4 @@
-CREATE DATABASE [IF NOT EXISTS] `ace_custom` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/   `ace_custom` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `ace_custom`;
 
@@ -13,7 +13,7 @@ CREATE TABLE `custom_player` (
   `use_name_allegiance` tinyint DEFAULT '0',
   `use_name_fellowship` tinyint DEFAULT '0',
   PRIMARY KEY (`player_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 DROP TABLE IF EXISTS `custom_friend`;
 
@@ -25,9 +25,9 @@ CREATE TABLE `custom_friend` (
   `is_real_name` tinyint DEFAULT NULL,
   PRIMARY KEY (`character_id`,`friend_id`),
   CONSTRAINT `player_id` FOREIGN KEY (`character_id`) REFERENCES `custom_player` (`player_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
-DROP TABLE IF EXISTS `custom_squelch';
+DROP TABLE IF EXISTS `custom_squelch`;
 
 CREATE TABLE `custom_squelch` (
   `character_id` int unsigned NOT NULL,
@@ -38,4 +38,5 @@ CREATE TABLE `custom_squelch` (
   `type` int unsigned NOT NULL,
   PRIMARY KEY (`character_id`,`squelch_character_id`),
   CONSTRAINT `squelch_id` FOREIGN KEY (`character_id`) REFERENCES `custom_player` (`player_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+

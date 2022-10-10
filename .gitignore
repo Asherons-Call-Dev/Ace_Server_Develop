@@ -303,3 +303,6 @@ docker.env
 docker-compose.yml
 
 config.js
+
+.env
+

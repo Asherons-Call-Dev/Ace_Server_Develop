@@ -1,0 +1,119 @@
+{
+  "wcid": 100005,
+  "weenieType": 38,
+  "boolStats": [
+    {
+      "key": 22,
+      "value": 1
+    }
+  ],
+  "intStats": [
+    {
+      "key": 1,
+      "value": 2048
+    },
+    {
+      "key": 5,
+      "value": 5
+    },
+    {
+      "key": 8,
+      "value": 5
+    },
+    {
+      "key": 9,
+      "value": 0
+    },
+    {
+      "key": 11,
+      "value": 1
+    },
+    {
+      "key": 12,
+      "value": 1
+    },
+    {
+      "key": 13,
+      "value": 5
+    },
+    {
+      "key": 14,
+      "value": 5
+    },
+    {
+      "key": 15,
+      "value": 0
+    },
+    {
+      "key": 16,
+      "value": 1
+    },
+    {
+      "key": 19,
+      "value": 0
+    },
+    {
+      "key": 33,
+      "value": 1
+    },
+    {
+      "key": 93,
+      "value": 1044
+    },
+    {
+      "key": 114,
+      "value": 1
+    }
+  ],
+  "didStats": [
+    {
+      "key": 1,
+      "value": 33557280
+    },
+    {
+      "key": 3,
+      "value": 536870932
+    },
+    {
+      "key": 6,
+      "value": 67111092
+    },
+    {
+      "key": 7,
+      "value": 268436301
+    },
+    {
+      "key": 8,
+      "value": 100674705
+    },
+    {
+      "key": 22,
+      "value": 872415275
+    }
+  ],
+  "iidStats": [],
+  "floatStats": [],
+  "int64Stats": [],
+  "stringStats": [
+    {
+      "key": 1,
+      "value": "Test Currency"
+    },
+    {
+      "key": 14,
+      "value": "Use this coin to buy items from the Colosseum Vendor."
+    },
+    {
+      "key": 15,
+      "value": "This token will grant the title Defender of Dereth when turned into the High Queen, or a royal guard who grant this title."
+    }
+  ],
+  "changelog": [
+    {
+      "created": "2022-08-14T19:48:22.8458631Z",
+      "author": "ACE.Adapter",
+      "comment": "Weenie exported from ACEmulator world database using ACE.Adapter"
+    }
+  ],
+  "isDone": false
+}

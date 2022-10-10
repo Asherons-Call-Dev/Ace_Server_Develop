@@ -1,0 +1,14 @@
+#!/bin/bash
+
+while read oldrev newrev ref
+do
+    if [[ $ref =~ .*/production$ ]];
+    then
+        echo "$ref ref received.  Deploying $ref branch to production..."
+        git --work-tree=/var/partytide --git-dir=$HOME/deploy/partytide checkout $ref -f
+        sudo /var/partytide/Scripts/deploy.sh
+    else
+        echo "Ref $ref successfully received.  Doing nothing: only the production branch may be deployed on this server." >> /home/jacob/deploy/log.txt
+    fi
+done
+
