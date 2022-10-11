@@ -1,6 +1,6 @@
 {
     "Server": {
-        "WorldName": "ACEmulator",
+        "WorldName": "Partytide",
 
             "Network": {
             // Host, default: "0.0.0.0"
@@ -17,7 +17,7 @@
 
                             // MaximumAllowedSessionsPerIPAddress, default: -1
                             // -1 means unlimited connections per IP Address.
-                            "MaximumAllowedSessionsPerIPAddress": 3,
+                            "MaximumAllowedSessionsPerIPAddress": -1,
 
                                 // AllowUlimitedSessionsFromIPs, default []
                                 // Will allow the given IP addresses to have unlimited sessions - recommend only use this for Admins/Devs
@@ -36,7 +36,7 @@
         // The folder that contains AC DAT files (client_cell_1.dat, client_portal.dat, client_highres.dat, client_local_English.dat)
         // Note that for servers running on Linux, the ~ home folder must be fully expanded, ie. /home/user/ace/, instead of ~/ace/
         // Note that for servers running on Windows, a path like c:\ace\ MUST be entered as c:\\ace\\, replacing the single backslashes (\) with double backslashes (\\)
-        "DatFilesDirectory": "c:\\ACE\\Dats\\",
+        "DatFilesDirectory": "c:\\Ace\\Dats\\",
 
             // ShutdownInterval, default: 60
             // Default time it will take for a server to wait before shutting down after shutdown is called from console or in game admin.
@@ -132,51 +132,38 @@
                                 "IncludeAdjacents": true,
                                 "Enabled": false
                             },
-                            {
-                                "Id": "0007FFFF",
-                                "Description": "Town Network",
-                                "Permaload": true,
-                                "IncludeAdjacents": false,
-                                "Enabled": false
-                            },
-                            {
-                                "Id": "00000000",
-                                "Description": "Apartment Landblocks",
-                                "Permaload": true,
-                                "IncludeAdjacents": false,
-                                "Enabled": false
-                            }
-                        ]
+                        ],
+                            "WorldRuleset": 2
     },
     "MySql": {
         "Authentication": {
-            "Host": "127.0.0.1",
+            "Host": "localhost",
                 "Port": 3306,
                     "Database": "ace_auth",
-                        "Username": "AceDev",
-                            "Password": "password"
-        },
-        "Shard": {
-            "Host": "127.0.0.1",
-                "Port": 3306,
-                    "Database": "ace_shard",
-                        "Username": "AceDev",
-                            "Password": "password"
-        },
-        "World": {
-            "Host": "127.0.0.1",
-                "Port": 3306,
-                    "Database": "ace_world",
-                        "Username": "AceDev",
+                        "Username": "ace_auth",
                             "Password": "password"
         },
         "Custom": {
-            "Host": "127.0.0.1",
+            "Host": "localhost",
                 "Port": 3306,
                     "Database": "ace_custom",
-                        "Username": "AceDev",
+                        "Username": "ace_custom",
                             "Password": "password"
-        }
+        },
+        "Shard": {
+            "Host": "localhost",
+                "Port": 3306,
+                    "Database": "ace_shard",
+                        "Username": "ace_shard",
+                            "Password": "password"
+        },
+        "World": {
+            "Host": "localhost",
+                "Port": 3306,
+                    "Database": "ace_world",
+                        "Username": "ace_world",
+                            "Password": "password"
+        },
     },
     // This section can trigger events that may happen before the world starts up, or after it shuts down
     // The shard should be in a disconnected state from any running ACE world
@@ -218,11 +205,10 @@
                                             // This process will still use ./Content by default, or the the config_properties_string
                                             // value for 'content_folder' if it exists
                                             // Example: [ "C:\\MyContent", "C:\\FTPRoot\\Editor1Content", "C:\\FTPRoot\\Editor2Content" ]
-                                            "WorldCustomizationAddedPaths": [],
+                                            "WorldCustomizationAddedPaths": ["C:\\Users\\mattw\\Ace\\Partytide\\Partytide-Content"],
 
                                                 // When retrieving a file list of .sql files in the AutoApplyWorldCustomizations process
                                                 // this will cause the file search to retrieve all files recursively from each directory
                                                 "RecurseWorldCustomizationPaths": true
     }
 }
-

@@ -36,7 +36,7 @@
     // The folder that contains AC DAT files (client_cell_1.dat, client_portal.dat, client_highres.dat, client_local_English.dat)
     // Note that for servers running on Linux, the ~ home folder must be fully expanded, ie. /home/user/ace/, instead of ~/ace/
     // Note that for servers running on Windows, a path like c:\ace\ MUST be entered as c:\\ace\\, replacing the single backslashes (\) with double backslashes (\\)
-    "DatFilesDirectory": "c:\\Pourtide\\Partytide-Server\\Dats\\",
+    "DatFilesDirectory": "c:\\Ace\\Dats\\",
 
     // ShutdownInterval, default: 60
     // Default time it will take for a server to wait before shutting down after shutdown is called from console or in game admin.
@@ -205,7 +205,7 @@
       // This process will still use ./Content by default, or the the config_properties_string
       // value for 'content_folder' if it exists
       // Example: [ "C:\\MyContent", "C:\\FTPRoot\\Editor1Content", "C:\\FTPRoot\\Editor2Content" ]
-      "WorldCustomizationAddedPaths": [ "C:\\Pourtide\\Partytide-Server\\Content",  "C:\\Pourtide\\Partytide-Server\\Partytide-Content"],
+      "WorldCustomizationAddedPaths": [ "C:\\Users\\mattw\\Ace\\Partytide\\Partytide-Content",  "C:\\Users\\mattw\\Ace\\Partytide\\Partytide-Content"],
 
       // When retrieving a file list of .sql files in the AutoApplyWorldCustomizations process
       // this will cause the file search to retrieve all files recursively from each directory
